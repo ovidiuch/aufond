@@ -14,10 +14,8 @@ if Meteor.isClient
       console.log 'This is admin!'
 
   # On document load
-  $(->
-    new AufondRouter()
-    Backbone.history.start({pushState: true});
-  )
+  new AufondRouter()
+  Backbone.history.start(pushState: true)
 
 if Meteor.isServer
   Meteor.startup(->
