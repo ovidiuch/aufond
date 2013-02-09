@@ -7,6 +7,18 @@ if Meteor.isClient
         console.log 'You pressed the button'
   )
 
+  AufondRouter = Backbone.Router.extend
+    routes:
+      'admin': 'admin'
+    admin: ->
+      console.log 'This is admin!'
+
+  # On document load
+  $(->
+    new AufondRouter()
+    Backbone.history.start({pushState: true});
+  )
+
 if Meteor.isServer
   Meteor.startup(->
     # code to run on server at startup
