@@ -4,3 +4,9 @@ Template.controller.rendered = ->
   container = $(this.find('#content'))
   return if container.children().length
   container.append(Controller.createContainer())
+
+# XXX setup admin tabs
+Template.admin.events
+  'click .nav-tabs a': (e) ->
+    e.preventDefault()
+    $(this).tab 'show'
