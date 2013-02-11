@@ -5,23 +5,11 @@ class ReactiveObject
     You can hook up to a reactive context and store its reference internally
     by calling `enableContext` and then invalidate it calling `triggerChange`
   ###
-  listeners: {}
-  createContainer: ->
-    ###
-      Create radioactive container that re-renders and triggers a context
-      change whenever an internal change is triggered
-    ###
-    container = Meteor.render(=>
-      return @getContents()
-    )
-    return container
-  getContents: ->
-    ###
-      Abstract method for building the actual template of the reactive object,
-      called whenever a change was issued through a context invalidation and
-      the object will be rendered again
-    ###
-    throw new Error "You need to implement 'getContents' in your subclass"
+  constructor: ->
+    # Don't declare the listeners dict inside the class prototype directly in
+    # order to avoid sharing it between all ReactiveObject instances
+    @listeners = {}
+
   enableContext: ->
     ###
       This should be called inside a method called from the reactive context,
