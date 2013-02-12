@@ -1,11 +1,16 @@
 class Modal extends ReactiveObject
   data: {}
 
-  constructor: ($container) ->
-    super()
-    $container.append(@createContainer())
+  attach: (container) ->
+    ###
+      Attach modal to a DOM element. It will be ignored if called more than one
+      time with the same container element
+    ###
+    return if container.is(@container)
+    @container = container
+    @container.append(@createReactiveContainer())
 
-  createContainer: ->
+  createReactiveContainer: ->
     ###
       Create radioactive container that re-renders and triggers a context
       change whenever an internal change is triggered

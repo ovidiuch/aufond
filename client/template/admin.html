@@ -1,4 +1,5 @@
 <template name="admin">
+  <div id="post-modal" class="modal hide fade"></div>
   <div class="container admin">
     <div class="page-header">
       <h1>Aufond <small>Post entries and update your personal info</small></h1>
@@ -10,9 +11,8 @@
     <div class="tab-content">
       <div class="tab-pane active" id="entries">
         <p>
-          <button class="btn btn-primary btn-large post-btn" data-toggle="modal" data-target="#post-modal" data-title="What have you been up to?">Post a new story about yourself</button>
+          <button class="btn btn-primary btn-large post-btn" data-toggle="modal" data-target="#post-modal" data-title="What have you been up to?" data-button="Create">Post a new story about yourself</button>
         </p>
-        <div id="post-modal" class="modal hide fade"></div>
       </div>
       <div class="tab-pane" id="meta">
         <p>Meta</p>

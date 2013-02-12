@@ -1,7 +1,7 @@
 class Controller extends ReactiveObject
   name: null
 
-  createContainer: ->
+  createReactiveContainer: ->
     ###
       Create radioactive container that re-renders and triggers a context
       change whenever an internal change is triggered
