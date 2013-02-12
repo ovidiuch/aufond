@@ -14,5 +14,10 @@ Template.admin.rendered = ->
   Aufond.postModal.attach($(this.find '#post-modal'))
 
 Meteor.startup ->
-  # XXX add callback on primary btn
-  Aufond.postModal = new Modal()
+  Aufond.postModal = new Modal (modal) ->
+    data = modal.$container.find('form').serializeObject()
+    if data._id?
+      # XXX edit
+    else
+      # XXX create
+    modal.close()
