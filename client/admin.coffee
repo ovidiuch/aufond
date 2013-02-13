@@ -1,15 +1,24 @@
 Template.admin.events
-  'click .launch-btn': (e) ->
+  'click .btn-launch': (e) ->
     Aufond.router.navigate('', trigger: true)
 
   'click .nav-tabs a': (e) ->
     e.preventDefault()
     $(this).tab 'show'
 
-  'click .post-btn': (e) ->
+  'click .btn-post': (e) ->
     e.preventDefault()
     data = $(e.currentTarget).data()
     data.body = Template.post_form()
+    Aufond.postModal.update(data)
+
+  'click .btn-edit': (e) ->
+    e.preventDefault()
+    data = $(e.currentTarget).data()
+    # Extract entry by id
+    entry = Entries.findOne(_id: data.id)
+    return unless entry?
+    data.body = Template.post_form(entry)
     Aufond.postModal.update(data)
 
 Template.admin.rendered = ->
@@ -24,7 +33,7 @@ Meteor.startup ->
   Aufond.postModal = new Modal (modal) ->
     data = modal.$container.find('form').serializeObject()
     if data._id?
-      # XXX edit
+      Entries.update({_id: data._id}, data)
     else
       Entries.insert(data)
     modal.close()

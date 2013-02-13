@@ -2,7 +2,7 @@
   <div id="post-modal" class="modal hide fade"></div>
   <div class="container admin">
     <div class="page-header">
-      <button class="btn btn-large launch-btn pull-right">Timeline</button>
+      <button class="btn btn-large btn-launch pull-right">Timeline</button>
       <h1>Aufond <small>Post and update your personal info</small></h1>
     </div>
     <ul class="nav nav-tabs">
@@ -12,9 +12,9 @@
     <div class="tab-content">
       <div class="tab-pane active" id="entries">
         <p>
-          <button class="btn btn-primary btn-large post-btn" data-toggle="modal" data-target="#post-modal" data-title="What have you been up to?" data-button="Create">Post a new story about yourself</button>
+          <button class="btn btn-primary btn-large btn-post" data-toggle="modal" data-target="#post-modal" data-title="What have you been up to?" data-button="Create">Post a new story about yourself</button>
         </p>
-        <table class="table table-hover">
+        <table class="entries table table-hover">
           <thead>
             <tr>
               <th>#</th>
@@ -28,7 +28,13 @@
               <tr>
                 <td>{{_id}}</td>
                 <td>{{headline}}</td>
-                <td>{{excerpt}}</td>
+                <td class="excerpt">
+                  <span class="text">{{excerpt}}</span>
+                  <div class="controls">
+                    <button class="btn btn-primary btn-edit" data-toggle="modal" data-target="#post-modal" data-title="What have you been up to?" data-button="Update" data-id="{{_id}}">Change</button>
+                    <button class="btn btn-delete">Remove</button>
+                  </div>
+                </td>
                 <td>{{date}}</td>
               </tr>
             {{/each}}
