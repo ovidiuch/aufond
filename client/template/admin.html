@@ -3,7 +3,7 @@
   <div class="container admin">
     <div class="page-header">
       <button class="btn btn-large btn-launch pull-right">Timeline</button>
-      <h1>Aufond <small>Post and update your personal info</small></h1>
+      <h1>Aufond <small>Life-defining events</small></h1>
     </div>
     <ul class="nav nav-tabs">
       <li class="active"><a href="#entries" data-toggle="tab">Entries</a></li>
@@ -29,7 +29,7 @@
                 <td>{{_id}}</td>
                 <td>{{headline}}</td>
                 <td class="excerpt">
-                  <span class="text">{{excerpt}}</span>
+                  <div class="text">{{excerpt}}</div>
                   <div class="controls">
                     <button class="btn btn-primary btn-edit" data-toggle="modal" data-target="#post-modal" data-title="What have you been up to?" data-button="Update" data-id="{{_id}}">Change</button>
                     <button class="btn btn-delete" data-id="{{_id}}">Remove</button>

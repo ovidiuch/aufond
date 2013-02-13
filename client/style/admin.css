@@ -1,16 +1,3 @@
-.entries .excerpt {
-  position: relative;
-}
 .entries .excerpt .controls {
-  display: none;
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 8px;
-}
-.entries tr:hover .excerpt .controls {
-  display: block;
-}
-.entries tr:hover .excerpt .text {
-  opacity: 0.4;
+  padding-top: 8px;
 }
