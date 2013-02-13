@@ -1,13 +1,16 @@
 Template.admin.events
+  'click .launch-btn': (e) ->
+    Aufond.router.navigate('', trigger: true)
+
+  'click .nav-tabs a': (e) ->
+    e.preventDefault()
+    $(this).tab 'show'
+
   'click .post-btn': (e) ->
     e.preventDefault()
     data = $(e.currentTarget).data()
     data.body = Template.post_form()
     Aufond.postModal.update(data)
-
-  'click .nav-tabs a': (e) ->
-    e.preventDefault()
-    $(this).tab 'show'
 
 Template.admin.rendered = ->
   # This is OK because the modal will ignore the same element called
