@@ -21,6 +21,12 @@ Template.admin.events
     data.body = Template.post_form(entry)
     Aufond.postModal.update(data)
 
+  'click .btn-delete': (e) ->
+    e.preventDefault()
+    data = $(e.currentTarget).data()
+    # XXX delete without warning
+    Entries.remove({_id: data.id})
+
 Template.admin.rendered = ->
   # This is OK because the modal will ignore the same element called
   # consecutively
