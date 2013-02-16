@@ -36,10 +36,17 @@ Template.admin.entries = ->
   return Entries.find {}
 
 Meteor.startup ->
-  Aufond.postModal = new Modal (modal) ->
-    data = modal.$container.find('form').serializeObject()
-    if data._id?
-      Entries.update({_id: data._id}, data)
-    else
-      Entries.insert(data)
-    modal.close()
+  Aufond.postModal = new Modal
+    onRender: (modal) ->
+      # Focus on first form input when modal opens. Make sure to remove any
+      # previously set events in case the template renders multiple times
+      modal.$container.off('shown').on 'shown', ->
+        $(this).find('input:not([type=hidden])').first().focus()
+
+    onSubmit: (modal) ->
+      data = modal.$container.find('form').serializeObject()
+      if data._id?
+        Entries.update({_id: data._id}, data)
+      else
+        Entries.insert(data)
+      modal.close()

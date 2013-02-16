@@ -1,9 +1,11 @@
 class Modal extends ReactiveObject
-  data: {}
 
-  constructor: (callback) ->
+  constructor: (options = {}) ->
     super()
-    @callback = callback
+    @data = {}
+    @callbacks =
+      render: options.onRender
+      submit: options.onSubmit
 
   attach: ($container) ->
     ###
@@ -32,15 +34,26 @@ class Modal extends ReactiveObject
   close: ->
     @$container.modal('hide')
 
+  callback: (type) ->
+    callback = @callbacks[type]
+    if _.isFunction(callback)
+      # Call the modal callback with itself as a parameter, in order not to
+      # depend on any scope, since the callback could be CoffeeScript wrapped
+      callback.call(this, this)
+
 Template.modal.events
   'click .btn-primary': (e) ->
     ###
-      Call the callback of a modal instance if a reference of it is found
-      within the data of the container model element
+      Call the submit callback of a modal instance if a reference to it is
+      found within the data of the container model element
     ###
     element = $(e.currentTarget).closest('.modal')
-    instance = element.data('instance')
-    if instance? and _.isFunction(instance.callback)
-      # Call the modal callback with itself as a parameter, in order not to
-      # depend on any scope, since the callback could be CoffeeScript wrapped
-      instance.callback(instance)
+    element.data('instance')?.callback('submit')
+
+Template.modal.rendered = ->
+  ###
+    Call the render callback of a modal instance if a reference to it is found
+    within the data of the container model element
+  ###
+  element = $(this.firstNode).closest('.modal')
+  element.data('instance')?.callback('render')
