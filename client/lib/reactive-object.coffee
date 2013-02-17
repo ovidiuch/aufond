@@ -26,6 +26,7 @@ class ReactiveObject
       # from where it got hooked to it in the first place
       context.onInvalidate =>
         delete @listeners[context.id]
+
   triggerChange: ->
     ###
       This can be called whenever we consider the reactive object to have
