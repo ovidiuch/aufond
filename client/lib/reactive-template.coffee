@@ -4,7 +4,7 @@ class ReactiveTemplate extends ReactiveObject
 
     You can create a reactive container by calling `createReactiveContainer`,
     for which all subclasses need a template name defined using the `template`
-    variable. Then, you need to call `update` with new data (optinally) in
+    variable. Then, you need to call `update` with new data (optionally) in
     order to trigger a re-rendering of the reactive container.
   ###
   constructor: ->
