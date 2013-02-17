@@ -16,7 +16,7 @@ Template.admin.events
     e.preventDefault()
     data = $(e.currentTarget).data()
     # Extract entry by id
-    entry = Entries.findOne(_id: data.id)
+    entry = Entry.collection.findOne(_id: data.id)
     return unless entry?
     Aufond.postModal.reactiveObject.update(entry)
     Aufond.postModal.update(data)
@@ -25,7 +25,7 @@ Template.admin.events
     e.preventDefault()
     data = $(e.currentTarget).data()
     # XXX delete without warning
-    Entries.remove({_id: data.id})
+    Entry.collection.remove({_id: data.id})
 
 Template.admin.rendered = ->
   # This is OK because the modal will ignore the same element called
@@ -33,7 +33,7 @@ Template.admin.rendered = ->
   Aufond.postModal.attach($(this.find '#post-modal'))
 
 Template.admin.entries = ->
-  return Entries.find {}
+  return Entry.collection.find {}
 
 Meteor.startup ->
   Aufond.postModal = new Modal(new Form('post_form'),
@@ -46,7 +46,13 @@ Meteor.startup ->
     onSubmit: (modal) ->
       data = modal.$container.find('form').serializeObject()
       if data._id?
-        Entries.update({_id: data._id}, data)
+        Entry.collection.update({_id: data._id}, data)
+        modal.close()
       else
-        Entries.insert(data)
-      modal.close()
+        entry = new Entry(data)
+        entry.save {},
+          success: (model, response) ->
+            modal.close()
+          error: (model, error) ->
+            modal.reactiveObject.update(error: error)
+  )
