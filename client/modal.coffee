@@ -1,8 +1,10 @@
-class Modal extends ReactiveObject
+class Modal extends ReactiveTemplate
+  template: 'modal'
 
-  constructor: (options = {}) ->
+  constructor: (reactiveObject, options = {}) ->
     super()
     @data = {}
+    @reactiveObject = reactiveObject
     @callbacks =
       render: options.onRender
       submit: options.onSubmit
@@ -18,18 +20,14 @@ class Modal extends ReactiveObject
     @$container.data('instance', this)
     @$container.append(@createReactiveContainer())
 
-  createReactiveContainer: ->
-    ###
-      Create radioactive container that re-renders and triggers a context
-      change whenever an internal change is triggered
-    ###
-    return Meteor.render =>
-      @enableContext()
-      return Template.modal(@data)
+  afterRender: ->
+    $body = @$container.find('.modal-body')
+    # Make sure the reactive body isn't already injected, which also assures
+    # that the `render` callback is not called on child renders
+    return unless $body.is(':empty')
 
-  update: (data) ->
-    _.extend @data, data
-    @triggerChange()
+    $body.append(@reactiveObject.createReactiveContainer())
+    @callback('render')
 
   close: ->
     @$container.modal('hide')
@@ -56,4 +54,4 @@ Template.modal.rendered = ->
     within the data of the container model element
   ###
   element = $(this.firstNode).closest('.modal')
-  element.data('instance')?.callback('render')
+  element.data('instance')?.afterRender()

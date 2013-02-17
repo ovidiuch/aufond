@@ -9,7 +9,7 @@ Template.admin.events
   'click .btn-post': (e) ->
     e.preventDefault()
     data = $(e.currentTarget).data()
-    data.body = Template.post_form()
+    Aufond.postForm.update({})
     Aufond.postModal.update(data)
 
   'click .btn-edit': (e) ->
@@ -18,7 +18,7 @@ Template.admin.events
     # Extract entry by id
     entry = Entries.findOne(_id: data.id)
     return unless entry?
-    data.body = Template.post_form(entry)
+    Aufond.postForm.update(entry)
     Aufond.postModal.update(data)
 
   'click .btn-delete': (e) ->
@@ -36,7 +36,8 @@ Template.admin.entries = ->
   return Entries.find {}
 
 Meteor.startup ->
-  Aufond.postModal = new Modal
+  Aufond.postForm = new Form 'post_form'
+  Aufond.postModal = new Modal Aufond.postForm,
     onRender: (modal) ->
       # Focus on first form input when modal opens. Make sure to remove any
       # previously set events in case the template renders multiple times
