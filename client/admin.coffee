@@ -35,6 +35,9 @@ Template.admin.rendered = ->
 Template.admin.entries = ->
   return Entry.collection.find {}
 
+Template.post_form.rendered = ->
+  ReactiveTemplate.bind(this)
+
 Meteor.startup ->
   Aufond.postModal = new Modal(new Form('post_form'),
     onRender: (modal) ->
