@@ -20,6 +20,9 @@ class ReactiveTemplate extends ReactiveObject
       @enableContext()
       return Template[@template](@data)
 
-  update: (data = {}) ->
-    _.extend @data, data
+  update: (data = {}, extend = false) ->
+    if extend
+      _.extend(@data, data)
+    else
+      @data = _.clone(data)
     @triggerChange()
