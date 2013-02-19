@@ -9,16 +9,13 @@ Template.admin.events
   'click .btn-post': (e) ->
     e.preventDefault()
     data = $(e.currentTarget).data()
-    Aufond.postModal.reactiveObject.update({})
+    Aufond.postModal.reactiveBody.load(null)
     Aufond.postModal.update(data)
 
   'click .btn-edit': (e) ->
     e.preventDefault()
     data = $(e.currentTarget).data()
-    # Extract entry by id
-    entry = Entry.collection.findOne(_id: data.id)
-    return unless entry?
-    Aufond.postModal.reactiveObject.update(entry)
+    Aufond.postModal.reactiveBody.load(data.id)
     Aufond.postModal.update(data)
 
   'click .btn-delete': (e) ->
@@ -28,34 +25,19 @@ Template.admin.events
     Entry.collection.remove({_id: data.id})
 
 Template.admin.rendered = ->
-  # This is OK because the modal will ignore the same element called
-  # consecutively
-  Aufond.postModal.attach($(this.find '#post-modal'))
+  # XXX remove this and make post modal self contained
+  if $(this.find '#post-modal').is(':empty')
+    $(this.find '#post-modal').append(Aufond.postModal.createReactiveContainer())
 
 Template.admin.entries = ->
   return Entry.collection.find {}
 
-Template.post_form.rendered = ->
-  ReactiveTemplate.bind(this)
-
 Meteor.startup ->
-  Aufond.postModal = new Modal(new Form('post_form'),
-    onRender: (modal) ->
-      # Focus on first form input when modal opens. Make sure to remove any
-      # previously set events in case the template renders multiple times
-      modal.$container.off('shown').on 'shown', ->
-        $(this).find('input:not([type=hidden])').first().focus()
+  postForm = new Form
+    templateName: 'post_form'
+    collection: Entry
 
+  Aufond.postModal = new Modal
+    reactiveBody: postForm
     onSubmit: (modal) ->
-      data = modal.$container.find('form').serializeObject()
-      if data._id?
-        Entry.collection.update({_id: data._id}, data)
-        modal.close()
-      else
-        entry = new Entry(data)
-        entry.save {},
-          success: (model, response) ->
-            modal.close()
-          error: (model, error) ->
-            modal.reactiveObject.update(error: error)
-  )
+        postForm.submit(-> modal.close())

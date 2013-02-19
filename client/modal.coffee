@@ -1,57 +1,33 @@
 class Modal extends ReactiveTemplate
-  template: 'modal'
+  templateName: 'modal'
 
-  constructor: (reactiveObject, options = {}) ->
-    super()
-    @data = {}
-    @reactiveObject = reactiveObject
-    @callbacks =
-      render: options.onRender
-      submit: options.onSubmit
+  constructor: ->
+    super(arguments...)
+    @reactiveBody = @params.reactiveBody
+    @onSubmit = @params.onSubmit
 
-  attach: ($container) ->
-    ###
-      Attach modal to a DOM element. It will be ignored if called more than one
-      time with the same container element
-    ###
-    return if $container.is(@$container)
-    @$container = $container
-    # Store a reference to the modal instance inside the element
-    @$container.data('instance', this)
-    @$container.append(@createReactiveContainer())
-
-  afterRender: ->
-    $body = @$container.find('.modal-body')
+  rendered: (templateInstance) ->
+    # Inject reactive body container that can and might re-render on its in
+    # the future whenever it pleases
+    $body = $(templateInstance.find('.modal-body'))
     # Make sure the reactive body isn't already injected, which also assures
     # that the `render` callback is not called on child renders
     return unless $body.is(':empty')
+    $body.append(@reactiveBody.createReactiveContainer())
 
-    $body.append(@reactiveObject.createReactiveContainer())
-    @callback('render')
+    # Store the modal element for access to the Bootstrap Modal methods
+    @$modal = $body.closest('.modal')
+
+    # Focus on first input when modal opens. Make sure to remove any previously
+    # set events in case the template renders multiple times
+    @$modal.closest('.modal').off('shown').on 'shown', ->
+      $(this).find('input:not([type=hidden])').first().focus()
 
   close: ->
-    @$container.modal('hide')
+    @$modal.modal('hide')
 
-  callback: (type) ->
-    callback = @callbacks[type]
-    if _.isFunction(callback)
-      # Call the modal callback with itself as a parameter, in order not to
-      # depend on any scope, since the callback could be CoffeeScript wrapped
-      callback.call(this, this)
 
+# XXX try using Backbone Views with instance events (that will apply to other
+# templates bound to this module as well)
 Template.modal.events
-  'click .btn-primary': (e) ->
-    ###
-      Call the submit callback of a modal instance if a reference to it is
-      found within the data of the container model element
-    ###
-    element = $(e.currentTarget).closest('.modal')
-    element.data('instance')?.callback('submit')
-
-Template.modal.rendered = ->
-  ###
-    Call the render callback of a modal instance if a reference to it is found
-    within the data of the container model element
-  ###
-  element = $(this.firstNode).closest('.modal')
-  element.data('instance')?.afterRender()
+  'click .btn-primary': (e) -> this.module.onSubmit?(this.module)

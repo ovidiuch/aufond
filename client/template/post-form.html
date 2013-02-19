@@ -1,12 +1,9 @@
 <template name="post_form">
-  <form id="post-form" class="form-horizontal" data-template="{{templateId}}">
+  <form id="post-form" class="form-horizontal">
     {{#if error}}
       <div class="alert alert-error">
         {{error}}
       </div>
-    {{/if}}
-    {{#if _id}}
-      <input type="hidden" name="_id" value="{{_id}}">
     {{/if}}
     <div class="control-group">
       <label class="control-label" for="form-headline">Headline</label>
