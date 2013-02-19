@@ -61,7 +61,6 @@ class ReactiveTemplate extends ReactiveObject
     else
       @params = params
       @$container = $container
-      @$container.append(@createReactiveContainer())
 
     # The template name to be loaded reactively can be specified inside the
     # class prototype directly, sent as a param, or even assigned later on
@@ -69,6 +68,10 @@ class ReactiveTemplate extends ReactiveObject
     @templateName = @params.templateName if @params.templateName?
     # Init the template data
     @data = {}
+
+    # Create and append reactive template container in the presence of a DOM
+    # element container
+    @$container?.append(@createReactiveContainer())
 
   createReactiveContainer: ->
     ###
@@ -157,5 +160,5 @@ Handlebars.registerHelper 'reactive', (module, params) ->
   # and through an ID reference passed along with it initially, map it to the
   # module instance and use it as a container for the reactive template
   id = _.uniqueId() + 1
-  setTimeout -> new this($("[data-template=#{id}]"), params)
+  setTimeout -> new window[module]($("[data-template=#{id}]"), params)
   return "<div class=reactive-template data-template=#{id}></div>"
