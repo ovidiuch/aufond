@@ -2,25 +2,28 @@ class Form extends ReactiveTemplate
 
   constructor: ->
     super(arguments...)
-    @collection = @params.collection
+    @modelClass = @params.model
 
   load: (id) ->
-    @id = id
+    # Clear model reference and data before checking a new one (might not need
+    # one at all in case of an add form)
+    delete @model
     data = {}
-    if @id
-      # XXX use models and call .toJSON()
-      entry = @collection.collection.findOne(_id: @id)
-      data = entry if entry?
+
+    if id
+      @model = @modelClass.find(id)
+      data = @model.data if @model?
+
     @update(data, false)
 
   submit: (onSuccess) ->
     data = $(@templateInstance.find('form')).serializeObject()
-    if @id?
-      # XXX use models
-      @collection.collection.update({_id: @id}, data)
-      onSuccess()
-    else
-      entry = new @collection(data)
-      entry.save {},
-        success: (model, response) -> onSuccess()
-        error: (model, error) => @update(error: error, true)
+
+    # Create an empty model instance on create, and only set the data
+    # attributes on save in order to be consistent between both methods
+    @model = new @modelClass() unless @model?
+    @model.save data, (error, model) =>
+        if error
+          @update(error: error, true)
+        else
+          onSuccess()

@@ -5,7 +5,7 @@ class PostModal extends Modal
 
     @reactiveBody = new Form
       templateName: 'post_form'
-      collection: Entry
+      model: Entry
 
     # Submit the form on modal submit, which closes the modal on success
     @onSubmit = =>
