@@ -6,16 +6,10 @@ Template.admin.events
     e.preventDefault()
     $(this).tab 'show'
 
-  'click .btn-post': (e) ->
+  'click .btn-post,
+   click .btn-edit': (e) ->
     e.preventDefault()
     data = $(e.currentTarget).data()
-    Aufond.postModal.loadPost(null)
-    Aufond.postModal.update(data)
-
-  'click .btn-edit': (e) ->
-    e.preventDefault()
-    data = $(e.currentTarget).data()
-    Aufond.postModal.loadPost(data.id)
     Aufond.postModal.update(data)
 
   'click .btn-delete': (e) ->

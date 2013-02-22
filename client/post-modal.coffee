@@ -14,6 +14,12 @@ class PostModal extends Modal
     # XXX create global reference in order for it to be used from anywhere
     Aufond.postModal = this
 
+  update: (data) ->
+    # Extract id attribute from data and load post data inside the form based
+    # on it, before updating the modal template
+    @loadPost(data.id)
+    super(data)
+
   loadPost: (id) ->
     ###
       Load post entry inside the contained form
