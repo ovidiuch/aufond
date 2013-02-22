@@ -3,7 +3,9 @@ class MeteorModel
     XXX document
   ###
   @get: ->
-    return @collection.find(arguments...)
+    models = @collection.find(arguments...).map (data) =>
+      return new this(data)
+    return new MeteorCollection(models)
 
   @find: (id) ->
     data = @collection.findOne(_id: id)
@@ -27,6 +29,9 @@ class MeteorModel
 
   update: (data) ->
     _.extend @data, data
+
+  toJSON: ->
+    return _.clone @data
 
   validate: ->
     # XXX make this return a list of errors instead of a string

@@ -19,4 +19,4 @@ Template.admin.events
     Entry.remove(data.id)
 
 Template.admin.entries = ->
-  return Entry.get {}
+  return Entry.get().toJSON()
