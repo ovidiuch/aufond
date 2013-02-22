@@ -22,7 +22,7 @@ Template.admin.events
     e.preventDefault()
     data = $(e.currentTarget).data()
     # XXX delete without warning
-    Entry.collection.remove({_id: data.id})
+    Entry.remove(data.id)
 
 Template.admin.entries = ->
-  return Entry.collection.find {}
+  return Entry.get {}

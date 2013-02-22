@@ -1,12 +1,17 @@
 class MeteorModel
   ###
     XXX document
-    XXX create get & destroy
   ###
+  @get: ->
+    return @collection.find(arguments...)
+
   @find: (id) ->
-    data = @collection.findOne _id: id
+    data = @collection.findOne(_id: id)
     return false unless _.isObject(data)
     return new this(data)
+
+  @remove: (id) ->
+    @collection.remove(_id: id)
 
   constructor: (data = {}) ->
     # Keep a reference to the model collection in all instances as well
