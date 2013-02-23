@@ -19,4 +19,7 @@ Template.admin.events
     Entry.remove(data.id)
 
 Template.admin.entries = ->
-  return Entry.get().toJSON()
+  return Entry.get({}, sort: {time: -1}).toJSON()
+
+Template.admin.timeago = (time) ->
+  return moment(time).fromNow()

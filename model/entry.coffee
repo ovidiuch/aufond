@@ -1,5 +1,19 @@
+class EntryCollection extends MeteorCollection
+  toJSON: ->
+    entries = super()
+    for entry, i in entries
+      entry.index = i + 1
+    return entries
+
+
 class Entry extends MeteorModel
-  @collection: new Meteor.Collection 'entries'
+  @collection: EntryCollection
+  @mongoCollection: new Meteor.Collection 'entries'
+
+  update: (data) ->
+    if data.hasOwnProperty('date')
+      data.time = @getTimeFromDate(data.date)
+    super(data)
 
   validate: ->
     return "Headline can't be empty" unless @get('headline').length

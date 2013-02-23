@@ -28,7 +28,7 @@
           <tbody>
             {{#each entries}}
               <tr>
-                <td>{{_id}}</td>
+                <td>{{index}}</td>
                 <td>{{headline}}</td>
                 <td class="excerpt">
                   <div class="text">{{excerpt}}</div>
@@ -37,7 +37,7 @@
                     <button class="btn btn-delete" data-id="{{_id}}">Remove</button>
                   </div>
                 </td>
-                <td>{{date}}</td>
+                <td>{{timeago time}}</td>
               </tr>
             {{/each}}
           </tbody>
