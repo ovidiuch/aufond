@@ -1,34 +1,56 @@
+class MeteorCollection extends Array
+  ###
+    XXX document
+  ###
+  constructor: (models = []) ->
+    for model in models
+      @push(model)
+
+  toJSON: ->
+    models = []
+    for model in this
+      models.push(model.toJSON())
+    return models
+
+
 class MeteorModel
   ###
     XXX document
   ###
+  @collection: MeteorCollection
+
   @get: ->
-    models = @collection.find(arguments...).map (data) =>
+    models = @mongoCollection.find(arguments...).map (data) =>
       return new this(data)
-    return new MeteorCollection(models)
+    return new @collection(models)
 
   @find: (id) ->
-    data = @collection.findOne(_id: id)
+    data = @mongoCollection.findOne(_id: id)
     return false unless _.isObject(data)
     return new this(data)
 
   @remove: (id) ->
-    @collection.remove(_id: id)
+    @mongoCollection.remove(_id: id)
 
   constructor: (data = {}) ->
     # Keep a reference to the model collection in all instances as well
-    @collection = @constructor.collection
+    @mongoCollection = @constructor.mongoCollection
     @data = {}
     @update data
+
+  update: (data) ->
+    _.extend @data, data
 
   get: (key) ->
     return @data[key]
 
   set: (key, value) ->
-    @data[key] = value
-
-  update: (data) ->
-    _.extend @data, data
+    if _.isObject(key)
+      data = key
+    else
+      data = {}
+      data[key] = value
+    @update data
 
   toJSON: ->
     return _.clone @data
@@ -51,9 +73,9 @@ class MeteorModel
       return
 
     if @data._id
-      @collection.update {_id: @data._id}, @data, @saveCallback(callback)
+      @mongoCollection.update {_id: @data._id}, @data, @saveCallback(callback)
     else
-      @collection.insert @data, @saveCallback(callback)
+      @mongoCollection.insert @data, @saveCallback(callback)
 
   saveCallback: (userCallback) ->
     # Crate a closure where the user callback is present in the mongo callback
