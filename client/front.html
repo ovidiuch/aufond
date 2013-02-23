@@ -1,3 +1,10 @@
 <template name="front">
-  <h1>Front</h1>
+  <ul class="entries">
+    {{#each entries}}
+      <li class="entry">
+        <h3>{{headline}}</h3>
+        <p>{{excerpt}}</p>
+      </li>
+    {{/each}}
+  </ul>
 </template>
