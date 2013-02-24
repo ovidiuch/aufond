@@ -1,9 +1,13 @@
 <template name="front">
   <ul class="entries">
     {{#each entries}}
-      <li class="entry">
-        <h3>{{headline}}</h3>
-        <p>{{excerpt}}</p>
+      <li class="{{type}}">
+        {{#match type="post"}}
+          <h3>{{headline}}</h3>
+          <p>{{excerpt}}</p>
+        {{else}}
+          <p>{{year}}</p>
+        {{/match}}
       </li>
     {{/each}}
   </ul>
