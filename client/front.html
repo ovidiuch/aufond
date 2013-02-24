@@ -3,8 +3,8 @@
     {{#each entries}}
       <li class="{{type}}">
         {{#match type="post"}}
-          <h3>{{headline}}</h3>
-          <p>{{excerpt}}</p>
+          <h3>{{{markdown headline}}}</h3>
+          <p>{{{markdown excerpt}}}</p>
         {{else}}
           <p>{{year}}</p>
         {{/match}}

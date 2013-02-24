@@ -29,9 +29,9 @@
             {{#each entries}}
               <tr>
                 <td>{{index}}</td>
-                <td>{{headline}}</td>
+                <td>{{{markdown headline}}}</td>
                 <td class="excerpt">
-                  <div class="text">{{excerpt}}</div>
+                  <div class="text">{{{markdown excerpt}}}</div>
                   <div class="controls">
                     <button class="btn btn-primary btn-edit" data-toggle="modal" data-target="#post-modal" data-title="What have you been up to?" data-button="Update" data-id="{{_id}}">Change</button>
                     <button class="btn btn-delete" data-id="{{_id}}">Remove</button>

@@ -7,3 +7,6 @@ Handlebars.registerHelper 'match', (options) ->
       # current scope
       return options.inverse(this)
   return options.fn(this)
+
+Handlebars.registerHelper 'markdown', (text, options) ->
+  return window.markdown.toHTML(text)
