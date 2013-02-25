@@ -1,29 +1,27 @@
 @color-background: #f4f4f6;
-@color-text: #46465a;
-@color-subtle-text: #8c8ca0;
+@color-light-background: #dcdce2;
 
 @entry-list-width: 8px;
-@entry-list-margin: 60px;
 @entry-margin: 50px;
-@entry-head-width: 400px;
 
 @bullet-size-post: 50px;
 @bullet-size-year: 100px;
 
-.bullet-size (@size) {
-  width: @size;
-  height: @size;
+.bullet (@size, @border: 0) {
+  width: @size - (2 * @border);
+  height: @size - (2 * @border);
   margin: -(@size / 2) 0 0 -(@size / 2);
-  line-height: @size;
+  border: @border solid #fff;
+  line-height: @size - (2 * @border);
 }
 
 #content.front {
   background: @color-background;
-  color: @color-text;
+  color: #46465a;
 
   .entries {
-    border-left: @entry-list-width solid rgba(70, 70, 90, 0.1);
-    margin: 0 0 0 @entry-list-margin;
+    border-left: @entry-list-width solid @color-light-background;
+    margin: 0 0 0 60px;
     list-style-type: none;
   }
   .entry {
@@ -33,7 +31,7 @@
     .bullet {
       position: absolute;
       top: 50%;
-      .bullet-size(@bullet-size-post);
+      .bullet(@bullet-size-post);
       border-radius: 50%;
       background: #fff;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -47,14 +45,14 @@
       position: relative;
 
       .inner-wrap {
-        width: @entry-head-width;
+        width: 400px;
       }
       h3 {
         font-weight: normal;
-        line-height: 1em;
+        line-height: 1.4em;
       }
       p {
-        color: @color-subtle-text;
+        color: #8c8ca0;
       }
     }
   }
@@ -63,7 +61,11 @@
     height: @bullet-size-year;
 
     .bullet {
-      .bullet-size(@bullet-size-year);
+      .bullet(@bullet-size-year, 6px);
+      background: @color-light-background;
+      color: #fff;
+      font-size: 20px;
+      font-weight: bold;
     }
   }
 }
