@@ -21,3 +21,5 @@ class Controller extends ReactiveObject
   change: (name) ->
     @name = name
     @triggerChange()
+    # An external onChange handler can be set on the Controller object directly
+    @onChange(name) if _.isFunction(@onChange)
