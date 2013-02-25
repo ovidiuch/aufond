@@ -1,5 +1,6 @@
 @color-background: #f4f4f6;
-@color-light-background: #dcdce2;
+@color-light: #dcdce2;
+@color-medium: #8c8ca0;
 
 @entry-list-width: 8px;
 @entry-margin: 50px;
@@ -20,7 +21,7 @@
   color: #46465a;
 
   .entries {
-    border-left: @entry-list-width solid @color-light-background;
+    border-left: @entry-list-width solid @color-light;
     margin: 0 0 0 60px;
     list-style-type: none;
   }
@@ -33,8 +34,10 @@
       top: 50%;
       .bullet(@bullet-size-post);
       border-radius: 50%;
-      background: #fff;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      background: #fff;
+      color: @color-light;
+      font-size: 20px;
       text-align: center;
     }
     .inner-wrap {
@@ -52,7 +55,7 @@
         line-height: 1.4em;
       }
       p {
-        color: #8c8ca0;
+        color: @color-medium;
       }
     }
   }
@@ -62,7 +65,7 @@
 
     .bullet {
       .bullet(@bullet-size-year, 6px);
-      background: @color-light-background;
+      background: @color-light;
       color: #fff;
       font-size: 20px;
       font-weight: bold;

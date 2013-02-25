@@ -19,7 +19,7 @@
         <table class="entries table table-hover">
           <thead>
             <tr>
-              <th>#</th>
+              <th>&nbsp;</th>
               <th>Headline</th>
               <th>Excerpt</th>
               <th>From</th>
@@ -28,7 +28,13 @@
           <tbody>
             {{#each entries}}
               <tr>
-                <td>{{index}}</td>
+                <td>
+                  {{#if icon}}
+                    <i class="{{icon}}"></i>
+                  {{else}}
+                    {{index}}
+                  {{/if}}
+                </td>
                 <td>{{{markdown headline}}}</td>
                 <td class="excerpt">
                   {{{markdown excerpt}}}
