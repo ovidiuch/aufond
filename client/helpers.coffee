@@ -9,4 +9,13 @@ Handlebars.registerHelper 'match', (options) ->
   return options.fn(this)
 
 Handlebars.registerHelper 'markdown', (text, options) ->
-  return window.markdown.toHTML(text)
+  if options.hash.root
+    # Extract the root element of each block (which would be paragraphs) and
+    # replace it with a different DOM element
+    tree = markdown.toHTMLTree(text)
+    # Ignore the first tree element, which is "html"
+    block[0] = options.hash.root for block in tree[1...]
+    return markdown.renderJsonML(tree)
+  else
+    return markdown.toHTML(text)
+
