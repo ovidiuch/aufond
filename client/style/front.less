@@ -2,6 +2,9 @@
 @color-light: #dcdce2;
 @color-medium: #8c8ca0;
 
+@font-open-sans: "Open Sans", Helvetica, Arial, sans-serif;
+@font-source-sans-pro: "Source Sans Pro", Helvetica, Arial, sans-serif;
+
 @entry-list-width: 8px;
 @entry-margin: 50px;
 
@@ -19,7 +22,20 @@
 #content.front {
   background: @color-background;
   color: #46465a;
+  font-family: @font-open-sans;
 
+  h3 {
+    font-family: @font-source-sans-pro;
+    font-size: 32px;
+    font-weight: 400;
+
+    strong {
+      font-weight: 700;
+    }
+  }
+  p {
+    line-height: 24px;
+  }
   .entries {
     border-left: @entry-list-width solid @color-light;
     margin: 0 0 0 60px;
@@ -51,8 +67,8 @@
         width: 400px;
       }
       h3 {
-        font-weight: normal;
-        line-height: 1.4em;
+        margin: 24px 0;
+        line-height: 1em;
       }
       p {
         color: @color-medium;
@@ -68,7 +84,7 @@
       background: @color-light;
       color: #fff;
       font-size: 20px;
-      font-weight: bold;
+      font-weight: 800;
     }
   }
 }
