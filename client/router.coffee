@@ -1,10 +1,13 @@
 AufondRouter = Backbone.Router.extend
   routes:
-    '': 'front'
     'admin': 'admin'
+    '*path': 'front'
 
-  front: ->
-    Aufond.controller.change('front')
+  front: (path) ->
+    # XXX parse path and get user/post slug
+    args =
+      path: path
+    Aufond.controller.change('front', args)
 
   admin: ->
     Aufond.controller.change('admin')

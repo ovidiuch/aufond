@@ -1,5 +1,6 @@
 class Controller extends ReactiveObject
   name: null
+  args: {}
 
   createReactiveContainer: ->
     ###
@@ -18,8 +19,9 @@ class Controller extends ReactiveObject
   getName: ->
     return @name
 
-  change: (name) ->
+  change: (name, args = {}) ->
     @name = name
+    @args = args
     @triggerChange()
     # An external onChange handler can be set on the Controller object directly
-    @onChange(name) if _.isFunction(@onChange)
+    @onChange(name, args) if _.isFunction(@onChange)
