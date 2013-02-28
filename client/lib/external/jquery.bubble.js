@@ -1,4 +1,5 @@
 ;(function($, window, document, undefined) {
+
   var Bubble = function(element, options) {
     /**
      * Create a Bubble instance around a DOM element that increases its width
@@ -9,6 +10,7 @@
     this.options = $.extend({}, this.defaults, options || {});
     this.init();
   };
+
   Bubble.prototype = {
     // Constructor options will extend these
     defaults: {
@@ -92,7 +94,7 @@
       };
     },
     parseNumericAttribute: function(attr) {
-      return parseInt(this.$element.css(attr));
+      return parseInt(this.$element.css(attr), 10);
     },
     onMouseOver: function() {
       this.toggle(1);
@@ -112,10 +114,10 @@
       // around, which is to start transition from its opposite (1 - x)
       var initialRatio = 0;
       // If a previous transition has already been running
-      if (this.currentRatio != null) {
+      if (this.currentRatio !== undefined) {
         // When moving in the opposite direction from before
         if (toggle != this.direction) {
-          initialRatio = 1 - this.currentRatio
+          initialRatio = 1 - this.currentRatio;
         // When moving in the same direction as before
         } else {
           initialRatio = this.currentRatio;
@@ -132,7 +134,7 @@
         time: this.options.time,
         // Start transition with initial ratio
         ratio: initialRatio,
-        callback: function(ratio) {
+        onFrame: function(ratio) {
           // Store the most current transition ratio returned by the play
           // callback into the Bubble instance
           that.currentRatio = ratio;
@@ -146,7 +148,7 @@
           // so it syncs with the left/top movement, which is half the offset
           // and needs to be an integer (browsers only apply integer values to
           // elements)
-          if(that.ratio != 1) {
+          if (that.ratio != 1) {
             offset = 2 * Math.round(offset / 2);
           }
           // Apply offset to DOM element
@@ -168,6 +170,7 @@
       });
     }
   };
+
   // Hook plugin to jQuery selections
   $.fn.bubble = function(options) {
     this.each(function() {
@@ -176,4 +179,5 @@
     // Maintain jQuery chain
     return this;
   };
+
 })(jQuery, window, document);
