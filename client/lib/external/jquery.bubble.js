@@ -6,7 +6,7 @@
      * possible options
      */
     this.$element = $(element);
-    this.options = $.extend({}, this.defaults, options);
+    this.options = $.extend({}, this.defaults, options || {});
     this.init();
   };
   Bubble.prototype = {
