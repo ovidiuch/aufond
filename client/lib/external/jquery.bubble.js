@@ -9,14 +9,14 @@
     this.options = $.extend({}, this.defaults, options);
     this.init();
   };
-  // Constructor options will extend these
-  Bubble.defaults = {
-    // The duration of the transition
-    time: 0.1,
-    // The amount of widget/height to grow on mouseover
-    offset: 10
-  }
   Bubble.prototype = {
+    // Constructor options will extend these
+    defaults: {
+      // The duration of the transition
+      time: 0.1,
+      // The amount of widget/height to grow on mouseover
+      offset: 10
+    },
     init: function() {
       // Check if a Bubble instance has already been initialized on this DOM
       // $element and unbind it if found
