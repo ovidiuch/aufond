@@ -3,7 +3,7 @@
     /**
      * Create a Bubble instance around a DOM element that increases its width
      * and height on mouseover (goes back on mouseout). See defaults for
-     * possible options.
+     * possible options
      */
     this.$element = $(element);
     this.options = $.extend({}, this.defaults, options);
@@ -57,18 +57,32 @@
       this.onMouseOver = this.bindMethod(this.onMouseOver);
       this.onMouseOut = this.bindMethod(this.onMouseOut);
 
-      this.$element.on('mouseover', this.onMouseOver);
-      this.$element.on('mouseout', this.onMouseOut);
+      $target = this.getEventTarget();
+      $target.on('mouseover', this.onMouseOver);
+      $target.on('mouseout', this.onMouseOut);
     },
     unbind: function() {
-      this.$element.off('mouseover', this.onMouseOver);
-      this.$element.off('mouseout', this.onMouseOut);
+      $target = this.getEventTarget();
+      $target.off('mouseover', this.onMouseOver);
+      $target.off('mouseout', this.onMouseOut);
+    },
+    getEventTarget: function() {
+      /**
+       * The plugin allows a custom target selector for triggering the mouse
+       * events, using the "target" option; the selector must match a
+       * descendant of the current element. It defaults to the current element
+       * if left unspecified
+       */
+      if (this.options.target) {
+        return this.$element.closest(this.options.target);
+      }
+      return this.$element;
     },
     extractBaseAttributes: function() {
       /**
        * Get initial values for the element attributes we need to work width,
        * because we're never working with absolute values, but with offsets
-       * relative to these ones.
+       * relative to these ones
        */
       this.base = {
         left: this.parseNumericAttribute('margin-left'),
@@ -88,7 +102,7 @@
     },
     toggle: function(toggle) {
       /**
-       * Expand or contract bubble using a boolean(ish) parameter, 0 or 1.
+       * Expand or contract bubble using a boolean(ish) parameter, 0 or 1
        */
       // Important: since a transition can be interrupted and turned around at
       // any point (e.g. at fast mouse over/out) we need to make sure it
