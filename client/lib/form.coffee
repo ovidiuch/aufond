@@ -2,7 +2,10 @@ class Form extends ReactiveTemplate
 
   constructor: ->
     super(arguments...)
-    @modelClass = @params.model
+    # The model class is passed using its name as a String, in order avoid
+    # dependency issues since managing the loading order of modules in Meteor
+    # is pretty limited
+    @modelClass = window[@params.model]
 
   load: (id) ->
     # Clear model reference and data before checking a new one (might not need
