@@ -24,8 +24,8 @@ class MeteorModel
       return new this(data)
     return new @collection(models)
 
-  @find: (id) ->
-    data = @mongoCollection.findOne(_id: id)
+  @find: ->
+    data = @mongoCollection.findOne(arguments...)
     return false unless _.isObject(data)
     return new this(data)
 
