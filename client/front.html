@@ -1,19 +1,4 @@
 <template name="front">
-  <ul class="entries">
-    {{#each entries}}
-      <li class="entry {{type}}">
-        {{#match type="post"}}
-          <div class="head">
-            <span class="bullet {{iconClass icon}}"></span>
-            <div class="inner-wrap">
-              {{{markdown headline root="h3"}}}
-              {{{markdown excerpt}}}
-            </div>
-          </div>
-        {{else}}
-          <span class="bullet">{{year}}</span>
-        {{/match}}
-      </li>
-    {{/each}}
-  </ul>
+  <button class="btn btn-primary btn-large btn-register">Register</button>
+  <button class="btn btn-large btn-login">Login</button>
 </template>

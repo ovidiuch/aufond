@@ -1,5 +1,3 @@
-Template.front.entries = ->
-  return Entry.getByYears()
-
-Template.front.iconClass = (icon) ->
-  return icon or 'icon-circle'
+Template.front.events
+  'click .btn-login': (e) ->
+    console.log('Login')

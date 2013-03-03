@@ -1,6 +1,7 @@
 @color-background: #f4f4f6;
 @color-light: #dcdce2;
 @color-medium: #8c8ca0;
+@color-link: #c52352;
 
 @font-open-sans: "Open Sans", Helvetica, Arial, sans-serif;
 @font-source-sans-pro: "Source Sans Pro", Helvetica, Arial, sans-serif;
@@ -11,6 +12,13 @@
 @bullet-size-post: 50px;
 @bullet-size-year: 100px;
 
+.transition (@transition) {
+  transition: @transition;
+  -webkit-transition: @transition;
+  -moz-transition: @transition;
+  -o-transition: @transition;
+}
+
 .bullet (@size, @border: 0) {
   width: @size - (2 * @border);
   height: @size - (2 * @border);
@@ -19,7 +27,7 @@
   line-height: @size - (2 * @border);
 }
 
-#content.front {
+#content.timeline {
   background: @color-background;
   color: #46465a;
   font-family: @font-open-sans;
@@ -55,6 +63,7 @@
       color: @color-light;
       font-size: 20px;
       text-align: center;
+      .transition('background 0.1s linear, color 0.1s linear');
     }
     .inner-wrap {
       margin: 0 0 0 (@entry-margin + (@entry-list-width / 2));
@@ -62,6 +71,7 @@
     .head {
       // Different "scope" for the bullet to align at the vertical center of
       position: relative;
+      cursor: pointer;
 
       .inner-wrap {
         width: 400px;
@@ -86,6 +96,7 @@
       color: #fff;
       font-size: 20px;
       font-weight: 800;
+      cursor: pointer;
     }
   }
 }

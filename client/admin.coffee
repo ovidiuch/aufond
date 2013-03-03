@@ -1,6 +1,6 @@
 Template.admin.events
   'click .btn-launch': (e) ->
-    Aufond.router.navigate('', trigger: true)
+    Aufond.router.navigate("#{Meteor.userId()}", trigger: true)
 
   'click .nav-tabs a': (e) ->
     e.preventDefault()

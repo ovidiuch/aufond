@@ -1,0 +1,19 @@
+<template name="timeline">
+  <ul class="entries">
+    {{#each entries}}
+      <li class="entry {{type}}">
+        {{#match type="post"}}
+          <div class="head">
+            <span class="bullet {{iconClass icon}}"></span>
+            <div class="inner-wrap">
+              {{{markdown headline root="h3"}}}
+              {{{markdown excerpt}}}
+            </div>
+          </div>
+        {{else}}
+          <span class="bullet">{{year}}</span>
+        {{/match}}
+      </li>
+    {{/each}}
+  </ul>
+</template>
