@@ -33,4 +33,10 @@ class FormModal extends Modal
     ###
       Submit the form on modal submit, which then closes the modal on success
     ###
-    @reactiveBody.submit => @close()
+    @reactiveBody.submit => @onSuccess()
+
+  onSuccess: ->
+    ###
+      Called when the contained form succeeds. Extend in subclasses
+    ###
+    @close()

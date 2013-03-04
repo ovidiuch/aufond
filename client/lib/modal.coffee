@@ -26,8 +26,10 @@ class Modal extends ReactiveTemplate
       $(this).find('input:not([type=hidden])').first().focus()
 
   onSubmit: ->
-    # Called when the primary modal button is pressed. Extend in subclasses
-    # or send as a constructor parameter
+    ###
+      Called when the primary modal button is pressed. Extend in subclasses
+      or send as a constructor parameter
+    ###
 
   close: ->
     @$modal.modal('hide')
