@@ -1,6 +1,7 @@
 Template.admin.events
   'click .btn-launch': (e) ->
-    Aufond.router.navigate("#{Meteor.userId()}", trigger: true)
+    username = Meteor.user().username
+    Aufond.router.navigate("#{username}", trigger: true)
 
   'click .nav-tabs a': (e) ->
     e.preventDefault()
