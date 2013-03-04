@@ -1,7 +1,14 @@
 Template.admin.events
-  'click .btn-launch': (e) ->
+  'click .btn-timeline': (e) ->
     username = Meteor.user().username
     Aufond.router.navigate("#{username}", trigger: true)
+
+  'click .btn-logout': (e) ->
+    Meteor.logout (error) ->
+      if error
+        # XXX handle logout error
+      else
+        Aufond.router.navigate('', trigger: true)
 
   'click .nav-tabs a': (e) ->
     e.preventDefault()
