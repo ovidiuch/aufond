@@ -1,3 +1,5 @@
 Template.front.events
   'click .btn-login': (e) ->
-    console.log('Login')
+    e.preventDefault()
+    data = $(e.currentTarget).data()
+    Aufond.loginModal.update(data)
