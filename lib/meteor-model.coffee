@@ -84,4 +84,4 @@ class MeteorModel
         @update(_id: id)
 
       if _.isFunction(userCallback)
-        userCallback(error, this)
+        userCallback(error?.reason, this)
