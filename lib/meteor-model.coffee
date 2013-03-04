@@ -73,9 +73,11 @@ class MeteorModel
       return
 
     if @data._id
-      @mongoCollection.update {_id: @data._id}, @data, @saveCallback(callback)
+      # Extract _id from model attributes
+      data = _.omit(@data, '_id')
+      @mongoCollection.update(@data._id, {$set: data}, @saveCallback callback)
     else
-      @mongoCollection.insert @data, @saveCallback(callback)
+      @mongoCollection.insert(@data, @saveCallback callback)
 
   saveCallback: (userCallback) ->
     # Crate a closure where the user callback is present in the mongo callback
