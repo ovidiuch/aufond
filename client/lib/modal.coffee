@@ -3,8 +3,10 @@ class Modal extends ReactiveTemplate
 
   constructor: ->
     super(arguments...)
-    @reactiveBody = @params.reactiveBody
-    @onSubmit = @params.onSubmit
+    if @params.reactiveBody?
+      @reactiveBody = @params.reactiveBody
+    if @params.onSubmit?
+      @onSubmit = @params.onSubmit
 
   rendered: (templateInstance) ->
     # Inject reactive body container that can and might re-render on its in
@@ -22,6 +24,10 @@ class Modal extends ReactiveTemplate
     # set events in case the template renders multiple times
     @$modal.closest('.modal').off('shown').on 'shown', ->
       $(this).find('input:not([type=hidden])').first().focus()
+
+  onSubmit: ->
+    # Called when the primary modal button is pressed. Extend in subclasses
+    # or send as a constructor parameter
 
   close: ->
     @$modal.modal('hide')

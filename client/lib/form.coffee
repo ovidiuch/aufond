@@ -20,7 +20,7 @@ class Form extends ReactiveTemplate
     @update(data, false)
 
   submit: (onSuccess) ->
-    data = $(@templateInstance.find('form')).serializeObject()
+    data = @getDataFromForm()
 
     # Create an empty model instance on create, and only set the data
     # attributes on save in order to be consistent between both methods
@@ -30,3 +30,6 @@ class Form extends ReactiveTemplate
           @update(error: error, true)
         else
           onSuccess()
+
+  getDataFromForm: ->
+    return $(@templateInstance.find('form')).serializeObject()
