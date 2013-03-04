@@ -26,10 +26,10 @@ class Form extends ReactiveTemplate
     # attributes on save in order to be consistent between both methods
     @model = new @modelClass() unless @model?
     @model.save data, (error, model) =>
-        if error
-          @update(error: error, true)
-        else
-          onSuccess()
+      if error
+        @update(error: error, true)
+      else
+        onSuccess()
 
   getDataFromForm: ->
     return $(@templateInstance.find('form')).serializeObject()
