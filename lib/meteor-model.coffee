@@ -32,6 +32,57 @@ class MeteorModel
   @remove: (id) ->
     @mongoCollection.remove(_id: id)
 
+  @publish: (name) ->
+    ###
+      Make model data available to client.
+
+      Warning: This is a wildcard implementation, similar to the autopublish
+      package and should be customized in subclasses per needs
+    ###
+    # Feed data from server to client
+    if Meteor.isServer
+      Meteor.publish name, =>
+        return @mongoCollection.find()
+
+    # Subscribe client to server data
+    if Meteor.isClient
+      Meteor.subscribe(name)
+
+  @allow: ->
+    ###
+      Add client permissions to model data.
+
+      Warning: Even though this implementation restricts users from messing
+      with other users' data, more restrictive permissions might need to be
+      implementated in other model subclasses, depending on their sensitivity
+      (e.g. shouldn't be publicly readable)
+
+      Note: This assumes a "createdBy" attribute in all documents
+    ###
+    return unless Meteor.isServer
+
+    @mongoCollection.allow
+      insert: (userId, doc) ->
+        # Only allow logged in users to create documents
+        return false unless userId?
+        # Don't allow users to create documents on behalf of other users
+        return false if userId isnt doc.createdBy
+        return true
+      update: (userId, docs) ->
+        # Don't allow guests to update anything
+        return false unless userId?
+        for doc in docs
+          # Don't allow users to edit other users' documents
+          return false unless userId is doc.createdBy
+        return true
+      remove: (userId, docs) ->
+        # Don't allow guests to remove anything
+        return false unless userId?
+        for doc in docs
+          # Don't allow users to remove other users' documents
+          return false unless userId is doc.createdBy
+        return true
+
   constructor: (data = {}) ->
     # Keep a reference to the model collection in all instances as well
     @mongoCollection = @constructor.mongoCollection

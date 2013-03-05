@@ -47,3 +47,7 @@ class Entry extends MeteorModel
 
   getTimeFromDate: (date) ->
     return Date.parse(date)
+
+
+Entry.publish('entries');
+Entry.allow()
