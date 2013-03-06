@@ -10,14 +10,18 @@ class Entry extends MeteorModel
   @collection: EntryCollection
   @mongoCollection: new Meteor.Collection 'entries'
 
-  @getByYears: ->
+  @getByYears: (username) ->
     ###
       Create list with year separators and entry items aggregated into a single
       collection. The items share a common _type_ key ("post" or "year")
     ###
+    # Only select entries for a specific username
+    user = User.find(username: username)
+    return [] unless user
+
     items = []
     year = null
-    for entry in @get({}, sort: {time: -1}).toJSON()
+    for entry in @get({createdBy: user.get('_id')}, sort: {time: -1}).toJSON()
       # Push the year entry before the first entry from that year
       if entry.year isnt year
         year = entry.year

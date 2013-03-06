@@ -5,10 +5,12 @@ AufondRouter = Backbone.Router.extend
     '*path': 'timeline'
 
   timeline: (path) ->
-    # XXX parse path and get username/post slug
+    # Extract username and post slug (optional) from path
+    [username, slug] = path.split('/')
     args =
       path: path
-      parts: path.split('/')
+      username: username
+      slug: slug
     Aufond.controller.change('timeline', args)
 
   front: ->

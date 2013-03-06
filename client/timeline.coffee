@@ -1,5 +1,6 @@
 Template.timeline.entries = ->
-  return Entry.getByYears()
+  # Get entries of current user only
+  return Entry.getByYears(Aufond.controller.args.username)
 
 Template.timeline.iconClass = (icon) ->
   return icon or 'icon-circle'
