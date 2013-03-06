@@ -90,7 +90,13 @@ class MeteorModel
     @update data
 
   update: (data) ->
-    _.extend @data, data
+    ###
+      Extend current data object with new attributes.
+
+      Note: Nested attributes can be set using a dot separator (e.g.
+      "profile.name")
+    ###
+    _.extend @data, @nestAttributes(data)
 
   get: (key) ->
     return @data[key]
@@ -138,3 +144,21 @@ class MeteorModel
 
       if _.isFunction(userCallback)
         userCallback(error?.reason, this)
+
+  nestAttributes: (attributes) ->
+    ###
+        Nest flattened attribute keys into a nested objects.
+    ###
+    data = {}
+    for k, v of attributes
+        subset = data
+        keys = k.split('.')
+        # Navigate through all the extra key parts and attach the value to the
+        # narrowest subset formed
+        while keys.length > 1
+            key = keys.shift()
+            # Create subset if this is the first time we get to it
+            subset[key] = {} unless subset[key]?
+            subset = subset[key]
+        subset[keys.shift()] = v
+    return data
