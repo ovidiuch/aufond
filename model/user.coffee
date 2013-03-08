@@ -48,6 +48,22 @@ class User extends MeteorModel
           return false unless userId is doc._id
         return true
 
+  mongoInsert: (callback) ->
+    ###
+      Use Accounts.createUser instead of creating the mongo document manually
+    ###
+    callback "Can't create users like this!"
+
+  mongoUpdate: (callback) ->
+    ###
+      Use Accounts.changePassword to change password, instead of editing the
+      mongo document manually
+    ###
+    if @changed.password?
+      callback "Can't change password like this!"
+    else
+      super(callback)
+
 
 User.publish();
 User.allow();
