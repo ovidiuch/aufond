@@ -13,6 +13,7 @@ class User extends MeteorModel
         fields =
           username: 1
           profile: 1
+          isRoot: 1
         return @mongoCollection.find({}, {fields: fields})
 
     if Meteor.isClient
@@ -30,12 +31,14 @@ class User extends MeteorModel
         # Allow anybody to create users
         # XXX is there anything to do here to prevent spammers?
         return true
-      update: (userId, docs) ->
+      update: (userId, docs, fields, modifier) ->
         # Don't allow guests to update anything
         return false unless userId?
         for doc in docs
           # Only allow users to update themselves
           return false unless userId is doc._id
+          # Only allow profile changes
+          return false if _.without(fields, 'profile').length
         return true
       remove: (userId, docs) ->
         # Don't allow guests to remove anything
