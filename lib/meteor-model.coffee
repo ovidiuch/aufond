@@ -21,13 +21,13 @@ class MeteorModel
 
   @get: ->
     models = @mongoCollection.find(arguments...).map (data) =>
-      return new this(data)
+      return new this(data, false)
     return new @collection(models)
 
   @find: ->
     data = @mongoCollection.findOne(arguments...)
     return false unless _.isObject(data)
-    return new this(data)
+    return new this(data, false)
 
   @remove: (id) ->
     @mongoCollection.remove(_id: id)
@@ -68,7 +68,7 @@ class MeteorModel
         # Don't allow users to create documents on behalf of other users
         return false if userId isnt doc.createdBy
         return true
-      update: (userId, docs) ->
+      update: (userId, docs, fields, modifier) ->
         # Don't allow guests to update anything
         return false unless userId?
         for doc in docs
@@ -83,11 +83,17 @@ class MeteorModel
           return false unless userId is doc.createdBy
         return true
 
-  constructor: (data = {}) ->
+  constructor: (data = {}, isNew = true) ->
     # Keep a reference to the model collection in all instances as well
     @mongoCollection = @constructor.mongoCollection
-    @data = {}
-    @update data
+
+    # Init attribute holding vars (defined in constructor for the first time
+    # and not in prototype so that they don't get mixed up between instances
+    # that share the same prototype)
+    @data = _.clone(data)
+    # Only mark initial data as changed if this model is new (not loaded from
+    # a model query, that is)
+    @changed = if isNew then _.clone(data) else {}
 
   update: (data) ->
     ###
@@ -97,6 +103,10 @@ class MeteorModel
       "profile.name")
     ###
     _.extend @data, @nestAttributes(data)
+    # Never mark _id as a changed attribute. Also, mongo supports chained keys
+    # so this works out well for the "changed" object and we don't need to nest
+    # attributes when populating it
+    _.extend @changed, _.omit(data, '_id')
 
   get: (key) ->
     return @data[key]
@@ -129,12 +139,23 @@ class MeteorModel
       callback(error) if _.isFunction(callback)
       return
 
+    # Branch logic in methods based on action for easy overriding in subclasses
     if @data._id
-      # Extract _id from model attributes
-      data = _.omit(@data, '_id')
-      @mongoCollection.update(@data._id, {$set: data}, @saveCallback callback)
+      @mongoUpdate(callback)
     else
-      @mongoCollection.insert(@data, @saveCallback callback)
+      @mongoInsert(callback)
+
+  mongoInsert: (callback) ->
+    ###
+      Called whenever saving a new mongo document
+    ###
+    @mongoCollection.insert(@changed, @saveCallback callback)
+
+  mongoUpdate: (callback) ->
+    ###
+      Called whenever saving an existing mongo document
+    ###
+    @mongoCollection.update(@data._id, {$set: @changed}, @saveCallback callback)
 
   saveCallback: (userCallback) ->
     # Crate a closure where the user callback is present in the mongo callback
@@ -144,6 +165,9 @@ class MeteorModel
 
       if _.isFunction(userCallback)
         userCallback(error?.reason, this)
+
+      # Clear attributes marked as changed after each sync with the server
+      @changed = {}
 
   nestAttributes: (attributes) ->
     ###
