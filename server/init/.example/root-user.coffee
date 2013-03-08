@@ -14,7 +14,7 @@ Meteor.startup ->
       email: 'admin@mail.com'
       password: 'changemepls'
       profile:
-        name: 'Ovidiu Cherecheș'
+        name: 'Mr Administrator'
 
     # Mark newly-added user as root (can't be done from client)
     user = User.find(userId)
