@@ -1,0 +1,33 @@
+<template name="register_form">
+  <form id="register-form" class="form-horizontal">
+    {{#if error}}
+      <div class="alert alert-error">
+        {{{markdown error root="span"}}}
+      </div>
+    {{/if}}
+    <div class="control-group">
+      <label class="control-label" for="form-username">Username</label>
+      <div class="controls">
+        <input type="text" name="username" value="{{username}}" id="form-username">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="form-password">Password</label>
+      <div class="controls">
+        <input type="password" name="password" value="{{password}}" id="form-password">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="form-email">Email (optional)</label>
+      <div class="controls">
+        <input type="text" name="email" value="{{email}}" id="form-email">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="form-name">Name (optional)</label>
+      <div class="controls">
+        <input type="text" name="name" value="{{name}}" id="form-name">
+      </div>
+    </div>
+  </form>
+</template>
