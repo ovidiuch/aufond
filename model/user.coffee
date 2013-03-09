@@ -73,6 +73,13 @@ class User extends MeteorModel
     else
       super(callback)
 
+  toJSON: ->
+    data = super()
+    # Export email address if present
+    if data.emails
+      data.email = data.emails[0].address
+    return data
+
 
 User.publish();
 User.allow();
