@@ -13,21 +13,27 @@ class User extends MeteorModel
 
   @publish: ->
     if Meteor.isServer
-      Meteor.publish 'users', =>
+      Meteor.publish 'users', ->
         # Only wire the current user to the client
-        return @mongoCollection.find(_id: @userId)
+        return User.mongoCollection.find(_id: @userId)
 
-      Meteor.publish 'publicUserData', =>
+      Meteor.publish 'publicUserData', ->
         # Make all usernames and profiles public, matchable by user id
         fields =
           username: 1
           profile: 1
           isRoot: 1
-        return @mongoCollection.find({}, {fields: fields})
+        return User.mongoCollection.find({}, {fields: fields})
+
+      Meteor.publish 'userEmails', ->
+        # Only make all user emails public to the root user
+        return null unless User.find(@userId).isRoot()
+        return User.mongoCollection.find({}, {fields: {emails: 1}})
 
     if Meteor.isClient
       Meteor.subscribe('users')
       Meteor.subscribe('publicUserData')
+      Meteor.subscribe('userEmails')
 
   @allow: ->
     ###
