@@ -80,6 +80,12 @@ class User extends MeteorModel
       data.email = data.emails[0].address
     return data
 
+  isRoot: ->
+    ###
+      Helpers method that checks if a user is root
+    ###
+    return @get('isRoot')
+
 
 User.publish();
 User.allow();
