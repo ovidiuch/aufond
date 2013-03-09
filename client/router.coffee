@@ -1,6 +1,7 @@
 AufondRouter = Backbone.Router.extend
   routes:
     'admin': 'admin'
+    'admin/:tab': 'admin'
     '': 'front'
     '*path': 'timeline'
 
@@ -16,8 +17,10 @@ AufondRouter = Backbone.Router.extend
   front: ->
     Aufond.controller.change('front')
 
-  admin: ->
-    Aufond.controller.change('admin')
+  admin: (tab) ->
+    args =
+      tab: tab or 'entries'
+    Aufond.controller.change('admin', args)
 
 Meteor.startup ->
   Aufond.controller = new Controller()

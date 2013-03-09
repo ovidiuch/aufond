@@ -12,7 +12,10 @@ Template.admin.events
 
   'click .nav-tabs a': (e) ->
     e.preventDefault()
-    $(this).tab 'show'
+
+    # Update the browser URL with the selected tab
+    tab = $(e.currentTarget).data('tab-name')
+    Aufond.router.navigate("admin/#{tab}", trigger: false)
 
   'click #entries .btn-post,
    click #entries .btn-edit': (e) ->
@@ -31,6 +34,11 @@ Template.admin.events
     data = $(e.currentTarget).data()
     # XXX delete without warning
     User.remove(data.id)
+
+Template.admin.rendered = ->
+  # Select current tab (taken from current URL)
+  tab = Aufond.controller.args.tab
+  $(this.find '.nav-tabs').find("a[data-tab-name=#{tab}]").tab('show')
 
 Template.admin.entries = ->
   # Get own entries only
