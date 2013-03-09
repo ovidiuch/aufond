@@ -13,6 +13,9 @@
     <ul class="nav nav-tabs">
       <li class="active"><a href="#entries" data-toggle="tab">Entries</a></li>
       <li><a href="#meta" data-toggle="tab">Meta</a></li>
+      {{#if isRootUser}}
+        <li><a href="#users" data-toggle="tab">Users</a></li>
+      {{/if}}
     </ul>
     <div class="tab-content">
       <div class="tab-pane active" id="entries">
@@ -55,6 +58,33 @@
       <div class="tab-pane" id="meta">
         <p>Meta</p>
       </div>
+      {{#if isRootUser}}
+        <div class="tab-pane" id="users">
+          <table class="users table table-hover">
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each users}}
+                <tr>
+                  <td>{{username}}</td>
+                  <td>{{email}}</td>
+                  <td>
+                    {{#unless isRoot}}
+                      <button class="btn btn-danger btn-delete pull-right" data-id="{{_id}}">Remove</button>
+                    {{/unless}}
+                    <strong>{{profile.name}}</strong>
+                  </td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      {{/if}}
     </div>
   </div>
 </template>

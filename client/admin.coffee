@@ -14,17 +14,23 @@ Template.admin.events
     e.preventDefault()
     $(this).tab 'show'
 
-  'click .btn-post,
-   click .btn-edit': (e) ->
+  'click #entries .btn-post,
+   click #entries .btn-edit': (e) ->
     e.preventDefault()
     data = $(e.currentTarget).data()
     Aufond.postModal.update(data)
 
-  'click .btn-delete': (e) ->
+  'click #entries .btn-delete': (e) ->
     e.preventDefault()
     data = $(e.currentTarget).data()
     # XXX delete without warning
     Entry.remove(data.id)
+
+  'click #users .btn-delete': (e) ->
+    e.preventDefault()
+    data = $(e.currentTarget).data()
+    # XXX delete without warning
+    User.remove(data.id)
 
 Template.admin.entries = ->
   # Get own entries only
@@ -34,3 +40,9 @@ Template.admin.entries = ->
 
 Template.admin.timeago = (time) ->
   return moment(time).fromNow()
+
+Template.admin.users = ->
+  return User.get().toJSON()
+
+Template.admin.isRootUser = ->
+  return User.current()?.isRoot()
