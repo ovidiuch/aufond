@@ -2,6 +2,15 @@ class User extends MeteorModel
   @collection: MeteorCollection
   @mongoCollection: Meteor.users
 
+  @current: ->
+    ###
+      Static method for fetching current user that can be used globally using
+      User.current()
+    ###
+    userId = Meteor.userId()
+    return null unless userId
+    return @find(userId)
+
   @publish: ->
     if Meteor.isServer
       Meteor.publish 'users', =>
