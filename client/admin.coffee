@@ -15,7 +15,7 @@ Template.admin.events
 
     # Update the browser URL with the selected tab
     tab = $(e.currentTarget).data('tab-name')
-    Aufond.router.navigate("admin/#{tab}", trigger: false)
+    Aufond.router.navigate("admin/#{tab}", trigger: true)
 
   'click #entries .btn-post,
    click #entries .btn-edit': (e) ->
