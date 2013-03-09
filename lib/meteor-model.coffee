@@ -26,7 +26,7 @@ class MeteorModel
 
   @find: ->
     data = @mongoCollection.findOne(arguments...)
-    return false unless _.isObject(data)
+    return null unless _.isObject(data)
     return new this(data, false)
 
   @remove: (id) ->
