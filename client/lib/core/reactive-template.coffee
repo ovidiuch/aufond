@@ -137,32 +137,6 @@ class ReactiveTemplate extends ReactiveObject
     @triggerChange()
 
 
-Handlebars.registerHelper 'reactive', (module, params) ->
-  ###
-    Global Handlebars helper for rendering a reactive template.
-
-    The module represents the name of a valid ReactiveTemplate subclass. The
-    second parameter is reserved for module params, but is optional and the
-    Handlebars options might take their place
-  ###
-  params = if arguments.length > 2 then params else {}
-
-  unless window[module]?
-      throw new Error "Invalid module name #{module}"
-
-  # XXX since we cannot append a reactive container in place from a helper
-  # response, we need to create an actual DOM element, inject it inside the
-  # document body and then append our container inside it. We can't do this
-  # synchronously because in order to inject it we need to return a value to
-  # this function, which would end its execution. So we create an async
-  # callback that will run at the next execution tick, that fetches the
-  # returned element from the document DOM (at which point it will be injected)
-  # and through an ID reference passed along with it initially, map it to the
-  # module instance and use it as a container for the reactive template
-  id = _.uniqueId() + 1
-  setTimeout -> new window[module]($("[data-template=#{id}]"), params)
-  return "<div class=reactive-template data-template=#{id}></div>"
-
 Template.reactive.rendered = ->
   ###
     Init a ReactiveTemplate once its wrapper template renders
