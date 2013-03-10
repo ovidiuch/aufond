@@ -19,3 +19,9 @@ Template.controller.rendered = ->
   # Bind to future controller changes but also to current one
   controller.onChange = setControllerClass
   setControllerClass(controller.name) if controller.name?
+
+Handlebars.registerHelper 'registerModal', ->
+  module: RegisterModal
+
+Handlebars.registerHelper 'loginModal', ->
+  module: LoginModal
