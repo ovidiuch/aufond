@@ -1,5 +1,5 @@
 # We need a global object to attach main modules to
-window.Aufond = Aufond = {}
+window.App = App = {}
 
 Handlebars.registerHelper 'controller', ->
   module: Controller

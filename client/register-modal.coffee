@@ -4,11 +4,10 @@ class RegisterModal extends FormModal
 
   constructor: ->
     super(arguments...)
-
-    # XXX create global reference in order for it to be used from anywhere
-    Aufond.registerModal = this
+    # Create global reference to register modal
+    App.registerModal = this
 
   onSuccess: ->
     super()
     # Go to /admin whenever the login form succeeds
-    Aufond.router.navigate('admin', trigger: true)
+    App.router.navigate('admin', trigger: true)
