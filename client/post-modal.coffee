@@ -4,6 +4,5 @@ class PostModal extends FormModal
 
   constructor: ->
     super(arguments...)
-
-    # XXX create global reference in order for it to be used from anywhere
-    Aufond.postModal = this
+    # Create global reference to post modal
+    App.postModal = this

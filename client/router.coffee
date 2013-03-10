@@ -1,7 +1,7 @@
-class AufondRouter extends Backbone.Router
+class Router extends Backbone.Router
 
   @start: (controller) ->
-    Aufond.router = new AufondRouter(controller)
+    App.router = new this(controller)
     Backbone.history.start(pushState: true)
 
   constructor: (controller) ->
