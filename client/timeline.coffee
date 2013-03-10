@@ -1,6 +1,6 @@
 Template.timeline.entries = ->
   # Get entries of current user only
-  return Entry.getByYears(Aufond.router.args.username)
+  return Entry.getByYears(App.router.args.username)
 
 Template.timeline.iconClass = (icon) ->
   return icon or 'icon-circle'

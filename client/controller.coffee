@@ -4,7 +4,7 @@ class Controller extends ReactiveTemplate
   constructor: ->
     super(arguments...)
     # Init application router
-    AufondRouter.start(this)
+    Router.start(this)
 
 
 Template.controller.rendered = ->
