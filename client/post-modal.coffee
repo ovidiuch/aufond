@@ -1,6 +1,6 @@
 class PostModal extends FormModal
   formModel: 'Entry'
-  formTemplate: 'post_form'
+  formTemplate: Template.post_form
 
   constructor: ->
     super(arguments...)

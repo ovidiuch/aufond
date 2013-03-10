@@ -1,5 +1,5 @@
 class LoginForm extends Form
-  templateName: 'login_form'
+  template: Template.login_form
 
   submit: (onSuccess) ->
     data = @getDataFromForm()

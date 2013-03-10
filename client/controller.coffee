@@ -1,5 +1,5 @@
 class Controller extends ReactiveTemplate
-  templateName: 'controller'
+  template: Template.controller
 
   constructor: ->
     super(arguments...)
