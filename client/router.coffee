@@ -1,4 +1,14 @@
-AufondRouter = Backbone.Router.extend
+class AufondRouter extends Backbone.Router
+
+  @start: (controller) ->
+    Aufond.router = new AufondRouter(controller)
+    Backbone.history.start(pushState: true)
+
+  constructor: (controller) ->
+    super()
+    # Keep a local reference to the application controller
+    @controller = controller
+
   routes:
     'admin': 'admin'
     'admin/:tab': 'admin'
@@ -8,21 +18,24 @@ AufondRouter = Backbone.Router.extend
   timeline: (path) ->
     # Extract username and post slug (optional) from path
     [username, slug] = path.split('/')
-    args =
-      path: path
+
+    @changeController
+      name: 'timeline'
       username: username
       slug: slug
-    Aufond.controller.change('timeline', args)
 
   front: ->
-    Aufond.controller.change('front')
+    @changeController
+      name: 'front'
 
   admin: (tab) ->
-    args =
+    @changeController
+      name: 'admin'
       tab: tab or 'entries'
-    Aufond.controller.change('admin', args)
 
-Meteor.startup ->
-  Aufond.controller = new Controller()
-  Aufond.router = new AufondRouter()
-  Backbone.history.start(pushState: true)
+  changeController: (args) ->
+    # Keep controller arguments in the router object, since it is globally
+    # reachable from anywhere inside the app
+    @args = args
+    # Update reactive controller with new args (including new controller name)
+    @controller.update(args)
