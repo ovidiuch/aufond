@@ -1,11 +1,18 @@
 class Form extends ReactiveTemplate
 
+  events:
+    'submit form': 'onSubmit'
+
   constructor: ->
     super(arguments...)
     # The model class is passed using its name as a String, in order avoid
     # dependency issues since managing the loading order of modules in Meteor
     # is pretty limited
     @modelClass = window[@params.model]
+
+    # Accept an onSuccess callback that overrides what's defined in the
+    # prototype for it
+    @onSuccess = @params.onSuccess if @params.onSuccess?
 
   load: (id) ->
     # Clear model reference and data before checking a new one (might not need
@@ -19,7 +26,7 @@ class Form extends ReactiveTemplate
 
     @update(data, false)
 
-  submit: (onSuccess) ->
+  submit: ->
     data = @getDataFromForm()
 
     # Add the user id to any model saved inside a form
@@ -31,8 +38,12 @@ class Form extends ReactiveTemplate
     @model.save data, (error, model) =>
       if error
         @update(error: error, true)
-      else
-        onSuccess()
+      else if _.isFunction(@onSuccess)
+        @onSuccess()
+
+  onSubmit: (e) =>
+    e.preventDefault()
+    @submit()
 
   getDataFromForm: ->
     return $(@templateInstance.find('form')).serializeObject()

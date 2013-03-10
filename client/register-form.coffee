@@ -1,7 +1,7 @@
 class RegisterForm extends Form
   template: Template.registerForm
 
-  submit: (onSuccess) ->
+  submit: ->
     data = @getDataFromForm()
     options =
       username: data.username
@@ -30,5 +30,5 @@ class RegisterForm extends Form
         if error
           # XXX send custom error to users
           @update(error: error.reason, true)
-        else
-          onSuccess()
+        else if _.isFunction(@onSuccess)
+          @onSuccess()

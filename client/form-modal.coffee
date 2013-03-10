@@ -12,6 +12,7 @@ class FormModal extends Modal
     ###
     params =
       model: @params.formModel or @formModel
+      onSuccess: @onSuccess
 
     # More than one template might be used for the same Form class, so a
     # custom template can be specified
@@ -33,9 +34,9 @@ class FormModal extends Modal
     ###
       Submit the form on modal submit, which then closes the modal on success
     ###
-    @reactiveBody.submit => @onSuccess()
+    @reactiveBody.submit()
 
-  onSuccess: ->
+  onSuccess: =>
     ###
       Called when the contained form succeeds. Extend in subclasses
     ###
