@@ -1,27 +1,14 @@
-class Controller extends ReactiveObject
-  name: null
-  args: {}
+class Controller extends ReactiveTemplate
+  templateName: 'controller'
 
-  createReactiveContainer: ->
-    ###
-      Create radioactive container that re-renders and triggers a context
-      change whenever an internal change is triggered
-    ###
-    return Meteor.render =>
-      @enableContext()
-      return @getContents()
+  constructor: ->
+    super(arguments...)
+    # Init application router
+    AufondRouter.start(this)
 
-  getContents: ->
-    name = @getName()
-    return '' unless name
-    return Template[name]()
 
-  getName: ->
-    return @name
-
-  change: (name, args = {}) ->
-    @name = name
-    @args = args
-    @triggerChange()
-    # An external onChange handler can be set on the Controller object directly
-    @onChange(name, args) if _.isFunction(@onChange)
+Template.controller.rendered = ->
+  $content = $(this.firstNode)
+  # If controller content hasn't been already injected
+  if $content.is(':empty') and @data.name
+    $content.append(Meteor.render => Template[@data.name]())

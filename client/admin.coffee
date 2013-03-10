@@ -37,7 +37,7 @@ Template.admin.events
 
 Template.admin.rendered = ->
   # Select current tab (taken from current URL)
-  tab = Aufond.controller.args.tab
+  tab = Aufond.router.args.tab
   $(this.find '.nav-tabs').find("a[data-tab-name=#{tab}]").tab('show')
 
 Template.admin.postModal = ->
