@@ -40,6 +40,9 @@ Template.admin.rendered = ->
   tab = Aufond.controller.args.tab
   $(this.find '.nav-tabs').find("a[data-tab-name=#{tab}]").tab('show')
 
+Template.admin.postModal = ->
+  module: PostModal
+
 Template.admin.entries = ->
   # Get own entries only
   filter =
