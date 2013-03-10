@@ -27,7 +27,7 @@ class User extends MeteorModel
 
       Meteor.publish 'userEmails', ->
         # Only make all user emails public to the root user
-        return null unless User.find(@userId).isRoot()
+        return null unless @userId and User.find(@userId).isRoot()
         return User.mongoCollection.find({}, {fields: {emails: 1}})
 
     if Meteor.isClient
