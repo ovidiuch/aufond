@@ -143,7 +143,7 @@ Template.reactive.rendered = ->
   ###
   $container = $(@firstNode)
   # Check if template wasn't already rendered
-  return if $container.children().length
+  return unless $container.is(':empty')
 
   # Extract module class from template attributes
   unless @data?.module
