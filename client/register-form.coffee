@@ -1,5 +1,5 @@
 class RegisterForm extends Form
-  template: Template.register_form
+  template: Template.registerForm
 
   submit: (onSuccess) ->
     data = @getDataFromForm()
