@@ -162,3 +162,16 @@ Handlebars.registerHelper 'reactive', (module, params) ->
   id = _.uniqueId() + 1
   setTimeout -> new window[module]($("[data-template=#{id}]"), params)
   return "<div class=reactive-template data-template=#{id}></div>"
+
+Template.reactive.rendered = ->
+  ###
+    Init a ReactiveTemplate once its wrapper template renders
+  ###
+  $container = $(@firstNode)
+  # Check if template wasn't already rendered
+  return if $container.children().length
+
+  # Extract module class from template attributes
+  unless @data?.module
+    throw new Error "Missing module class"
+  new @data.module($container, _.omit(@data, 'module'))
