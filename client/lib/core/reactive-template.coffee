@@ -98,6 +98,36 @@ class ReactiveTemplate extends ReactiveObject
     data.module = this
     return data
 
+  setupBackboneView: (templateInstance) ->
+    ###
+      Setup a Backbone View around a the newly (re-)rendered template instance.
+
+      The ReactiveTemplate events object will be passed on to the created View,
+      with all its listeners pointing to methods from the ReactiveTemplate
+      class instance, and not that of the Backbone View (which is invisible to
+      the user, and gets set up in the background)
+    ###
+    $container = $(templateInstance.firstNode).parent()
+    # Create view when not already created or when the current one is attached
+    # to previous template instance
+    if not @view or not $container.is(@view.el)
+      # Garbage collect previous view instance, if any
+      @view?.remove()
+      @view = new Backbone.View(el: $container)
+      @view.delegateEvents(@translateEventListeners())
+
+  translateEventListeners: ->
+    ###
+      Translate all event listener names form an events object set up on a
+      ReactiveTemplate instance to corresponding methods from that instance
+    ###
+    events = {}
+    for event, listener of @events
+      if not _.isFunction(this[listener])
+        throw new Error "Class has no event listener named #{listener}"
+      events[event] = this[listener]
+    return events
+
   created: (templateInstance) ->
     ###
       _created_ callback of the corresponding template instance.
@@ -109,7 +139,10 @@ class ReactiveTemplate extends ReactiveObject
   rendered: (templateInstance) ->
     ###
       _rendered_ callback of the corresponding template instance.
+
+      Make sure to call super() whenever extending!
     ###
+    @setupBackboneView(templateInstance)
 
   destroyed: (templateInstance) ->
     ###
