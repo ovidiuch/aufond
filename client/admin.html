@@ -11,14 +11,14 @@
       <h1>Aufond <small>Post or update your personal info</small></h1>
     </div>
     <ul class="nav nav-tabs">
-      <li class="active"><a href="#entries" data-tab-name="entries">Entries</a></li>
+      <li><a href="#entries" data-tab-name="entries">Entries</a></li>
       <li><a href="#meta" data-tab-name="meta">Meta</a></li>
       {{#if isRootUser}}
         <li><a href="#users" data-tab-name="users">Users</a></li>
       {{/if}}
     </ul>
     <div class="tab-content">
-      <div class="tab-pane active" id="entries">
+      <div class="tab-pane" id="entries">
         <p>
           <button class="btn btn-primary btn-large btn-post" data-toggle="modal" data-target="#post-modal" data-title="What have you been up to?" data-button="Create">Post a new story about yourself</button>
         </p>
