@@ -1,5 +1,5 @@
 class Modal extends ReactiveTemplate
-  templateName: 'modal'
+  template: Template.modal
 
   constructor: ->
     super(arguments...)
