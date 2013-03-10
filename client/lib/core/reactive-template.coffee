@@ -3,15 +3,15 @@ class ReactiveTemplate extends ReactiveObject
     Reactive object subclass that revolves around a template.
 
     You can create a reactive container by calling createReactiveContainer,
-    for which all subclasses need a template name defined using the
-    templateName variable. Then, after attaching that container into the
-    document, you can call _update_ with new data (optionally) in order to
-    trigger a re-rendering of the reactive container.
+    for which all subclasses need a template assigned using the "template"
+    variable. Then, after attaching that container into the document, you can
+    call _update_ with new data (optionally) in order to trigger a re-rendering
+    of the reactive container.
 
     See `mapInstance` and `bind` in order to understand how to hook template
     instances to their corresponding reactive template class instances
   ###
-  @hookTemplateCallback: (templateName) ->
+  @hookTemplateCallback: (template) ->
     ###
       Incercept template callbacks and route them towards a reactive module
       instance if one is found within the template instance data.
@@ -20,10 +20,6 @@ class ReactiveTemplate extends ReactiveObject
       template, templates used in reactive modules shouldn't have any callbacks
       set directly on them!
     ###
-    template = Template[templateName]
-    unless template?
-      throw new Error "Invalid template name #{templateName}"
-
     for method in ['created', 'rendered', 'destroyed']
       # Don't override already defined callbacks
       continue if template[method]?
@@ -62,10 +58,10 @@ class ReactiveTemplate extends ReactiveObject
       @params = params
       @$container = $container
 
-    # The template name to be loaded reactively can be specified inside the
-    # class prototype directly, sent as a param, or even assigned later on
-    # into the class instance (before calling createdReactiveContainer, though)
-    @templateName = @params.templateName if @params.templateName?
+    # The template to be loaded reactively can be specified inside the class
+    # prototype directly, sent as a param, or even assigned later on into the
+    # class instance (before calling createdReactiveContainer, though)
+    @template = @params.template if @params.template?
     # Init the template data
     @data = {}
 
@@ -78,18 +74,18 @@ class ReactiveTemplate extends ReactiveObject
       Create radioactive container that re-renders and triggers a context
       change whenever an internal change is triggered
     ###
-    unless @templateName?
-      throw new Error "No template name assigned for module"
+    unless @template?
+      throw new Error "No template assigned for module"
 
     # Make sure template has callbacks hooked to reactive modules
-    @constructor.hookTemplateCallback(@templateName)
+    @constructor.hookTemplateCallback(@template)
 
     return Meteor.render =>
       # Hook to context listener and enable reactivity
       @enableContext()
 
       data = @decorateTemplateData(_.clone(@data))
-      return Template[@templateName](data)
+      return @template(data)
 
   decorateTemplateData: (data) ->
     ###

@@ -14,10 +14,10 @@ class FormModal extends Modal
       model: @params.formModel or @formModel
 
     # More than one template might be used for the same Form class, so a
-    # custom template name can be specified
+    # custom template can be specified
     formTemplate = @params.formTemplate or @formTemplate
     if formTemplate?
-      params.templateName = formTemplate
+      params.template = formTemplate
 
     # The reactive body in this modal is a Form instance and thus has all of
     # its interface methods available (such as loading a model via "load")
