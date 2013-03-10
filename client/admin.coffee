@@ -52,6 +52,10 @@ Template.admin.entries = ->
 Template.admin.timeago = (time) ->
   return moment(time).fromNow()
 
+Template.admin.passwordForm = ->
+  module: Form
+  template: Template.passwordForm
+
 Template.admin.users = ->
   return User.get().toJSON()
 
