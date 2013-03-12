@@ -5,10 +5,11 @@ class Form extends ReactiveTemplate
 
   constructor: ->
     super(arguments...)
-    # The model class is passed using its name as a String, in order avoid
-    # dependency issues since managing the loading order of modules in Meteor
-    # is pretty limited
-    @modelClass = window[@params.model]
+
+    # A model id can be passed when instantiating the Form, in order to setup
+    # a form instance on a model entry specifically. This model will persist
+    # its data inside the form with every re-render (reactive)
+    @load(@params.modelId) if @params.modelId
 
     # Accept an onSuccess callback that overrides what's defined in the
     # prototype for it
@@ -21,8 +22,8 @@ class Form extends ReactiveTemplate
     data = {}
 
     if id
-      @model = @modelClass.find(id)
-      data = @model.data if @model?
+      @model = @getModelClass().find(id)
+      data = @model.toJSON() if @model?
 
     @update(data, false)
 
@@ -34,7 +35,7 @@ class Form extends ReactiveTemplate
 
     # Create an empty model instance on create, and only set the data
     # attributes on save in order to be consistent between both methods
-    @model = new @modelClass() unless @model?
+    @model = new @getModelClass()() unless @model?
     @model.save data, (error, model) =>
       if error
         @update(error: error, true)
@@ -44,6 +45,14 @@ class Form extends ReactiveTemplate
   onSubmit: (e) =>
     e.preventDefault()
     @submit()
+
+  getModelClass: ->
+    ###
+      The model class is passed using its name as a String, in order avoid
+      dependency issues since managing the loading order of modules in Meteor
+      is pretty limited
+    ###
+    return window[@params.model]
 
   getDataFromForm: ->
     return $(@templateInstance.find('form')).serializeObject()
