@@ -22,6 +22,7 @@ class PasswordForm extends Form
           @onSuccess()
 
   onSuccess: ->
-    # XXX it will never be seen because the entire template re-renders after
-    # updating the user document with a new password
-    @update(success: "Password changed successfully")
+    @update(success: 'Password changed successfully')
+    # Clear form inputs manually since they are preserved by default, because
+    # of the preserve-inputs package
+    @view.$el.find('input').val('')
