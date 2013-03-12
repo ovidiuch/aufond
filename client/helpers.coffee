@@ -19,3 +19,8 @@ Handlebars.registerHelper 'markdown', (text, options) ->
   else
     return markdown.toHTML(text)
 
+Handlebars.registerHelper 'timeago', (time) ->
+  return moment(time).fromNow()
+
+Handlebars.registerHelper 'isRootUser', ->
+  return User.current()?.isRoot()

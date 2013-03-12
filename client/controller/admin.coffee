@@ -49,14 +49,8 @@ Template.admin.entries = ->
     createdBy: Meteor.userId()
   return Entry.get(filter, sort: {time: -1}).toJSON()
 
-Template.admin.timeago = (time) ->
-  return moment(time).fromNow()
-
 Template.admin.passwordForm = ->
   module: PasswordForm
 
 Template.admin.users = ->
   return User.get().toJSON()
-
-Template.admin.isRootUser = ->
-  return User.current()?.isRoot()
