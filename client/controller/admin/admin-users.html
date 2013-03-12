@@ -1,0 +1,27 @@
+<template name="adminUsers">
+  {{#if isRootUser}}
+    <table class="users table table-hover">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each users}}
+          <tr>
+            <td>{{username}}</td>
+            <td>{{email}}</td>
+            <td>
+              {{#unless isRoot}}
+                <button class="btn btn-danger btn-delete pull-right" data-id="{{_id}}">Remove</button>
+              {{/unless}}
+              <strong>{{profile.name}}</strong>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{/if}}
+</template>

@@ -1,7 +1,4 @@
 <template name="admin">
-  <div id="post-modal" class="modal hide fade">
-    {{> reactive postModal}}
-  </div>
   <div class="container-fluid admin">
     <div class="page-header">
       <div class="pull-right">
@@ -10,81 +7,23 @@
       </div>
       <h1>Aufond <small>Post or update your personal info</small></h1>
     </div>
-    <ul class="nav nav-tabs">
-      <li><a href="#entries" data-tab-name="entries">Entries</a></li>
-      <li><a href="#meta" data-tab-name="meta">Meta</a></li>
-      {{#if isRootUser}}
-        <li><a href="#users" data-tab-name="users">Users</a></li>
-      {{/if}}
-    </ul>
+    {{> adminTabs}}
     <div class="tab-content">
       <div class="tab-pane" id="entries">
+        <div id="post-modal" class="modal hide fade">
+          {{> reactive postModal}}
+        </div>
         <p>
           <button class="btn btn-primary btn-large btn-post" data-toggle="modal" data-target="#post-modal" data-title="What have you been up to?" data-button="Create">Post a new story about yourself</button>
         </p>
-        <table class="entries table table-hover">
-          <thead>
-            <tr>
-              <th>&nbsp;</th>
-              <th>Headline</th>
-              <th>Excerpt</th>
-              <th>From</th>
-            </tr>
-          </thead>
-          <tbody>
-            {{#each entries}}
-              <tr>
-                <td>
-                  {{#if icon}}
-                    <i class="{{icon}}"></i>
-                  {{else}}
-                    {{index}}
-                  {{/if}}
-                </td>
-                <td>{{{markdown headline}}}</td>
-                <td class="excerpt">
-                  {{{markdown excerpt}}}
-                  <div class="controls">
-                    <button class="btn btn-primary btn-edit" data-toggle="modal" data-target="#post-modal" data-title="What have you been up to?" data-button="Update" data-id="{{_id}}">Change</button>
-                    <button class="btn btn-danger btn-delete" data-id="{{_id}}">Remove</button>
-                  </div>
-                </td>
-                <td>{{timeago time}}</td>
-              </tr>
-            {{/each}}
-          </tbody>
-        </table>
+        {{> adminEntries}}
       </div>
       <div class="tab-pane" id="meta">
-        {{> reactive passwordForm}}
+        {{> adminMeta}}
       </div>
-      {{#if isRootUser}}
-        <div class="tab-pane" id="users">
-          <table class="users table table-hover">
-            <thead>
-              <tr>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Name</th>
-              </tr>
-            </thead>
-            <tbody>
-              {{#each users}}
-                <tr>
-                  <td>{{username}}</td>
-                  <td>{{email}}</td>
-                  <td>
-                    {{#unless isRoot}}
-                      <button class="btn btn-danger btn-delete pull-right" data-id="{{_id}}">Remove</button>
-                    {{/unless}}
-                    <strong>{{profile.name}}</strong>
-                  </td>
-                </tr>
-              {{/each}}
-            </tbody>
-          </table>
-        </div>
-      {{/if}}
+      <div class="tab-pane" id="users">
+        {{> adminUsers}}
+      </div>
     </div>
   </div>
 </template>
