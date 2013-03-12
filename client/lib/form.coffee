@@ -6,14 +6,25 @@ class Form extends ReactiveTemplate
   constructor: ->
     super(arguments...)
 
-    # A model id can be passed when instantiating the Form, in order to setup
-    # a form instance on a model entry specifically. This model will persist
-    # its data inside the form with every re-render (reactive)
-    @load(@params.modelId) if @params.modelId
-
     # Accept an onSuccess callback that overrides what's defined in the
     # prototype for it
     @onSuccess = @params.onSuccess if @params.onSuccess?
+
+  decorateTemplateData: (data) ->
+    data = super(data)
+
+    # A model id can be passed when instantiating the Form, in order to setup
+    # a form instance on a model entry specifically. This model will persist
+    # its data inside the form with every re-render (reactive)
+    if @params.modelId
+      # If the required model instance is found, extend the current data out
+      # of it; meaning that the model data provides a base data set, over which
+      # the module data attributes receive precedence
+      model = @getModel(@params.modelId)
+      if model
+        data = _.extend(model.toJSON(), data)
+
+    return data
 
   load: (id) ->
     # Clear model reference and data before checking a new one (might not need
@@ -21,8 +32,12 @@ class Form extends ReactiveTemplate
     delete @model
     data = {}
 
+    # A model id is optional at this point, no need for one when loading a
+    # create form for example
     if id
-      @model = @getModelClass().find(id)
+      # It's useful to save the model reference at this point, since we'll now
+      # know which document to update when submitting the form
+      @model = @getModel(id)
       data = @model.toJSON() if @model?
 
     @update(data, false)
@@ -35,7 +50,9 @@ class Form extends ReactiveTemplate
 
     # Create an empty model instance on create, and only set the data
     # attributes on save in order to be consistent between both methods
-    @model = new (@getModelClass())() unless @model?
+    unless @model?
+      @model = new (@getModelClass())()
+
     @model.save data, (error, model) =>
       if error
         @update(error: error, true)
@@ -45,6 +62,12 @@ class Form extends ReactiveTemplate
   onSubmit: (e) =>
     e.preventDefault()
     @submit()
+
+  getModel: (id) ->
+    ###
+      Try to fetch a document wrapped around its relevent model class
+    ###
+    return @getModelClass().find(id)
 
   getModelClass: ->
     ###
