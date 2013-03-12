@@ -101,5 +101,5 @@ class User extends MeteorModel
     return @get('isRoot')
 
 
-User.publish();
-User.allow();
+User.publish()
+User.allow()

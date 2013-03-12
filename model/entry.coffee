@@ -53,5 +53,5 @@ class Entry extends MeteorModel
     return Date.parse(date)
 
 
-Entry.publish('entries');
+Entry.publish('entries')
 Entry.allow()
