@@ -35,7 +35,7 @@ class Form extends ReactiveTemplate
 
     # Create an empty model instance on create, and only set the data
     # attributes on save in order to be consistent between both methods
-    @model = new @getModelClass()() unless @model?
+    @model = new (@getModelClass())() unless @model?
     @model.save data, (error, model) =>
       if error
         @update(error: error, true)
