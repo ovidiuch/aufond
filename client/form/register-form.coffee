@@ -24,11 +24,11 @@ class RegisterForm extends Form
       error = 'Come on, you need a password for _any_ account'
 
     if error
-      @update(error: error, true)
+      @onError(error)
     else
       Accounts.createUser options, (error) =>
         if error
           # XXX send custom error to users
-          @update(error: error.reason, true)
+          @onError(error.reason)
         else if _.isFunction(@onSuccess)
           @onSuccess()

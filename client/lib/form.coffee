@@ -55,13 +55,22 @@ class Form extends ReactiveTemplate
 
     @model.save data, (error, model) =>
       if error
-        @update(error: error, true)
+        @onError(error)
       else if _.isFunction(@onSuccess)
         @onSuccess()
 
   onSubmit: (e) =>
     e.preventDefault()
     @submit()
+
+  onError: (error) ->
+    # Make sure the error is sent to the template, that any success message is
+    # cleared, and that the other data attributes are left alone (second param
+    # is extend: true)
+    @update(
+      error: error
+      success: ''
+    , true)
 
   getModel: (id) ->
     ###

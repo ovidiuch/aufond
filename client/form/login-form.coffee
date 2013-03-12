@@ -7,6 +7,6 @@ class LoginForm extends Form
     Meteor.loginWithPassword data.handle, data.password, (error) =>
       if error
         # XXX send custom error to users
-        @update(error: error.reason, true)
+        @onError(error.reason)
       else if _.isFunction(@onSuccess)
         @onSuccess()
