@@ -10,37 +10,36 @@ class Form extends ReactiveTemplate
     # prototype for it
     @onSuccess = @params.onSuccess if @params.onSuccess?
 
-  decorateTemplateData: (data) ->
-    data = super(data)
-
+  onRender: =>
     # A model id can be passed when instantiating the Form, in order to setup
     # a form instance on a model entry specifically. This model will persist
     # its data inside the form with every re-render (reactive)
-    if @params.modelId
-      # If the required model instance is found, extend the current data out
-      # of it; meaning that the model data provides a base data set, over which
-      # the module data attributes receive precedence
-      model = @getModel(@params.modelId)
-      if model
-        data = _.extend(model.toJSON(), data)
+    @loadModel(@params.modelId, true, false) if @params.modelId
 
-    return data
+    return super()
 
-  load: (id) ->
-    # Clear model reference and data before checking a new one (might not need
-    # one at all in case of an add form)
+  loadModel: (id, updateParams...) ->
+    ###
+      Load a model entry and pour its attributes into the module's data set.
+      This method receives the model id as the first parameter and then
+      implements the same parameters as the ReactiveTemplate.update method,
+      which means that the module data cand either be overriden or extended
+      and a context change can or can not be triggered
+    ###
+    # Clear model reference and data before attempting to load a new one
     delete @model
     data = {}
 
-    # A model id is optional at this point, no need for one when loading a
-    # create form for example
+    # A model id is optional at this point, no need for model data when
+    # loading a create form for example
     if id
-      # It's useful to save the model reference at this point, since we'll now
-      # know which document to update when submitting the form
-      @model = @getModel(id)
-      data = @model.toJSON() if @model?
+      # It's important to save the model reference at this point, since we'll
+      # now know which document to update when submitting the form
+      @model = @getModelClass().find(id)
+      if @model
+        data = @model.toJSON()
 
-    @update(data, false)
+    @update(data, updateParams...)
 
   submit: ->
     data = @getDataFromForm()
@@ -71,12 +70,6 @@ class Form extends ReactiveTemplate
       error: error
       success: ''
     , true)
-
-  getModel: (id) ->
-    ###
-      Try to fetch a document wrapped around its relevent model class
-    ###
-    return @getModelClass().find(id)
 
   getModelClass: ->
     ###

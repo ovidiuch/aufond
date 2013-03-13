@@ -29,7 +29,7 @@ class FormModal extends Modal
 
   update: (data) ->
     # Extract id attribute from data and load model data inside the form
-    @reactiveBody.load(data.id)
+    @reactiveBody.loadModel(data.id)
     # Also update the modal template with the non form-related attributes
     super(data)
 
