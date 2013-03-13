@@ -156,21 +156,24 @@ class ReactiveTemplate extends ReactiveObject
       _destroyed_ callback of the corresponding template instance.
     ###
 
-  update: (data = {}, extend = false) ->
+  update: (data = {}, extend = false, triggerChange = true) ->
     ###
       Update the template-designated data and trigger a context change, forcing
       the reactive template to re-render.
 
       The data can be extended or completely overriden, depending on the state
-      of the 2nd parameter
+      of the "extend" parameter.
+
+      The "triggerChange" parameter can be set to false in order to not trigger
+      any context change and just update the data object
     ###
     if extend
       _.extend(@data, data)
     else
       @data = _.clone(data)
 
-    # Trigger the context change
-    @triggerChange()
+    # Trigger a context change (optional)
+    @triggerChange() if triggerChange
 
 
 Template.reactive.rendered = ->
