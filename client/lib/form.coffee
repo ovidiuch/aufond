@@ -42,6 +42,7 @@ class Form extends ReactiveTemplate
     @update(data, updateParams...)
 
   submit: ->
+    @clearStatus()
     data = @getDataFromForm()
 
     # Add the user id to any model saved inside a form
@@ -66,10 +67,16 @@ class Form extends ReactiveTemplate
     # Make sure the error is sent to the template, that any success message is
     # cleared, and that the other data attributes are left alone (second param
     # is extend: true)
-    @update(
-      error: error
+    @update(error: error, true)
+
+  clearStatus: ->
+    ###
+      Clear all form status messages, usually called before submitting a new
+      set of values
+    ###
+    @update
+      error: ''
       success: ''
-    , true)
 
   getModelClass: ->
     ###

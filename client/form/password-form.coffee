@@ -2,6 +2,7 @@ class PasswordForm extends Form
   template: Template.passwordForm
 
   submit: ->
+    @clearStatus()
     data = @getDataFromForm()
 
     # Validate user data beforehand
