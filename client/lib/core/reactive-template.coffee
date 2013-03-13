@@ -80,12 +80,19 @@ class ReactiveTemplate extends ReactiveObject
     # Make sure template has callbacks hooked to reactive modules
     @constructor.hookTemplateCallback(@template)
 
-    return Meteor.render =>
-      # Hook to context listener and enable reactivity
-      @enableContext()
+    return Meteor.render(@onRender)
 
-      data = @decorateTemplateData(_.clone(@data))
-      return @template(data)
+  onRender: =>
+    ###
+      Reactive callback for re-rendering the template of the current module,
+      that runs whenever its designated data set gets updated and thus a
+      context invalidation occurs
+    ###
+    # Hook to context listener and enable reactivity
+    @enableContext()
+
+    data = @decorateTemplateData(_.clone(@data))
+    return @template(data)
 
   decorateTemplateData: (data) ->
     ###
