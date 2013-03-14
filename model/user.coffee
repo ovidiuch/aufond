@@ -53,7 +53,7 @@ class User extends MeteorModel
           # Only allow users to update themselves
           return false unless userId is doc._id
           # Only allow profile changes
-          return false if _.without(fields, 'profile').length
+          return false if _.without(fields, 'profile', 'emails').length
         return true
       remove: (userId, docs) =>
         # Don't allow guests to remove anything
@@ -101,5 +101,5 @@ class User extends MeteorModel
     return @get('isRoot')
 
 
-User.publish();
-User.allow();
+User.publish()
+User.allow()

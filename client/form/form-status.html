@@ -1,0 +1,12 @@
+<template name="formStatus">
+  {{#if error}}
+    <div class="alert alert-error">
+      {{{markdown error root="span"}}}
+    </div>
+  {{/if}}
+  {{#if success}}
+    <div class="alert alert-success">
+      {{{markdown success root="span"}}}
+    </div>
+  {{/if}}
+</template>

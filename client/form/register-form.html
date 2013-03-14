@@ -1,10 +1,6 @@
 <template name="registerForm">
   <form id="register-form" class="form-horizontal">
-    {{#if error}}
-      <div class="alert alert-error">
-        {{{markdown error root="span"}}}
-      </div>
-    {{/if}}
+    {{> formStatus}}
     <div class="control-group">
       <label class="control-label" for="form-username">Username</label>
       <div class="controls">

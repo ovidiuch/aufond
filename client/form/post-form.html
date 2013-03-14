@@ -1,10 +1,6 @@
 <template name="postForm">
   <form id="post-form" class="form-horizontal">
-    {{#if error}}
-      <div class="alert alert-error">
-        {{error}}
-      </div>
-    {{/if}}
+    {{> formStatus}}
     <div class="control-group">
       <label class="control-label" for="form-headline">Headline</label>
       <div class="controls">

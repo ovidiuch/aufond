@@ -1,0 +1,17 @@
+<template name="emailForm">
+  <fieldset class="row fieldset">
+    <legend>Email</legend>
+    <form id="email-form" class="form-horizontal">
+      {{> formStatus}}
+      <div class="control-group">
+        <label class="control-label" for="form-email">Email address</label>
+        <div class="controls">
+          <input type="text" name="email" value="{{email}}" id="form-email">
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary pull-right">Update</button>
+      <div>
+    </form>
+  </fieldset>
+</template>
