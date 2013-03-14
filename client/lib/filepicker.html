@@ -1,0 +1,8 @@
+<template name="filePicker">
+  <input type="hidden" name="{{field}}" value="{{value}}">
+  <button class="btn"><i class="icon-cloud-upload"></i> Choose image</button>
+  <span class="help-inline"><small>Using <a href="http://filepicker.io">Filepicker.io</a></small></span>
+  {{#if value}}
+    <img src="{{value}}">
+  {{/if}}
+</template>
