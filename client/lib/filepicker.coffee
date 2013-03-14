@@ -25,9 +25,6 @@ class FilePicker extends ReactiveTemplate
   onRemove: (e) =>
     e.preventDefault()
     @update(value: '', true)
-    # XXX should always remove unused images from Filepicker in order to avoid
-    # waste, maybe a server _cron_ to check images that aren't found in any of
-    # the users' profiles
 
   onSuccess: (FPFile) =>
     # Refresh template with the received url as the value
