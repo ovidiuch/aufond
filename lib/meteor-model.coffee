@@ -68,19 +68,17 @@ class MeteorModel
         # Don't allow users to create documents on behalf of other users
         return false if userId isnt doc.createdBy
         return true
-      update: (userId, docs, fields, modifier) ->
+      update: (userId, doc, fields, modifier) ->
         # Don't allow guests to update anything
         return false unless userId?
-        for doc in docs
-          # Don't allow users to edit other users' documents
-          return false unless userId is doc.createdBy
+        # Don't allow users to edit other users' documents
+        return false unless userId is doc.createdBy
         return true
-      remove: (userId, docs) ->
+      remove: (userId, doc) ->
         # Don't allow guests to remove anything
         return false unless userId?
-        for doc in docs
-          # Don't allow users to remove other users' documents
-          return false unless userId is doc.createdBy
+        # Don't allow users to remove other users' documents
+        return false unless userId is doc.createdBy
         return true
 
   constructor: (data = {}, isNew = true) ->

@@ -46,29 +46,27 @@ class User extends MeteorModel
         # Allow anybody to create users
         # XXX is there anything to do here to prevent spammers?
         return true
-      update: (userId, docs, fields, modifier) ->
+      update: (userId, doc, fields, modifier) ->
         # Don't allow guests to update anything
         return false unless userId?
-        for doc in docs
-          # Only allow users to update themselves
-          return false unless userId is doc._id
-          # Only allow profile changes
-          return false if _.without(fields, 'profile', 'emails').length
+        # Only allow users to update themselves
+        return false unless userId is doc._id
+        # Only allow profile changes
+        return false if _.without(fields, 'profile', 'emails').length
         return true
-      remove: (userId, docs) =>
+      remove: (userId, doc) =>
         # Don't allow guests to remove anything
         return false unless userId?
         # Get current users
         currentUser = @find(userId)
-        for doc in docs
-          if userId is doc._id
-            # Never let the root user get deleted
-            return false if currentUser.isRoot()
-            # Allow regular users to delete themselves
-            return true
-          else
-            # Only delete other users w/ root user
-            return currentUser.isRoot()
+        if userId is doc._id
+          # Never let the root user get deleted
+          return false if currentUser.isRoot()
+          # Allow regular users to delete themselves
+          return true
+        else
+          # Only delete other users w/ root user
+          return currentUser.isRoot()
         return true
 
   mongoInsert: (callback) ->
