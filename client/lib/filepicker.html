@@ -5,7 +5,10 @@
     <span class="help-inline"><small>Using <a href="http://filepicker.io">Filepicker.io</a></small></span>
     <span class="help-block"><small>* Image will be resized to 100x100px and cropped by center</small></span>
     {{#if value}}
-      <img src="{{value}}" class="img-circle">
+      <a href="#remove" class="image" title="Remove image">
+        <img src="{{value}}" class="img-circle">
+        <i class="icon-remove-sign"></i>
+      </a>
     {{/if}}
   </div>
 </template>

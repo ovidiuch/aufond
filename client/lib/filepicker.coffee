@@ -3,6 +3,7 @@ class FilePicker extends ReactiveTemplate
 
   events:
     'click .btn': 'onSelect'
+    'click .image': 'onRemove'
 
   # Default options
   options: {}
@@ -20,6 +21,13 @@ class FilePicker extends ReactiveTemplate
     # Don't let the button act as a submit button if inside a form
     e.preventDefault()
     filepicker.pick(@options, @onSuccess)
+
+  onRemove: (e) =>
+    e.preventDefault()
+    @update(value: '', true)
+    # XXX should always remove unused images from Filepicker in order to avoid
+    # waste, maybe a server _cron_ to check images that aren't found in any of
+    # the users' profiles
 
   onSuccess: (FPFile) =>
     # Refresh template with the received url as the value
