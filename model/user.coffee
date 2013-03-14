@@ -51,9 +51,8 @@ class User extends MeteorModel
         return false unless userId?
         # Only allow users to update themselves
         return false unless userId is doc._id
-        # Only allow profile changes
-        return false if _.without(fields, 'profile', 'emails').length
-        return true
+        # Only allow profile and email changes
+        return not _.without(fields, 'profile', 'emails').length
       remove: (userId, doc) =>
         # Don't allow guests to remove anything
         return false unless userId?
@@ -62,11 +61,10 @@ class User extends MeteorModel
         if userId is doc._id
           # Never let the root user get deleted, otherwise allow regular users
           # to delete themselves
-          return false if currentUser.isRoot()
+          return not currentUser.isRoot()
         else
           # Only delete other users w/ root user
           return currentUser.isRoot()
-        return true
 
   mongoInsert: (callback) ->
     ###
