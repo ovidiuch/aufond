@@ -1,0 +1,23 @@
+<template name="profileForm">
+  <fieldset class="row fieldset">
+    <legend>Profile</legend>
+    <form id="profile-form" class="form-horizontal">
+      {{> formStatus}}
+      <div class="control-group">
+        <label class="control-label" for="form-profile-name">Name</label>
+        <div class="controls">
+          <input type="text" name="profile.name" value="{{profile.name}}" id="form-profile-name">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="form-profile-title">Title</label>
+        <div class="controls">
+          <textarea name="profile.title"  id="form-profile-title" rows="3">{{profile.title}}</textarea>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary pull-right">Update</button>
+      <div>
+    </form>
+  </fieldset>
+</template>
