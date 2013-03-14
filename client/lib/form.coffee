@@ -45,13 +45,13 @@ class Form extends ReactiveTemplate
     @clearStatus()
     data = @getDataFromForm()
 
-    # Add the user id to any model saved inside a form
-    data.createdBy = Meteor.userId()
-
     # Create an empty model instance on create, and only set the data
     # attributes on save in order to be consistent between both methods
     unless @model?
       @model = new (@getModelClass())()
+
+      # Add the user id to any model saved inside a form
+      data.createdBy = Meteor.userId()
 
     @model.save data, (error, model) =>
       if error
