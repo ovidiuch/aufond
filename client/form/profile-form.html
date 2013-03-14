@@ -15,6 +15,12 @@
           <textarea name="profile.title"  id="form-profile-title" rows="3">{{profile.title}}</textarea>
         </div>
       </div>
+      <div class="control-group">
+        <label class="control-label" for="form-profile-avatar">Avatar</label>
+        <div class="controls">
+          {{> reactive profileAvatar}}
+        </div>
+      </div>
       <div class="form-actions">
         <button class="btn btn-primary pull-right">Update</button>
       <div>
