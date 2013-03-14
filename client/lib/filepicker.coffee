@@ -23,7 +23,10 @@ class FilePicker extends ReactiveTemplate
 
   onSuccess: (FPFile) =>
     # Refresh template with the received url as the value
-    @update(value: FPFile.url, true)
+    @update(value: @getConvertedImageUrl(FPFile.url), true)
+
+  getConvertedImageUrl: (imageUrl) ->
+    return "#{imageUrl}/convert?w=100&h=100&fit=crop"
 
 
 Meteor.startup ->
