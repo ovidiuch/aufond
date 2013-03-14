@@ -16,7 +16,7 @@ class ReactiveObject
       because it pulls out the current context and stores it for future
       invalidating.
     ###
-    context = Meteor.deps.Context.current
+    context = Deps.currentComputation
     # If we're inside a context (that we're not already listening to)
     if context and not @listeners[context.id]
       @listeners[context.id] = context
