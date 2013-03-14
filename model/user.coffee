@@ -60,10 +60,9 @@ class User extends MeteorModel
         # Get current users
         currentUser = @find(userId)
         if userId is doc._id
-          # Never let the root user get deleted
+          # Never let the root user get deleted, otherwise allow regular users
+          # to delete themselves
           return false if currentUser.isRoot()
-          # Allow regular users to delete themselves
-          return true
         else
           # Only delete other users w/ root user
           return currentUser.isRoot()
