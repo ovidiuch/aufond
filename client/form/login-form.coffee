@@ -1,12 +1,12 @@
 class LoginForm extends Form
   template: Template.loginForm
 
-  submit: (onSuccess) ->
+  submit: ->
     data = @getDataFromForm()
 
     Meteor.loginWithPassword data.handle, data.password, (error) =>
       if error
         # XXX send custom error to users
-        @update(error: error.reason, true)
-      else
-        onSuccess()
+        @onError(error.reason)
+      else if _.isFunction(@onSuccess)
+        @onSuccess()

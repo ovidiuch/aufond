@@ -80,12 +80,19 @@ class ReactiveTemplate extends ReactiveObject
     # Make sure template has callbacks hooked to reactive modules
     @constructor.hookTemplateCallback(@template)
 
-    return Meteor.render =>
-      # Hook to context listener and enable reactivity
-      @enableContext()
+    return Meteor.render(@onRender)
 
-      data = @decorateTemplateData(_.clone(@data))
-      return @template(data)
+  onRender: =>
+    ###
+      Reactive callback for re-rendering the template of the current module,
+      that runs whenever its designated data set gets updated and thus a
+      context invalidation occurs
+    ###
+    # Hook to context listener and enable reactivity
+    @enableContext()
+
+    data = @decorateTemplateData(_.clone(@data))
+    return @template(data)
 
   decorateTemplateData: (data) ->
     ###
@@ -98,6 +105,36 @@ class ReactiveTemplate extends ReactiveObject
     data.module = this
     return data
 
+  setupBackboneView: (templateInstance) ->
+    ###
+      Setup a Backbone View around a the newly (re-)rendered template instance.
+
+      The ReactiveTemplate events object will be passed on to the created View,
+      with all its listeners pointing to methods from the ReactiveTemplate
+      class instance, and not that of the Backbone View (which is invisible to
+      the user, and gets set up in the background)
+    ###
+    $container = $(templateInstance.firstNode).parent()
+    # Create view when not already created or when the current one is attached
+    # to previous template instance
+    if not @view or not $container.is(@view.el)
+      # Garbage collect previous view instance, if any
+      @view?.remove()
+      @view = new Backbone.View(el: $container)
+      @view.delegateEvents(@translateEventListeners())
+
+  translateEventListeners: ->
+    ###
+      Translate all event listener names form an events object set up on a
+      ReactiveTemplate instance to corresponding methods from that instance
+    ###
+    events = {}
+    for event, listener of @events
+      if not _.isFunction(this[listener])
+        throw new Error "Class has no event listener named #{listener}"
+      events[event] = this[listener]
+    return events
+
   created: (templateInstance) ->
     ###
       _created_ callback of the corresponding template instance.
@@ -109,28 +146,34 @@ class ReactiveTemplate extends ReactiveObject
   rendered: (templateInstance) ->
     ###
       _rendered_ callback of the corresponding template instance.
+
+      Make sure to call super() whenever extending!
     ###
+    @setupBackboneView(templateInstance)
 
   destroyed: (templateInstance) ->
     ###
       _destroyed_ callback of the corresponding template instance.
     ###
 
-  update: (data = {}, extend = false) ->
+  update: (data = {}, extend = false, triggerChange = true) ->
     ###
       Update the template-designated data and trigger a context change, forcing
       the reactive template to re-render.
 
       The data can be extended or completely overriden, depending on the state
-      of the 2nd parameter
+      of the "extend" parameter.
+
+      The "triggerChange" parameter can be set to false in order to not trigger
+      any context change and just update the data object
     ###
     if extend
       _.extend(@data, data)
     else
       @data = _.clone(data)
 
-    # Trigger the context change
-    @triggerChange()
+    # Trigger a context change (optional)
+    @triggerChange() if triggerChange
 
 
 Template.reactive.rendered = ->

@@ -9,6 +9,7 @@ class Modal extends ReactiveTemplate
       @onSubmit = @params.onSubmit
 
   rendered: (templateInstance) ->
+    super(arguments...)
     # Inject reactive body container that can and might re-render on its in
     # the future whenever it pleases
     $body = $(templateInstance.find('.modal-body'))
