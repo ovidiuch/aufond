@@ -1,3 +1,5 @@
+@import "mixin.lessimport";
+
 @color-background: #f4f4f6;
 @color-light: #dcdce2;
 @color-medium: #8c8ca0;
@@ -11,13 +13,6 @@
 
 @bullet-size-post: 50px;
 @bullet-size-year: 100px;
-
-.transition (@transition) {
-  transition: @transition;
-  -webkit-transition: @transition;
-  -moz-transition: @transition;
-  -o-transition: @transition;
-}
 
 .bullet (@size, @border: 0) {
   width: @size - (2 * @border);
