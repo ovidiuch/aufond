@@ -1,6 +1,17 @@
-.transition (@transition) {
-  transition: @transition;
-  -webkit-transition: @transition;
-  -moz-transition: @transition;
-  -o-transition: @transition;
+.transition (@property, @duration, @transition: linear) {
+  transition-property: @property;
+  transition-duration: @duration;
+  transition-timing-function: @transition;
+  -webkit-transition-property: @property;
+  -webkit-transition-duration: @duration;
+  -webkit-transition-timing-function: @transition;
+  -moz-transition-property: @property;
+  -moz-transition-duration: @duration;
+  -moz-transition-timing-function: @transition;
+  -ms-transition-property: @property;
+  -ms-transition-duration: @duration;
+  -ms-transition-timing-function: @transition;
+  -o-transition-property: @property;
+  -o-transition-duration: @duration;
+  -o-transition-timing-function: @transition;
 }
