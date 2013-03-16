@@ -10,6 +10,7 @@
 
 @entry-list-width: 8px;
 @entry-margin: 50px;
+@entry-width-excerpt: 400px;
 
 @bullet-size-post: 50px;
 @bullet-size-year: 100px;
@@ -17,6 +18,9 @@
 .bullet (@size, @border: 0) {
   width: @size - (2 * @border);
   height: @size - (2 * @border);
+  // Align bullet vertically at top because entries are centered by default
+  top: @size / 2;
+  left: 0;
   margin: -(@size / 2) 0 0 -(@size / 2);
   border: @border solid #fff;
   line-height: @size - (2 * @border);
@@ -31,11 +35,28 @@ body {
   background: @color-background;
   color: #46465a;
   font-family: @font-open-sans;
+  // This needs to be set to left when entries will stay on two columns, on
+  // bigger devices
+  text-align: center;
 
+  h1 {
+    font-family: @font-source-sans-pro;
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1em;
+  }
+  h2 {
+    color: @color-medium;
+    font-family: @font-open-sans;
+    font-size: 22px;
+    font-weight: 300;
+    line-height: 1em;
+  }
   h3 {
     font-family: @font-source-sans-pro;
     font-size: 32px;
     font-weight: 400;
+    line-height: 1em;
 
     strong {
       font-weight: 700;
@@ -46,16 +67,18 @@ body {
   }
   .entries {
     border-left: @entry-list-width solid @color-light;
-    margin: 0 0 0 60px;
+    margin: 0 0 0 50%;
     list-style-type: none;
   }
   .entry {
     position: relative;
-    margin: @entry-margin 0 @entry-margin -(@entry-list-width / 2);
+    // No need for the entry wrapper to occupy any extra space
+    width: 0;
+    margin: 0 0 0 -(@entry-list-width / 2);
+    padding: 0 0 @entry-margin 0;
 
     .bullet {
       position: absolute;
-      top: 50%;
       .bullet(@bullet-size-post);
       border-radius: 50%;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -66,21 +89,15 @@ body {
       .transition(~"background, color", 0.1s);
     }
     .inner-wrap {
-      margin: 0 0 0 (@entry-margin + (@entry-list-width / 2));
+      width: @entry-width-excerpt;
+      margin: 0 0 0 -(@entry-width-excerpt / 2);
+      padding: (@bullet-size-post + 10) 0 0 0;
     }
     .head {
       // Different "scope" for the bullet to align at the vertical center of
       position: relative;
       cursor: pointer;
 
-      .inner-wrap {
-        width: 400px;
-      }
-      h3 {
-        margin: 0;
-        padding: 10px 0;
-        line-height: 1em;
-      }
       p {
         color: @color-medium;
       }
@@ -97,6 +114,19 @@ body {
       font-size: 20px;
       font-weight: 800;
       cursor: pointer;
+    }
+  }
+  .entry.header {
+    padding: 100px 0;
+
+    .bullet {
+      .bullet(@bullet-size-year, 6px);
+      background-color: @color-light;
+      background-repeat: no-repeat;
+      background-position: center center;
+    }
+    .inner-wrap {
+      padding-top: @bullet-size-year + 10;
     }
   }
 }
