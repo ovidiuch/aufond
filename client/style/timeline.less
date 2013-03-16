@@ -75,7 +75,8 @@ body {
     // No need for the entry wrapper to occupy any extra space
     width: 0;
     margin: 0 0 0 -(@entry-list-width / 2);
-    padding: 0 0 @entry-margin 0;
+    // The head bottom padding will compensate with the rest of the margin
+    padding: 0 0 (@entry-margin - 20) 0;
 
     .bullet {
       position: absolute;
@@ -88,16 +89,17 @@ body {
       text-align: center;
       .transition(~"background, color", 0.1s);
     }
-    .inner-wrap {
-      width: @entry-width-excerpt;
-      margin: 0 0 0 -(@entry-width-excerpt / 2);
-      padding: (@bullet-size-post + 10) 0 0 0;
-    }
     .head {
       // Different "scope" for the bullet to align at the vertical center of
       position: relative;
       cursor: pointer;
 
+      .inner-wrap {
+        width: @entry-width-excerpt;
+        margin: 0 0 0 -(@entry-width-excerpt / 2);
+        padding: (@bullet-size-post + 10) 0 (@entry-margin / 2) 0;
+        .backgroundGradient(rgba(244, 244, 246, 0.5) 80%,  rgba(244, 244, 246, 0) 100%);
+      }
       p {
         color: @color-medium;
       }
@@ -106,6 +108,7 @@ body {
   .entry.year {
     // Grow into the size of the year bullet
     height: @bullet-size-year;
+    padding: 0 0 @entry-margin 0;
 
     .bullet {
       .bullet(@bullet-size-year, 6px);
