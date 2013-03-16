@@ -2,6 +2,15 @@
   <ul class="entries">
     {{#each entries}}
       <li class="entry {{type}}">
+        {{#match type="header"}}
+          <div class="head">
+            <span class="bullet" style="background-image: url('{{avatar}}');"></span>
+            <div class="inner-wrap">
+              {{{markdown name root="h1"}}}
+              {{{markdown title root="h2"}}}
+            </div>
+          </div>
+        {{/match}}
         {{#match type="post"}}
           <div class="head">
             <span class="bullet {{iconClass icon}}"></span>
@@ -10,7 +19,8 @@
               {{{markdown excerpt}}}
             </div>
           </div>
-        {{else}}
+        {{/match}}
+        {{#match type="year"}}
           <span class="bullet">{{year}}</span>
         {{/match}}
       </li>
