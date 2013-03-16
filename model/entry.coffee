@@ -15,11 +15,20 @@ class Entry extends MeteorModel
       Create list with year separators and entry items aggregated into a single
       collection. The items share a common _type_ key ("post" or "year")
     ###
+    items = []
+
     # Only select entries for a specific username
     user = User.find(username: username)
-    return [] unless user
+    return items unless user
 
-    items = []
+    # Add user data as the first item of list
+    profile = user.get('profile')
+    items.push
+      type: 'header'
+      name: profile.name
+      title: profile.title
+      avatar: profile.avatar
+
     year = null
     for entry in @get({createdBy: user.get('_id')}, sort: {time: -1}).toJSON()
       # Push the year entry before the first entry from that year
