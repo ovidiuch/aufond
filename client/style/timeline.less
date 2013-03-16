@@ -97,7 +97,7 @@ body {
       .inner-wrap {
         width: @entry-width-excerpt;
         margin: 0 0 0 -(@entry-width-excerpt / 2);
-        padding: (@bullet-size-post + 10) 0 (@entry-margin / 2) 0;
+        padding: (@bullet-size-post + 5) 0 (@entry-margin / 2) 0;
         .backgroundGradient(rgba(244, 244, 246, 0.5) 80%,  rgba(244, 244, 246, 0) 100%);
       }
       p {
@@ -120,16 +120,18 @@ body {
     }
   }
   .entry.header {
-    padding: 100px 0;
+    padding: 100px 0 0 0;
 
+    .head {
+      .inner-wrap {
+        padding-top: @bullet-size-year + 5;
+      }
+    }
     .bullet {
       .bullet(@bullet-size-year, 6px);
       background-color: @color-light;
       background-repeat: no-repeat;
       background-position: center center;
-    }
-    .inner-wrap {
-      padding-top: @bullet-size-year + 10;
     }
   }
 }
