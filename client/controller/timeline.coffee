@@ -8,8 +8,8 @@ Template.timeline.iconClass = (icon) ->
 Template.timeline.rendered = ->
   $(this.firstNode).find('.year .bullet').bubble
     time: 0.1
-    offset: 16
-  $(this.firstNode).find('.post .bullet').bubble
+    offset: 12
+  $(this.firstNode).find('.post .bullet, .header .bullet').bubble
     time: 0.1
-    offset: 16
+    offset: 12
     target: '.head'
