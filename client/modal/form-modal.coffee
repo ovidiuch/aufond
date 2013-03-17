@@ -2,6 +2,7 @@ class FormModal extends Modal
   formClass: 'Form'
 
   events:
+    'click .btn-primary': 'onSubmit'
     'keyup input': 'onKeyUp'
 
   constructor: ->
