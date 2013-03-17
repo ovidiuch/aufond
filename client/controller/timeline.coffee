@@ -28,9 +28,34 @@ class Timeline
       target: '.head'
 
   @goTo: (slug, animate = true) ->
-    # Scroll to a given slug
+    ###
+      Make its corresponding entry active and scroll to it, if the entry slug
+      is not empty. Otherwise just remove any existent active state from any of
+      the timeline's entries
+    ###
     if slug
-      @scrollTo($("#timeline-#{slug}"), if animate then 0.2 else 0)
+      $entry = $("#timeline-#{slug}")
+      @selectEntry($entry)
+      # The scrolling transition can be animated or instant, based on the
+      # "animate" parameter
+      @scrollTo($entry, if animate then 0.2 else 0)
+    else
+      @selectEntry(null)
+
+  @selectEntry: ($entry) ->
+    ###
+      Toggle the active state of timeline entries, while making sure that only
+      one or no entries can be active at the same time
+    ###
+    # Remove active states from entries that are not targeted
+    @$container.find('.entry').not($entry).each (i, entry) =>
+      $(entry).removeClass('active')
+              .find('.bullet').unlockBubble()
+
+    # Make any targeted entry active (optional)
+    if $entry?.length
+      $entry.addClass('active')
+            .find('.bullet').lockBubble()
 
   @scrollTo: ($entry, duration) ->
     # Make sure entry exists
