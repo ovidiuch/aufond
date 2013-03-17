@@ -83,10 +83,11 @@ class Timeline
 
   @getEntryPosition: ($entry) ->
     position = $entry.offset().top
+    height = $entry.outerHeight()
     # Get position of entry centered vertically, if it's a post entry and
     # only if its entire height is smaller than the window viewport
-    if $entry.hasClass('post') and $entry.height() < $(window).height()
-      position -= Math.round(($(window).height() - $entry.height()) / 2)
+    if height < $(window).height()
+      position -= Math.round(($(window).height() - height) / 2)
     return position
 
   @numberInRange: (number, range) ->
