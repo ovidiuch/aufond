@@ -6,6 +6,16 @@ class Controller extends ReactiveTemplate
     # Init application router
     Router.start(this)
 
+  update: (data) ->
+    # Load a new slug in a timeline if a new path was targeted within itself,
+    # instead of re-rendering the entire template
+    # XXX this breaks Controller's encapsulation
+    if data.name is 'timeline' and
+       data.name is @data.name and
+       data.username is @data.username
+      Timeline.goTo(data.slug)
+    else
+      super(arguments...)
 
 Template.controller.rendered = ->
   $content = $(this.firstNode)
