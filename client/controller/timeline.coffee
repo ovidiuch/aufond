@@ -57,6 +57,9 @@ class Timeline
       $entry.addClass('active')
             .find('.bullet').lockBubble()
 
+    # Mark entire timeline as having an active post when appropriate
+    @$container.toggleClass('active-post', Boolean $entry?.hasClass('post'))
+
   @scrollTo: ($entry, duration) ->
     # Make sure entry exists
     return unless $entry.length
