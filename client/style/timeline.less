@@ -73,6 +73,7 @@ body {
     margin: 0 0 0 -(@entry-list-width / 2);
     // The head bottom padding will compensate with the rest of the margin
     padding: 0 0 (@entry-margin - 20) 0;
+    .transition(opacity, 0.1s);
 
     .bullet {
       position: absolute;
@@ -128,6 +129,25 @@ body {
       background-color: @color-light;
       background-repeat: no-repeat;
       background-position: center center;
+    }
+  }
+  // All other entries are faded when a post is active
+  .entries.active-post {
+    .entry {
+      opacity: 0.6;
+    }
+    .entry.active {
+      opacity: 1;
+    }
+  }
+  .entry.active.post {
+    .bullet {
+      color: @color-medium;
+    }
+  }
+  .entry.active.year {
+    .bullet {
+      background: @color-medium;
     }
   }
 }

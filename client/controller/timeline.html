@@ -1,29 +1,33 @@
 <template name="timeline">
   <ul class="entries">
     {{#each entries}}
-      <li class="entry {{type}}">
-        {{#match type="header"}}
-          <div class="head">
+      {{#match type="header"}}
+        <li id="timeline-contact" class="entry header">
+          <div class="head link" data-slug="contact">
             <span class="bullet" style="background-image: url('{{avatar}}');"></span>
             <div class="inner-wrap">
               {{{markdown name root="h1"}}}
               {{{markdown title root="h2"}}}
             </div>
           </div>
-        {{/match}}
-        {{#match type="post"}}
-          <div class="head">
+        </li>
+      {{/match}}
+      {{#match type="post"}}
+        <li id="timeline-{{urlSlug}}" class="entry post">
+          <div class="head link" data-slug="{{urlSlug}}">
             <span class="bullet {{iconClass icon}}"></span>
             <div class="inner-wrap">
               {{{markdown headline root="h3"}}}
               {{{markdown excerpt}}}
             </div>
           </div>
-        {{/match}}
-        {{#match type="year"}}
-          <span class="bullet">{{year}}</span>
-        {{/match}}
-      </li>
+        </li>
+      {{/match}}
+      {{#match type="year"}}
+        <li id="timeline-{{year}}" class="entry year">
+          <span class="bullet link" data-slug="{{year}}">{{year}}</span>
+        </li>
+      {{/match}}
     {{/each}}
   </ul>
 </template>

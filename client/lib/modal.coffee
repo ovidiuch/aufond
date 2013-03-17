@@ -1,6 +1,9 @@
 class Modal extends ReactiveTemplate
   template: Template.modal
 
+  events:
+    'click .btn-primary': 'onSubmit'
+
   constructor: ->
     super(arguments...)
     if @params.reactiveBody?
@@ -26,7 +29,7 @@ class Modal extends ReactiveTemplate
     @$modal.closest('.modal').off('shown').on 'shown', ->
       $(this).find('input:not([type=hidden])').first().focus()
 
-  onSubmit: ->
+  onSubmit: =>
     ###
       Called when the primary modal button is pressed. Extend in subclasses
       or send as a constructor parameter
@@ -34,9 +37,3 @@ class Modal extends ReactiveTemplate
 
   close: ->
     @$modal.modal('hide')
-
-
-# XXX try using Backbone Views with instance events (that will apply to other
-# templates bound to this module as well)
-Template.modal.events
-  'click .btn-primary': (e) -> this.module.onSubmit?(this.module)

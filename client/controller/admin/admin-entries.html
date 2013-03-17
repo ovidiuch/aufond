@@ -4,6 +4,7 @@
       <tr>
         <th>&nbsp;</th>
         <th>Headline</th>
+        <th><em>Slug</em></th>
         <th>Excerpt</th>
         <th>From</th>
       </tr>
@@ -19,6 +20,7 @@
             {{/if}}
           </td>
           <td>{{{markdown headline}}}</td>
+          <td>{{urlSlug}}</td>
           <td class="excerpt">
             {{{markdown excerpt}}}
             <div class="controls">
