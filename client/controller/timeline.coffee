@@ -30,7 +30,7 @@ class Timeline
   @goTo: (slug, animate = true) ->
     # Scroll to a given slug
     if slug
-      @scrollTo($("#timeline-#{slug}"), if animate then 0.1 else 0)
+      @scrollTo($("#timeline-#{slug}"), if animate then 0.2 else 0)
 
   @scrollTo: ($entry, duration) ->
     # Make sure entry exists
