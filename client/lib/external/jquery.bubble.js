@@ -54,19 +54,30 @@
       };
     },
     bind: function() {
+      // Make sure same events are never bound more than once
+      this.unbind()
+
       // Create reference for wrapped event listeners, in order to be able to
       // unbind them later on (couldn't with closures)
-      this.onMouseOver = this.bindMethod(this.onMouseOver);
-      this.onMouseOut = this.bindMethod(this.onMouseOut);
+      this._onMouseOver = this.bindMethod(this.onMouseOver);
+      this._onMouseOut = this.bindMethod(this.onMouseOut);
 
       $target = this.getEventTarget();
-      $target.on('mouseover', this.onMouseOver);
-      $target.on('mouseout', this.onMouseOut);
+      $target.on('mouseover', this._onMouseOver);
+      $target.on('mouseout', this._onMouseOut);
     },
     unbind: function() {
       $target = this.getEventTarget();
-      $target.off('mouseover', this.onMouseOver);
-      $target.off('mouseout', this.onMouseOut);
+
+      // Check if references to wrapped event listeners actually exist, because
+      // unbinding an undefined listener might accidentally unbind all events
+      // of that type, since its an optional parameter
+      if (this._onMouseOver) {
+        $target.off('mouseover', this._onMouseOver);
+      }
+      if (this._onMouseOut) {
+        $target.off('mouseout', this._onMouseOut);
+      }
     },
     getEventTarget: function() {
       /**
