@@ -43,16 +43,22 @@ class Timeline
         # Fetch the offset of the targeted entry with every frame, in order to
         # make sure we're landing right in case it's moving its position for
         # whatever reason
-        offset = @getEntryPosition($entry) - startScroll
-        $('html, body').scrollTop(startScroll + ratio * offset)
+        targetScroll = @getEntryPosition($entry)
+        # Get next scrolling position based on the current ratio of the
+        # transition, offseting from the original scrolling point from where
+        # the animation begun
+        nextScroll = startScroll + ratio * (targetScroll - startScroll)
 
-  @getEntryPosition: ($entry) ->
-    position = $entry.offset().top
-    # Get position of entry centered vertically, if it's a post entry and
-    # only if its entire height is smaller than the window viewport
-    if $entry.hasClass('post') and $entry.height() < $(window).height()
-      position -= Math.round(($(window).height() - $entry.height()) / 2)
-    return position
+        # Get current window scroll and make sure it's still on track. If an
+        # abnormal change has occured (i.e. a user scroll or a pop state event
+        # firing because of back/forward browser actions), cancel the scroll
+        # transition in order to avoid messing with the user's input and
+        # causing an overall bad UX
+        currentScroll = $(window).scrollTop()
+        # XXX should be a way to cancel transition altogether if number is
+        # off bounds
+        if @numberInRange(currentScroll, [startScroll, nextScroll])
+          $('html, body').scrollTop(nextScroll)
 
   @openLink: (e) =>
     e.preventDefault()
@@ -74,6 +80,21 @@ class Timeline
 
   @getDefaultPath: ->
     return App.router.args.username
+
+  @getEntryPosition: ($entry) ->
+    position = $entry.offset().top
+    # Get position of entry centered vertically, if it's a post entry and
+    # only if its entire height is smaller than the window viewport
+    if $entry.hasClass('post') and $entry.height() < $(window).height()
+      position -= Math.round(($(window).height() - $entry.height()) / 2)
+    return position
+
+  @numberInRange: (number, range) ->
+    range.push(number)
+    # Sort all numbers ascending
+    range.sort((a, b) -> a - b)
+    # The subject should now be in the middle of the two range extremities
+    return range[1] is number
 
 
 Template.timeline.events
