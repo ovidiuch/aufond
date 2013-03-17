@@ -44,6 +44,8 @@ class Entry extends MeteorModel
   update: (data) ->
     if data.hasOwnProperty('date')
       data.time = @getTimeFromDate(data.date)
+    if data.hasOwnProperty('headline') and not data.hasOwnProperty('urlSlug')
+      data.urlSlug = @createUrlSlug(data.headline)
     super(data)
 
   toJSON: ->
@@ -61,6 +63,15 @@ class Entry extends MeteorModel
   getTimeFromDate: (date) ->
     return Date.parse(date)
 
+  createUrlSlug: (headline) ->
+    # TODO replace accents
+    return headline.toLowerCase()
+                   # Remove anything that's not a a-z0-9_ word, a hypen or a
+                   # white space
+                   .replace(/[^a-z0-9 -]+/ig, '')
+                   # Replace all white spaces with hypens, while making sure
+                   # there will never be more than one consecutive hypen
+                   .replace(/\ /g, '-').replace(/-+/g, '-')
 
 Entry.publish('entries')
 Entry.allow()
