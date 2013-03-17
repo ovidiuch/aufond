@@ -2,11 +2,11 @@ class Timeline
 
   @rendered: (container) ->
     @$container = $(container)
-    this.adjustHeader()
-    this.setupBubbles(12)
+    @adjustHeader()
+    @setupBubbles(12)
     # Go to opened path directly (no animation)
     # XXX should wait until DOM is completely ready (fonts, etc.)
-    Timeline.goTo(App.router.args.slug, false)
+    @goTo(App.router.args.slug, false)
 
   @adjustHeader: ->
     ###
@@ -143,7 +143,7 @@ Template.timeline.events
   'click .link': Timeline.openLink
 
 Template.timeline.rendered = ->
-  Timeline.rendered(this.firstNode)
+  Timeline.rendered(@firstNode)
 
 Template.timeline.entries = ->
   # Get entries of current user only

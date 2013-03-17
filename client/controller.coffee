@@ -18,7 +18,7 @@ class Controller extends ReactiveTemplate
       super(arguments...)
 
 Template.controller.rendered = ->
-  $content = $(this.firstNode)
+  $content = $(@firstNode)
   # If controller content hasn't been already injected
   if $content.is(':empty') and @data.name
     $content.append(Meteor.render => Template[@data.name]())
