@@ -98,6 +98,22 @@ class Timeline
     return range[1] is number
 
 
+# Extend jQuery bubble plugin in order to lock and unlock a bubble on demand
+$.fn.lockBubble = ->
+  @each ->
+    bubble = $(this).data('bubble')
+    if bubble
+      bubble.toggle(1)
+      bubble.unbind()
+
+$.fn.unlockBubble = ->
+  @each ->
+    bubble = $(this).data('bubble')
+    if bubble
+      bubble.toggle(0)
+      bubble.bind()
+
+
 Template.timeline.events
   'click .link': Timeline.openLink
 
