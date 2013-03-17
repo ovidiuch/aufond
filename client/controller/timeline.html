@@ -3,7 +3,7 @@
     {{#each entries}}
       <li class="entry {{type}}">
         {{#match type="header"}}
-          <div class="head">
+          <div class="head link" data-slug="contact">
             <span class="bullet" style="background-image: url('{{avatar}}');"></span>
             <div class="inner-wrap">
               {{{markdown name root="h1"}}}
@@ -12,7 +12,7 @@
           </div>
         {{/match}}
         {{#match type="post"}}
-          <div class="head">
+          <div class="head link" data-slug="{{urlSlug}}">
             <span class="bullet {{iconClass icon}}"></span>
             <div class="inner-wrap">
               {{{markdown headline root="h3"}}}
@@ -21,7 +21,7 @@
           </div>
         {{/match}}
         {{#match type="year"}}
-          <span class="bullet">{{year}}</span>
+          <span class="bullet link" data-slug="{{year}}">{{year}}</span>
         {{/match}}
       </li>
     {{/each}}
