@@ -9,4 +9,4 @@ Template.adminTabs.events
 Template.adminTabs.rendered = ->
   # Select current tab (taken from current URL)
   tab = App.router.args.tab
-  $(this.find '.nav-tabs').find("a[data-tab-name=#{tab}]").tab('show')
+  $(@find '.nav-tabs').find("a[data-tab-name=#{tab}]").tab('show')
