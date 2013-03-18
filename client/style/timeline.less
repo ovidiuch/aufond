@@ -20,7 +20,7 @@
   height: @size - (2 * @border);
   // Align bullet vertically at top because entries are centered by default
   top: @size / 2;
-  left: 0;
+  left: 50%;
   margin: -(@size / 2) 0 0 -(@size / 2);
   border: @border solid #fff;
   line-height: @size - (2 * @border);
@@ -78,8 +78,11 @@ body {
   };
   .entry {
     position: relative;
-    // No need for the entry wrapper to occupy any extra space
-    width: 0;
+    /* Since the timeline takes 50% of the window width and we want to make its
+    entries 100%, we need to pull them to the left with the equivalent of the
+    entire timeline width. The width will automatically span at the entire
+    window width */
+    margin: 0 0 0 -100%;
     // The head bottom padding will compensate with the rest of the margin
     padding: 0 0 (@entry-margin - 20) 0;
     .transition(opacity, 0.1s);
@@ -95,6 +98,9 @@ body {
       text-align: center;
       .transition(~"background, color", 0.1s);
     }
+    .inner-wrap {
+      margin: 0 auto;
+    }
     .head {
       // Different "scope" for the bullet to align at the vertical center of
       position: relative;
@@ -102,7 +108,6 @@ body {
 
       .inner-wrap {
         width: @entry-width-excerpt;
-        margin: 0 0 0 -(@entry-width-excerpt / 2);
         padding: (@bullet-size-post + 5) 0 (@entry-margin / 2) 0;
         .backgroundGradient(rgba(244, 244, 246, 0.5) 80%,  rgba(244, 244, 246, 0) 100%);
       }
