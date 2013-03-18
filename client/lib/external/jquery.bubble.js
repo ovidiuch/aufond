@@ -122,8 +122,12 @@
       // resumes from its latest state (and doesn't snap to any extremity). For
       // that reason we store this.currentRatio with every transition
       // callback, but we need to know how to apply it when changing transition
-      // around, which is to start transition from its opposite (1 - x)
-      var initialRatio = 0;
+      // around, which is to start transition from its opposite (1 - x). Also,
+      // we can safely assume that the bubble inits in its contracted state,
+      // so the initial ratio should default to 1 (max) if the first toggle
+      // made is towards contracting it (this won't happen with mouse events,
+      // since a mouse over will always be triggered before a mosue out)
+      var initialRatio = toggle ? 0 : 1;
       // If a previous transition has already been running
       if (this.currentRatio !== undefined) {
         // When moving in the opposite direction from before
