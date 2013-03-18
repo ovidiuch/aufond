@@ -98,18 +98,16 @@ body {
       text-align: center;
       .transition(~"background, color", 0.1s);
     }
-    .inner-wrap {
-      margin: 0 auto;
-    }
     .head {
       // Different "scope" for the bullet to align at the vertical center of
       position: relative;
+      width: @entry-width-excerpt;
+      margin: 0 auto;
+      .backgroundGradient(~"rgba(244, 244, 246, 0.5) 80%,  rgba(244, 244, 246, 0) 100%");
       cursor: pointer;
 
       .inner-wrap {
-        width: @entry-width-excerpt;
         padding: (@bullet-size-post + 5) 0 10px 0;
-        .backgroundGradient(~"rgba(244, 244, 246, 0.5) 80%,  rgba(244, 244, 246, 0) 100%");
       }
       p {
         color: @color-medium;
