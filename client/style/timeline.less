@@ -32,6 +32,8 @@ body {
 }
 
 #content.timeline {
+  /* This helps the timeline line span 100% vertically */
+  position: relative;
   background: @color-background;
   color: #46465a;
   font-family: @font-open-sans;
@@ -62,15 +64,22 @@ body {
     line-height: 24px;
   }
   .entries {
-    border-left: @entry-list-width solid @color-light;
+    width: 50%;
     margin: 0 0 0 50%;
     list-style-type: none;
   }
+  .entries:before {
+    content: '';
+    position: absolute;
+    width: @entry-list-width;
+    height: 100%;
+    margin-left: -(@entry-list-width / 2);
+    background: @color-light;
+  };
   .entry {
     position: relative;
     // No need for the entry wrapper to occupy any extra space
     width: 0;
-    margin: 0 0 0 -(@entry-list-width / 2);
     // The head bottom padding will compensate with the rest of the margin
     padding: 0 0 (@entry-margin - 20) 0;
     .transition(opacity, 0.1s);
