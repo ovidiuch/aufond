@@ -104,6 +104,10 @@ body {
       width: @entry-width-excerpt;
       margin: 0 auto;
       .backgroundGradient(~"rgba(244, 244, 246, 0.5) 80%,  rgba(244, 244, 246, 0) 100%");
+      // Overlay the subtle gradient with the timeline line only
+      background-size: @entry-list-width 100%;
+      background-repeat: no-repeat;
+      background-position: top center;
       cursor: pointer;
 
       .inner-wrap {
