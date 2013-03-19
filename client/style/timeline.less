@@ -32,8 +32,6 @@ body {
 }
 
 #content.timeline {
-  /* This helps the timeline line span 100% vertically */
-  position: relative;
   background: @color-background;
   color: #46465a;
   font-family: @font-open-sans;
@@ -64,6 +62,8 @@ body {
     line-height: 24px;
   }
   .entries {
+    /* This helps the timeline line span 100% vertically */
+    position: relative;
     width: 50%;
     margin: 0 0 0 50%;
     list-style-type: none;
@@ -71,6 +71,7 @@ body {
   .entries:before {
     content: '';
     position: absolute;
+    left: 0;
     width: @entry-list-width;
     height: 100%;
     margin-left: -(@entry-list-width / 2);
