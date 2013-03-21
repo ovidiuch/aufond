@@ -48,14 +48,9 @@ class Timeline
       one or no entries can be active at the same time
     ###
     # Remove active states from entries that are not targeted
-    @$container.find('.entry').not($entry).each (i, entry) =>
-      $(entry).removeClass('active')
-              .find('.bullet').unlockBubble()
-
+    @$container.find('.entry').not($entry).contractEntry()
     # Make any targeted entry active (optional)
-    if $entry?.length
-      $entry.addClass('active')
-            .find('.bullet').lockBubble()
+    $entry?.expandEntry()
 
     # Mark entire timeline as having an active post when appropriate
     @$container.toggleClass('active-post', Boolean $entry?.hasClass('post'))
@@ -145,6 +140,18 @@ $.fn.unlockBubble = ->
     if bubble
       bubble.toggle(0)
       bubble.bind()
+
+
+# jQuery helpers for expanding/contracting an entry
+$.fn.expandEntry = ->
+  @addClass('active')
+   .find('.bullet').lockBubble()
+  @find('.content').height(@find('.content .inner-wrap').outerHeight())
+
+$.fn.contractEntry = ->
+  @removeClass('active')
+   .find('.bullet').unlockBubble()
+  @find('.content').height(0)
 
 
 Template.timeline.events
