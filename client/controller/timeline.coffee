@@ -106,17 +106,26 @@ class Timeline
 
   @getEntryPosition: ($entry) ->
     position = $entry.offset().top
-    # Calculate height of entry as it would be when fully extended, because
-    # that's how it's going to be by the time we scroll to it
-    height = $entry.find('.head').outerHeight()
-    if $entry.find('.content').length
-      height += $entry.find('.content .inner-wrap').outerHeight()
-      height -= $entry.find('.content-gap').outerHeight()
+    if $entry.hasClass('post')
+      height = @getPostHeight($entry)
+    else
+      height = $entry.height()
     # Get position of entry centered vertically, if its entire height is
     # smaller than the window viewport
     if height < $(window).height()
       position -= Math.round(($(window).height() - height) / 2)
     return position
+
+  @getPostHeight: ($entry) ->
+    ###
+      Calculate height of entry as it would be when fully extended, because
+      that's how it's going to be by the time we scroll to it
+    ###
+    height = $entry.find('.head').outerHeight()
+    if $entry.find('.content').length
+      height += $entry.find('.content .inner-wrap').outerHeight()
+      height -= $entry.find('.content-gap').outerHeight()
+    return height
 
   @numberInRange: (number, range) ->
     range.push(number)
