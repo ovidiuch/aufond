@@ -122,15 +122,24 @@ body {
         color: @color-medium;
       }
     }
+    // Replace the empty space eaten up by the content, because it has a
+    // negative bottom margin in order to start from the center of the bullet
+    // and thus pulls down everything above it, with half the bullet height
+    .content-gap {
+      height: @bullet-size-post / 2;
+      .transition(height, 0.1s);
+    }
     .content {
       // This helps the timeline line span 100% vertically
       position: relative;
+      height: 0;
       // Start from under the post bullet
       margin-bottom: -(@bullet-size-post / 2);
       background: @color-dark;
       box-shadow: inset 0 0 0 3px #3c3c50;
       color: @color-light;
       overflow: hidden;
+      .transition(height, 0.1s);
 
       .inner-wrap {
         // This puts the content wrapper on top of its own timeline line
@@ -196,6 +205,10 @@ body {
   .entry.active.post {
     .bullet {
       color: @color-medium;
+    }
+    // Gracefully hide the content filler while the content is being shown
+    .content-gap {
+      height: 0;
     }
   }
   .entry.active.year {
