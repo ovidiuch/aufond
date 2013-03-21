@@ -38,7 +38,7 @@ class Timeline
       @selectEntry($entry)
       # The scrolling transition can be animated or instant, based on the
       # "animate" parameter
-      @scrollTo($entry, if animate then 0.2 else 0)
+      @scrollTo($entry, if animate then 0.1 else 0)
     else
       @selectEntry(null)
 
