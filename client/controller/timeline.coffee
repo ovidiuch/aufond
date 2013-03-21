@@ -111,7 +111,12 @@ class Timeline
 
   @getEntryPosition: ($entry) ->
     position = $entry.offset().top
-    height = $entry.outerHeight()
+    # Calculate height of entry as it would be when fully extended, because
+    # that's how it's going to be by the time we scroll to it
+    height = $entry.find('.head').outerHeight()
+    if $entry.find('.content').length
+      height += $entry.find('.content .inner-wrap').outerHeight()
+      height -= $entry.find('.content-gap').outerHeight()
     # Get position of entry centered vertically, if its entire height is
     # smaller than the window viewport
     if height < $(window).height()
