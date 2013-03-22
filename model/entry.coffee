@@ -53,6 +53,11 @@ class Entry extends MeteorModel
     data.year = @getYear()
     return data
 
+  getPath: ->
+    user = User.find(@get('createdBy'))
+    return null unless user?
+    return "#{user.get('username')}/#{@get('urlSlug')}"
+
   validate: ->
     return "Headline can't be empty" unless @get('headline').length
     return "Invalid date" if isNaN(@getTimeFromDate(@get('date')))
