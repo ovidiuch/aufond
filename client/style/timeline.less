@@ -3,6 +3,7 @@
 @color-background: #f4f4f6;
 @color-light: #dcdce2;
 @color-medium: #8c8ca0;
+@color-dark: #46465a;
 @color-link: #c52352;
 
 @font-open-sans: "Open Sans", Helvetica, Arial, sans-serif;
@@ -11,6 +12,7 @@
 @entry-list-width: 8px;
 @entry-margin: 50px;
 @entry-width-excerpt: 400px;
+@entry-width-content: 500px;
 
 @bullet-size-post: 50px;
 @bullet-size-year: 100px;
@@ -20,7 +22,7 @@
   height: @size - (2 * @border);
   // Align bullet vertically at top because entries are centered by default
   top: @size / 2;
-  left: 0;
+  left: 50%;
   margin: -(@size / 2) 0 0 -(@size / 2);
   border: @border solid #fff;
   line-height: @size - (2 * @border);
@@ -33,7 +35,7 @@ body {
 
 #content.timeline {
   background: @color-background;
-  color: #46465a;
+  color: @color-dark;
   font-family: @font-open-sans;
   // This needs to be set to left when entries will stay on two columns, on
   // bigger devices
@@ -62,15 +64,28 @@ body {
     line-height: 24px;
   }
   .entries {
-    border-left: @entry-list-width solid @color-light;
+    /* This helps the timeline line span 100% vertically */
+    position: relative;
+    width: 50%;
     margin: 0 0 0 50%;
     list-style-type: none;
   }
+  .entries:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: @entry-list-width;
+    height: 100%;
+    margin-left: -(@entry-list-width / 2);
+    background: @color-light;
+  };
   .entry {
     position: relative;
-    // No need for the entry wrapper to occupy any extra space
-    width: 0;
-    margin: 0 0 0 -(@entry-list-width / 2);
+    /* Since the timeline takes 50% of the window width and we want to make its
+    entries 100%, we need to pull them to the left with the equivalent of the
+    entire timeline width. The width will automatically span at the entire
+    window width */
+    margin: 0 0 0 -100%;
     // The head bottom padding will compensate with the rest of the margin
     padding: 0 0 (@entry-margin - 20) 0;
     .transition(opacity, 0.1s);
@@ -89,18 +104,65 @@ body {
     .head {
       // Different "scope" for the bullet to align at the vertical center of
       position: relative;
+      // Stay on top of the content
+      z-index: 2;
+      width: @entry-width-excerpt;
+      margin: 0 auto;
+      .backgroundGradient(~"rgba(244, 244, 246, 0.5) 80%,  rgba(244, 244, 246, 0) 100%");
+      // Overlay the subtle gradient with the timeline line only
+      background-size: @entry-list-width 100%;
+      background-repeat: no-repeat;
+      background-position: top center;
       cursor: pointer;
 
       .inner-wrap {
-        width: @entry-width-excerpt;
-        margin: 0 0 0 -(@entry-width-excerpt / 2);
-        padding: (@bullet-size-post + 5) 0 (@entry-margin / 2) 0;
-        .backgroundGradient(rgba(244, 244, 246, 0.5) 80%,  rgba(244, 244, 246, 0) 100%);
+        padding: (@bullet-size-post + 5) 0 10px 0;
       }
       p {
         color: @color-medium;
       }
     }
+    // Replace the empty space eaten up by the content, because it has a
+    // negative bottom margin in order to start from the center of the bullet
+    // and thus pulls down everything above it, with half the bullet height
+    .content-gap {
+      height: @bullet-size-post / 2;
+      .transition(height, 0.2s);
+    }
+    .content {
+      // This helps the timeline line span 100% vertically
+      position: relative;
+      height: 0;
+      // Start from under the post bullet
+      margin-bottom: -(@bullet-size-post / 2);
+      background: @color-dark;
+      box-shadow: inset 0 0 0 3px #3c3c50;
+      color: @color-light;
+      overflow: hidden;
+      .transition(height, 0.2s);
+
+      .inner-wrap {
+        // This puts the content wrapper on top of its own timeline line
+        position: relative;
+        z-index: 1;
+        margin: 0 auto;
+        padding: 40px 0 20px 0;
+        width: @entry-width-content;
+        text-align: left;
+      }
+      p {
+        margin-bottom: 20px;
+      }
+    }
+    .content:before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      width: @entry-list-width;
+      height: 100%;
+      margin-left: -(@entry-list-width / 2);
+      background: #3c3c50;
+    };
   }
   .entry.year {
     // Grow into the size of the year bullet
@@ -143,6 +205,10 @@ body {
   .entry.active.post {
     .bullet {
       color: @color-medium;
+    }
+    // Gracefully hide the content filler while the content is being shown
+    .content-gap {
+      height: 0;
     }
   }
   .entry.active.year {

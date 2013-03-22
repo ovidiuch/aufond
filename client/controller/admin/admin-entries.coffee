@@ -1,4 +1,11 @@
 Template.adminEntries.events
+  'click .btn-view': (e) ->
+    e.preventDefault()
+    id = $(e.currentTarget).data('id')
+    entry = Entry.find(id)
+    if entry
+      App.router.navigate(entry.getPath(), trigger: true)
+
   'click .btn-edit': (e) ->
     e.preventDefault()
     data = $(e.currentTarget).data()
