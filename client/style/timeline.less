@@ -33,12 +33,12 @@ body {
   padding: 0;
 }
 
+/* Default timeline, for mobile display */
 #content.timeline {
+  min-width: @entry-width-content + (2 * @entry-margin);
   background: @color-background;
   color: @color-dark;
   font-family: @font-open-sans;
-  // This needs to be set to left when entries will stay on two columns, on
-  // bigger devices
   text-align: center;
 
   h1 {
@@ -146,7 +146,7 @@ body {
         position: relative;
         z-index: 1;
         margin: 0 auto;
-        padding: 40px 0 20px 0;
+        padding: @entry-margin 0 (@entry-margin - 20) 0;
         width: @entry-width-content;
         text-align: left;
       }
@@ -214,6 +214,43 @@ body {
   .entry.active.year {
     .bullet {
       background: @color-medium;
+    }
+  }
+}
+
+/* Timeline on larger, desktop devices */
+@media (min-width: 1208px) {
+  #content.timeline {
+    /* Odd posts stay on the left */
+    .post {
+      margin-left: 0;
+      text-align: left;
+
+      .bullet {
+        top: 50%;
+        left: 0;
+      }
+      .head {
+        // Head needs padding since it's no longer centered
+        width: @entry-width-excerpt + (2 * @entry-margin);
+        // Align head to left instead of centering it
+        margin: 0;
+        // Head no longer overlaps with the timeline so no need for any
+        // gradient
+        background: 0;
+
+        .inner-wrap {
+          padding: 0 @entry-margin;
+        }
+      }
+    }
+    /* Even posts go to the left */
+    .post.even {
+      margin-left: -(@entry-width-excerpt + (2 * @entry-margin));
+
+      .bullet {
+        left: @entry-width-excerpt + (2 * @entry-margin);
+      }
     }
   }
 }
