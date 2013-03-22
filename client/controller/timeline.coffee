@@ -35,12 +35,22 @@ class Timeline
     ###
     if slug
       $entry = $("#timeline-#{slug}")
-      @selectEntry($entry)
-      # The scrolling transition can be animated or instant, based on the
-      # "animate" parameter
-      @scrollTo($entry, if animate then 0.1 else 0)
+      position = @getEntryPosition($entry)
     else
-      @selectEntry(null)
+      $entry = null
+      position = $(window).scrollTop()
+      # Subtract half the height of a currently expanded entry's content (if
+      # any and if it has one), because it's going to be untoggled and thus
+      # hidden, in order to obtain better user experience and create the
+      # sensation of going back to a previous position when untoggling an entry
+      $activeEntry = @$container.find('.entry.active')
+      if $activeEntry.length
+        position -= @getPostContentHeight($activeEntry) / 2
+
+    # The scrolling transition can be animated or instant, based on the
+    # "animate" parameter
+    @scrollTo(position, if animate then 0.2 else 0)
+    @selectEntry($entry)
 
   @selectEntry: ($entry) ->
     ###
@@ -55,23 +65,16 @@ class Timeline
     # Mark entire timeline as having an active post when appropriate
     @$container.toggleClass('active-post', Boolean $entry?.hasClass('post'))
 
-  @scrollTo: ($entry, duration) ->
-    # Make sure entry exists
-    return unless $entry.length
+  @scrollTo: (targetScroll, duration) ->
     # Get the current scroll position in order to make a transitioned movement
     startScroll = $(window).scrollTop()
     $(this).play
       time: duration
       onFrame: (ratio) =>
-        # Fetch the offset of the targeted entry with every frame, in order to
-        # make sure we're landing right in case it's moving its position for
-        # whatever reason
-        targetScroll = @getEntryPosition($entry)
         # Get next scrolling position based on the current ratio of the
         # transition, offseting from the original scrolling point from where
         # the animation begun
         nextScroll = startScroll + ratio * (targetScroll - startScroll)
-
         # Get current window scroll and make sure it's still on track. If an
         # abnormal change has occured (i.e. a user scroll or a pop state event
         # firing because of back/forward browser actions), cancel the scroll
@@ -106,10 +109,19 @@ class Timeline
 
   @getEntryPosition: ($entry) ->
     position = $entry.offset().top
+
+    # Substract the height of a previously active entry from the scroll
+    # position (because it will be contracted), but only if the previously
+    # active element precedes the new one
+    $activeEntry = $entry.prevAll('.entry.active')
+    if $activeEntry.length
+      position -= @getPostContentHeight($activeEntry)
+
     if $entry.hasClass('post')
       height = @getPostHeight($entry)
     else
       height = $entry.height()
+
     # Get position of entry centered vertically, if its entire height is
     # smaller than the window viewport
     if height < $(window).height()
@@ -122,9 +134,22 @@ class Timeline
       that's how it's going to be by the time we scroll to it
     ###
     height = $entry.find('.head').outerHeight()
-    if $entry.find('.content').length
-      height += $entry.find('.content .inner-wrap').outerHeight()
-      height -= $entry.find('.content-gap').outerHeight()
+    height += @getPostContentHeight($entry)
+    return height
+
+  @getPostContentHeight: ($entry) ->
+    ###
+      Calculate the exact height of an entry's content section. Unless it is
+      missing, in which case it will be zero, it needs to be calculated as the
+      entire content height minus half the size of the entry bullet, under
+      which the content element is folded
+    ###
+    return 0 unless $entry.find('.content').length
+    height = $entry.find('.content .inner-wrap').outerHeight()
+    # XXX the size of half an entry's bullet, the one of the .content-gap
+    # element---hardcoded because its target size can't be determined at any
+    # point in the execution of the expand/contract transition
+    height -= 25
     return height
 
   @numberInRange: (number, range) ->
