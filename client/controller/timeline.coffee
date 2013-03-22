@@ -199,3 +199,6 @@ Template.timeline.entries = ->
 
 Template.timeline.iconClass = (icon) ->
   return icon or 'icon-circle'
+
+Template.timeline.parity = (index) ->
+  return if index % 2 then 'odd' else 'even'
