@@ -33,11 +33,10 @@ class Timeline
       is not empty. Otherwise just remove any existent active state from any of
       the timeline's entries
     ###
-    if slug
-      $entry = $("#timeline-#{slug}")
+    $entry = $(if slug then "#timeline-#{slug}" else null)
+    if slug and $entry.length
       position = @getEntryPosition($entry)
     else
-      $entry = null
       position = $(window).scrollTop()
       # Subtract half the height of a currently expanded entry's content (if
       # any and if it has one), because it's going to be untoggled and thus
@@ -60,10 +59,10 @@ class Timeline
     # Remove active states from entries that are not targeted
     @$container.find('.entry').not($entry).contractEntry()
     # Make any targeted entry active (optional)
-    $entry?.expandEntry()
+    $entry.expandEntry()
 
     # Mark entire timeline as having an active post when appropriate
-    @$container.toggleClass('active-post', Boolean $entry?.hasClass('post'))
+    @$container.toggleClass('active-post', Boolean $entry.hasClass('post'))
 
   @scrollTo: (targetScroll, duration) ->
     # Get the current scroll position in order to make a transitioned movement
