@@ -145,10 +145,6 @@ class Timeline
     ###
     return 0 unless $entry.find('.content').length
     height = $entry.find('.content .inner-wrap').outerHeight()
-    # XXX the size of half an entry's bullet, the one of the .content-gap
-    # element---hardcoded because its target size can't be determined at any
-    # point in the execution of the expand/contract transition
-    height -= 25
     return height
 
   @numberInRange: (number, range) ->
@@ -199,3 +195,6 @@ Template.timeline.entries = ->
 
 Template.timeline.iconClass = (icon) ->
   return icon or 'icon-circle'
+
+Template.timeline.parity = (index) ->
+  return if index % 2 then 'odd' else 'even'

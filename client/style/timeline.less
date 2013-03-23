@@ -33,12 +33,12 @@ body {
   padding: 0;
 }
 
+/* Default timeline, for mobile display */
 #content.timeline {
+  min-width: @entry-width-content + (2 * @entry-margin);
   background: @color-background;
   color: @color-dark;
   font-family: @font-open-sans;
-  // This needs to be set to left when entries will stay on two columns, on
-  // bigger devices
   text-align: center;
 
   h1 {
@@ -88,7 +88,7 @@ body {
     margin: 0 0 0 -100%;
     // The head bottom padding will compensate with the rest of the margin
     padding: 0 0 (@entry-margin - 20) 0;
-    .transition(opacity, 0.1s);
+    .transition(opacity, 0.2s);
 
     .bullet {
       position: absolute;
@@ -122,19 +122,10 @@ body {
         color: @color-medium;
       }
     }
-    // Replace the empty space eaten up by the content, because it has a
-    // negative bottom margin in order to start from the center of the bullet
-    // and thus pulls down everything above it, with half the bullet height
-    .content-gap {
-      height: @bullet-size-post / 2;
-      .transition(height, 0.2s);
-    }
     .content {
       // This helps the timeline line span 100% vertically
       position: relative;
       height: 0;
-      // Start from under the post bullet
-      margin-bottom: -(@bullet-size-post / 2);
       background: @color-dark;
       box-shadow: inset 0 0 0 3px #3c3c50;
       color: @color-light;
@@ -145,8 +136,11 @@ body {
         // This puts the content wrapper on top of its own timeline line
         position: relative;
         z-index: 1;
+      }
+      .text {
+        position: relative;
         margin: 0 auto;
-        padding: 40px 0 20px 0;
+        padding: 30px 0 10px 0;
         width: @entry-width-content;
         text-align: left;
       }
@@ -206,14 +200,61 @@ body {
     .bullet {
       color: @color-medium;
     }
-    // Gracefully hide the content filler while the content is being shown
-    .content-gap {
-      height: 0;
-    }
   }
   .entry.active.year {
     .bullet {
       background: @color-medium;
+    }
+  }
+}
+
+/* Timeline on larger, desktop devices */
+@media (min-width: 1200px) {
+  #content.timeline {
+    /* Odd posts stay on the left */
+    .post {
+      text-align: left;
+
+      .bullet {
+        top: 50%;
+        left: 0;
+      }
+      .head {
+        // Head needs padding since it's no longer centered
+        width: @entry-width-excerpt + (2 * @entry-margin);
+        // Align head to left instead of centering it
+        margin: 0 0 0 50%;
+        // Head no longer overlaps with the timeline so no need for any
+        // gradient
+        background: 0;
+
+        .inner-wrap {
+          padding: 0 @entry-margin 10px @entry-margin;
+        }
+      }
+      .content {
+        .text {
+          margin-left: 50%;
+          // Content also needs padding since it's no longer centered
+          padding: 30px @entry-margin 10px @entry-margin;
+        }
+      }
+    }
+    /* Even posts go to the left */
+    .post.even {
+      .bullet {
+        // Bullet needs to be pulled to the right of left-sided posts
+        left: @entry-width-excerpt + (2 * @entry-margin);
+      }
+      // Head and content need both to be pulled to the left
+      .head {
+        left: -@entry-width-excerpt - (2 * @entry-margin);
+      }
+      .content {
+        .text {
+          left: -@entry-width-content - (2 * @entry-margin);
+        }
+      }
     }
   }
 }
