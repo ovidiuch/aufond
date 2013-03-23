@@ -136,6 +136,9 @@ body {
         // This puts the content wrapper on top of its own timeline line
         position: relative;
         z-index: 1;
+      }
+      .text {
+        position: relative;
         margin: 0 auto;
         padding: 30px 0 10px 0;
         width: @entry-width-content;
@@ -206,7 +209,7 @@ body {
 }
 
 /* Timeline on larger, desktop devices */
-@media (min-width: 1208px) {
+@media (min-width: 1200px) {
   #content.timeline {
     /* Odd posts stay on the left */
     .post {
@@ -229,6 +232,12 @@ body {
           padding: 0 @entry-margin 10px @entry-margin;
         }
       }
+      .content {
+        .text {
+          margin-left: 50%;
+          padding: 30px @entry-margin 10px @entry-margin;
+        }
+      }
     }
     /* Even posts go to the left */
     .post.even {
@@ -237,6 +246,11 @@ body {
       }
       .head {
         left: -@entry-width-excerpt - (2 * @entry-margin);
+      }
+      .content {
+        .text {
+          left: -@entry-width-content - (2 * @entry-margin);
+        }
       }
     }
   }
