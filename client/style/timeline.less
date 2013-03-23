@@ -223,7 +223,6 @@ body {
   #content.timeline {
     /* Odd posts stay on the left */
     .post {
-      margin-left: 0;
       text-align: left;
 
       .bullet {
@@ -234,7 +233,7 @@ body {
         // Head needs padding since it's no longer centered
         width: @entry-width-excerpt + (2 * @entry-margin);
         // Align head to left instead of centering it
-        margin: 0;
+        margin: 0 0 0 50%;
         // Head no longer overlaps with the timeline so no need for any
         // gradient
         background: 0;
@@ -246,10 +245,11 @@ body {
     }
     /* Even posts go to the left */
     .post.even {
-      margin-left: -(@entry-width-excerpt + (2 * @entry-margin));
-
       .bullet {
         left: @entry-width-excerpt + (2 * @entry-margin);
+      }
+      .head {
+        left: -@entry-width-excerpt - (2 * @entry-margin);
       }
     }
   }
