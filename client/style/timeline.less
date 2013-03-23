@@ -235,6 +235,7 @@ body {
       .content {
         .text {
           margin-left: 50%;
+          // Content also needs padding since it's no longer centered
           padding: 30px @entry-margin 10px @entry-margin;
         }
       }
@@ -242,8 +243,10 @@ body {
     /* Even posts go to the left */
     .post.even {
       .bullet {
+        // Bullet needs to be pulled to the right of left-sided posts
         left: @entry-width-excerpt + (2 * @entry-margin);
       }
+      // Head and content need both to be pulled to the left
       .head {
         left: -@entry-width-excerpt - (2 * @entry-margin);
       }
