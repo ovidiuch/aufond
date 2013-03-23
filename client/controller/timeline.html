@@ -14,14 +14,6 @@
       {{/match}}
       {{#match type="post"}}
         <li id="timeline-{{urlSlug}}" class="entry post {{parity index}}">
-          {{#if content}}
-            <div class="content-gap"></div>
-            <div class="content">
-              <div class="inner-wrap">
-                {{{markdown content}}}
-              </div>
-            </div>
-          {{/if}}
           <div class="head link" data-slug="{{urlSlug}}">
             <span class="bullet {{iconClass icon}}"></span>
             <div class="inner-wrap">
@@ -29,6 +21,13 @@
               {{{markdown excerpt}}}
             </div>
           </div>
+          {{#if content}}
+            <div class="content">
+              <div class="inner-wrap">
+                {{{markdown content}}}
+              </div>
+            </div>
+          {{/if}}
         </li>
       {{/match}}
       {{#match type="year"}}
