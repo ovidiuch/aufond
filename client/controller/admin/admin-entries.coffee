@@ -11,6 +11,14 @@ Template.adminEntries.events
     data = $(e.currentTarget).data()
     App.postModal.update(data)
 
+  'click .btn-attach-image': (e) ->
+    e.preventDefault()
+    id = $(e.currentTarget).data('id')
+    filepicker.pick(FilePicker.options, (FPFile) ->
+      # TODO create image and attach to post id
+      console.log(FPFile.url)
+    )
+
   'click .btn-delete': (e) ->
     e.preventDefault()
     data = $(e.currentTarget).data()

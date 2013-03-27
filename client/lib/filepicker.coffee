@@ -1,12 +1,6 @@
 class FilePicker extends ReactiveTemplate
-  template: Template.filePicker
-
-  events:
-    'click .btn': 'onSelect'
-    'click .image': 'onRemove'
-
   # Default options
-  options:
+  @options:
     mimetypes: ['image/*']
     services: [
       'COMPUTER'
@@ -21,6 +15,11 @@ class FilePicker extends ReactiveTemplate
       'WEBCAM'
     ]
 
+  template: Template.filePicker
+  events:
+    'click .btn': 'onSelect'
+    'click .image': 'onRemove'
+
   createReactiveContainer: ->
     # Send "field" and "value" params to template data before creating the
     # reactive container and thus rendering the template for the first time
@@ -33,7 +32,7 @@ class FilePicker extends ReactiveTemplate
   onSelect: (e) =>
     # Don't let the button act as a submit button if inside a form
     e.preventDefault()
-    filepicker.pick(@options, @onSuccess)
+    filepicker.pick(FilePicker.options, @onSuccess)
 
   onRemove: (e) =>
     e.preventDefault()
