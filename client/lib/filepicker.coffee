@@ -6,7 +6,20 @@ class FilePicker extends ReactiveTemplate
     'click .image': 'onRemove'
 
   # Default options
-  options: {}
+  options:
+    mimetypes: ['image/*']
+    services: [
+      'COMPUTER'
+      'DROPBOX'
+      'EVERNOTE'
+      'FACEBOOK'
+      'FLICKR'
+      'GOOGLE_DRIVE'
+      'PICASA'
+      'INSTAGRAM'
+      'URL'
+      'WEBCAM'
+    ]
 
   createReactiveContainer: ->
     # Send "field" and "value" params to template data before creating the
