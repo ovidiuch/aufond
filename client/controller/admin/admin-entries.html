@@ -6,6 +6,7 @@
         <th>Headline</th>
         <th><em>Slug</em></th>
         <th>Excerpt</th>
+        <th>Media</th>
         <th>From</th>
       </tr>
     </thead>
@@ -24,11 +25,18 @@
           <td class="excerpt">
             {{{markdown excerpt}}}
             <div class="controls">
-              <button class="btn btn-view" data-id="{{_id}}">View</button>
-              <button class="btn btn-primary btn-edit" data-toggle="modal" data-target="#post-modal" data-title="What have you been up to?" data-button="Update" data-id="{{_id}}">Change</button>
-              <button class="btn btn-danger btn-delete" data-id="{{_id}}">Remove</button>
+              <button class="btn btn-view" data-id="{{_id}}"><i class="icon-external-link"></i> View</button>
+              <div class="btn-group">
+                <button class="btn btn-primary btn-edit" data-toggle="modal" data-target="#post-modal" data-title="What have you been up to?" data-button="Update" data-id="{{_id}}"><i class="icon-edit"></i> Change</button>
+                <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                  <li><a href="#" class="btn-attach-image" data-id="{{_id}}"><i class="icon-picture"></i> Attach image</a></li>
+                </ul>
+              </div>
+              <button class="btn btn-danger btn-delete" data-id="{{_id}}"><i class="icon-trash"></i> Remove</button>
             </div>
           </td>
+          <td></td>
           <td>{{timeago time}}</td>
         </tr>
       {{/each}}
