@@ -68,13 +68,22 @@ class Entry extends MeteorModel
     super(arguments...)
 
   addImage: (imageAttributes, callback) ->
+    ###
+      Attach a new image to an Entry
+    ###
     images = @get('images')
     images.push(imageAttributes)
     @save(images: images, callback)
 
+  getImage: (imageUrl) ->
+    ###
+      Fetch an image attached to an Entry, targeted by its url directly
+    ###
+    return _.find(@get('images'), (image) -> image.url is imageUrl)
+
   removeImage: (imageUrl, callback) ->
     ###
-      Delete an image attached to an entry, targeted by its url directly
+      Delete an image attached to an Entry, targeted by its url directly
     ###
     images = @get('images')
     images = _.reject(images, (image) -> image.url is imageUrl)
