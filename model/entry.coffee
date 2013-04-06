@@ -67,6 +67,15 @@ class Entry extends MeteorModel
     @set('images', []) unless @get('images')?
     super(arguments...)
 
+  addImage: (imageAttributes, callback) ->
+    # Start from an empty array if the images field is missing---should never
+    # happen because of the "save" hook
+    images = @get('images') or []
+    images.push(imageAttributes)
+    # A callback can be specified when adding an image to an entry, that will
+    # end up being the save callback
+    @save(images: images, callback)
+
   getYear: ->
     return new Date(@get('time')).getFullYear()
 
