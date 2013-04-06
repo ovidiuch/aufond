@@ -38,11 +38,11 @@
               <ul class="entry-image-list">
                 {{#each images}}
                   <li>
-                    <img src="{{getResizedImageUrl url 80 50 'crop'}}">
+                    <img src="{{getResizedImageUrl url 120 60 'crop'}}">
                     <p class="caption label">{{caption}}</p>
                     <p class="controls">
-                      <button class="btn btn-mini btn-image-edit" data-toggle="modal" data-target="#post-image-modal" data-title="What is this image about?" data-button="Update" data-id="{{../_id}}" data-image="{{url}}"><i class="icon-edit"></i> Change</button>
-                      <button class="btn btn-mini btn-danger btn-image-delete" data-id="{{../_id}}" data-image="{{url}}"><i class="icon-trash"></i></button>
+                      <button class="btn btn-small btn-image-edit" data-toggle="modal" data-target="#post-image-modal" data-title="What is this image about?" data-button="Update" data-id="{{../_id}}" data-image="{{url}}"><i class="icon-edit"></i> Change</button>
+                      <button class="btn btn-small btn-danger btn-image-delete" data-id="{{../_id}}" data-image="{{url}}"><i class="icon-trash"></i></button>
                     </p>
                   </li>
                 {{/each}}
