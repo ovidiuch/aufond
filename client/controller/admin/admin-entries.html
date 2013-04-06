@@ -5,7 +5,6 @@
         <th>&nbsp;</th>
         <th>Headline</th>
         <th>Excerpt</th>
-        <th>Images</th>
         <th>From</th>
       </tr>
     </thead>
@@ -13,31 +12,42 @@
       {{#each entries}}
         <tr>
           <td>
-            {{#if icon}}
-              <i class="{{icon}}"></i>
-            {{else}}
-              {{index}}
-            {{/if}}
+            <button class="btn btn-view" data-id="{{_id}}">
+              {{#if icon}}
+                <i class="{{icon}}"></i>
+              {{else}}
+                {{index}}
+              {{/if}}
+            </button>
           </td>
           <td>{{{markdown headline}}}</td>
           <td class="excerpt">
             {{{markdown excerpt}}}
             <div class="controls">
-              <button class="btn btn-view" data-id="{{_id}}"><i class="icon-external-link"></i> View</button>
               <div class="btn-group">
-                <button class="btn btn-primary btn-edit" data-toggle="modal" data-target="#post-modal" data-title="What have you been up to?" data-button="Update" data-id="{{_id}}"><i class="icon-edit"></i> Change</button>
-                <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                <button class="btn btn-edit" data-toggle="modal" data-target="#post-modal" data-title="What have you been up to?" data-button="Update" data-id="{{_id}}"><i class="icon-edit"></i> Edit</button>
+                <button class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
                 <ul class="dropdown-menu">
-                  <li><a href="#" class="btn-attach-image" data-id="{{_id}}"><i class="icon-picture"></i> Attach image</a></li>
+                  <li><a href="#" class="btn-image-attach" data-id="{{_id}}"><i class="icon-picture"></i> Attach image</a></li>
                 </ul>
               </div>
-              <button class="btn btn-danger btn-delete" data-id="{{_id}}"><i class="icon-trash"></i> Remove</button>
+              <button class="btn btn-danger btn-delete" data-id="{{_id}}"><i class="icon-trash"></i></button>
             </div>
-          </td>
-          <td class="thumbnail-list">
-            {{#each images}}
-              <img src="{{getResizedImageUrl url 50 50 'crop'}}" alt="{{caption}}" width="50" height="50">
-            {{/each}}
+            {{#if images.length}}
+              <h4>Images</h4>
+              <ul class="entry-image-list">
+                {{#each images}}
+                  <li>
+                    <img src="{{getResizedImageUrl url 80 50 'crop'}}">
+                    <p class="caption label">{{caption}}</p>
+                    <p class="controls">
+                      <button class="btn btn-mini btn-image-edit" data-toggle="modal" data-target="#post-image-modal" data-title="What is this image about?" data-button="Update" data-id="{{../_id}}" data-image="{{url}}"><i class="icon-edit"></i> Change</button>
+                      <button class="btn btn-mini btn-danger btn-image-delete" data-id="{{../_id}}" data-image="{{url}}"><i class="icon-trash"></i></button>
+                    </p>
+                  </li>
+                {{/each}}
+              </ul>
+            {{/if}}
           </td>
           <td>{{timeago time}}</td>
         </tr>

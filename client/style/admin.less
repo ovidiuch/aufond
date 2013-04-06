@@ -5,31 +5,32 @@
   padding-left: 20px;
   padding-right: 20px;
 }
+.modal form {
+  margin-bottom: 0;
 
+  .control-group:last-child {
+    margin-bottom: 0;
+  }
+  .help-block {
+    margin-top: 5px;
+  }
+}
 #post-modal {
   width: 760px;
   margin-left: -380px;
-
-  form {
-    margin-bottom: 0;
-
-    .control-group:last-child {
-      margin-bottom: 0;
-    }
-    .help-block {
-      margin-top: 5px;
-    }
-  }
-}
-#content fieldset {
-  // Reset the left margin that fieldsets have by default
-  margin: 0;
 }
 @media (max-width: 767px) {
   #post-modal {
     width: auto;
     margin: 0;
   }
+}
+#content fieldset {
+  // Reset the left margin that fieldsets have by default
+  margin: 0;
+}
+.entries td {
+  padding: 10px;
 }
 .filepicker {
   .help-block {
@@ -67,10 +68,26 @@
     }
   }
 }
-.thumbnail-list {
-  img {
-    float: left;
-    margin: 2px;
-    border-radius: 4px;
+.entry-image-list {
+  margin: 0;
+  list-style-type: none;
+
+  li {
+    min-height: 50px;
+
+    img {
+      float: left;
+      width: 80px;
+      height: 50px;
+      margin: 0 10px 0 0;
+      border-radius: 4px;
+    }
+    .caption {
+      line-height: normal;
+      margin-bottom: 8px;
+    }
+  }
+  li:last-child .controls {
+    margin-bottom: 0;
   }
 }
