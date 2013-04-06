@@ -62,6 +62,11 @@ class Entry extends MeteorModel
     return "Headline can't be empty" unless @get('headline').length
     return "Invalid date" if isNaN(@getTimeFromDate(@get('date')))
 
+  save: ->
+    # Make sure the entry has an array for the "images" field
+    @set('images', []) unless @get('images')?
+    super(arguments...)
+
   getYear: ->
     return new Date(@get('time')).getFullYear()
 
