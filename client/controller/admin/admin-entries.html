@@ -5,7 +5,7 @@
         <th>&nbsp;</th>
         <th>Headline</th>
         <th>Excerpt</th>
-        <th>Media</th>
+        <th>Images</th>
         <th>From</th>
       </tr>
     </thead>
@@ -34,7 +34,11 @@
               <button class="btn btn-danger btn-delete" data-id="{{_id}}"><i class="icon-trash"></i> Remove</button>
             </div>
           </td>
-          <td></td>
+          <td class="thumbnail-list">
+            {{#each images}}
+              <img src="{{getResizedImageUrl url 50 50 'crop'}}" alt="{{caption}}" width="50" height="50">
+            {{/each}}
+          </td>
           <td>{{timeago time}}</td>
         </tr>
       {{/each}}

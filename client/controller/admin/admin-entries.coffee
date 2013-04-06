@@ -14,10 +14,10 @@ Template.adminEntries.events
   'click .btn-attach-image': (e) ->
     e.preventDefault()
     id = $(e.currentTarget).data('id')
-    filepicker.pick(FilePicker.options, (FPFile) ->
-      # TODO create image and attach to post id
-      console.log(FPFile.url)
-    )
+    filepicker.pick FilePicker.options, (FPFile) ->
+      Entry.find(id)?.addImage
+        url: FPFile.url
+        caption: FPFile.filename
 
   'click .btn-delete': (e) ->
     e.preventDefault()
