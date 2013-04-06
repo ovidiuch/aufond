@@ -43,7 +43,7 @@ class FilePicker extends ReactiveTemplate
 
   onSuccess: (FPFile) =>
     # Refresh template with the received url as the value
-    @update(value: FilePicker.getResizedImageUrl(FPFile.url), true)
+    @update(value: FPFile.url, true)
 
 
 Handlebars.registerHelper 'getResizedImageUrl', (url, width, height, fit) ->

@@ -4,7 +4,7 @@
       {{#match type="header"}}
         <li id="timeline-contact" class="entry header">
           <div class="head link" data-slug="contact">
-            <span class="bullet" style="background-image: url('{{avatar}}');"></span>
+            <span class="bullet" style="background-image: url('{{getResizedImageUrl avatar 100 100 'crop'}}');"></span>
             <div class="inner-wrap">
               {{{markdown name root="h1"}}}
               {{{markdown title root="h2"}}}
