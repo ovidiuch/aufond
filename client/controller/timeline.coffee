@@ -144,8 +144,12 @@ class Timeline
       which the content element is folded
     ###
     return 0 unless $entry.find('.content').length
-    height = $entry.find('.content .inner-wrap').outerHeight()
-    return height
+    #return $entry.find('.content .inner-wrap').outerHeight()
+    # XXX return the height of the entry head instead of its content in order
+    # to align the entry on the middle, vertically, thus creating an effect
+    # where the border between the entry head and content splits the screen by
+    # two, horizontally
+    return $entry.find('.head').outerHeight()
 
   @numberInRange: (number, range) ->
     range.push(number)
