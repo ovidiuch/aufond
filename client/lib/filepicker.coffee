@@ -15,8 +15,14 @@ class FilePicker extends ReactiveTemplate
       'WEBCAM'
     ]
 
-  @getResizedImageUrl: (url, width = 100, height = 100, fit = 'crop') ->
-    return "#{url}/convert?w=#{width}&h=#{height}&fit=#{fit}"
+  @getResizedImageUrl: (url, options) ->
+    ###
+      Check possible options at
+      https://developers.filepicker.io/docs/web/#fpurl-images
+    ###
+    args = ("#{k}=#{v}" for k, v of options)
+    url += "/convert?#{args.join('&')}" if args.length
+    return url
 
   template: Template.filePicker
   events:
@@ -47,11 +53,13 @@ class FilePicker extends ReactiveTemplate
 
 
 Handlebars.registerHelper 'getResizedImageUrl', (url, width, height, fit) ->
-  # Important: all arguments must be specified (we can't rely on defaults
-  # because Handlebars helpers have an extra "options" argument at the end of
-  # the argument list which would take the place of the first unspecified
-  # argument)
-  return FilePicker.getResizedImageUrl(arguments...)
+  # Bypass options by setting them to "null". E.g.
+  # {{getResizedImageUrl url null 250 'clip'}}
+  options = {}
+  options.w = width if width?
+  options.h = height if height?
+  options.fit = fit if fit?
+  return FilePicker.getResizedImageUrl(url, options)
 
 
 Meteor.startup ->
