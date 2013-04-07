@@ -21,12 +21,23 @@
               {{{markdown excerpt}}}
             </div>
           </div>
-          {{#if content}}
+          {{#if hasExtendedContent}}
             <div class="content">
               <div class="inner-wrap">
-                <div class="text">
-                  {{{markdown content}}}
-                </div>
+                {{#if images.length}}
+                  <div class="image-wrap">
+                    <ul>
+                      {{#each images}}
+                        <li><img src="{{getResizedImageUrl url null 300 'clip'}}" alt="{{caption}}"></li>
+                      {{/each}}
+                    </ul>
+                  </div>
+                {{/if}}
+                {{#if content}}
+                  <div class="text">
+                    {{{markdown content}}}
+                  </div>
+                {{/if}}
               </div>
             </div>
           {{/if}}

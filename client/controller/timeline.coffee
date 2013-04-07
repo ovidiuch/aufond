@@ -4,6 +4,9 @@ class Timeline
     @$container = $(container)
     @adjustHeader()
     @setupBubbles(12)
+    # XXX create own class for carousels to manage all set of images
+    # independently, including their preloading
+    @setupImageCarousels()
     # Go to opened path directly (no animation)
     # XXX should wait until DOM is completely ready (fonts, etc.)
     @goTo(App.router.args.slug, false)
@@ -26,6 +29,46 @@ class Timeline
       time: 0.1
       offset: offset
       target: '.head'
+
+  @setupImageCarousels: ->
+    # Setup the image carousels as their images load
+    @$container.find('.image-wrap img').load ->
+      Timeline.adjustImageCarousel($(this).closest('.image-wrap'))
+
+  @adjustImageCarousels: ->
+    # Adjust all image carousels (triggered on window resize)
+    @$container.find('.image-wrap').each (i, wrapper) =>
+      @adjustImageCarousel($(wrapper))
+
+  @adjustImageCarousel: ($wrapper) ->
+    ###
+      This can be triggered by
+      - an image that finished loading
+      - a browser resize
+      and does the following:
+      - adjust the mask of a carousel as half the timeline's width
+      - sets the width of a carousel's list based on its child images
+    ###
+    $timeline = @$container.parent('.timeline')
+    # XXX determine whether we are on mobile or desktop view
+    onExpandedLayout = $(window).width() >= 1208
+    if onExpandedLayout
+      # XXX set it to half the timeline width and retract the width of the
+      # timeline bar
+      $wrapper.width(($timeline.width() - 8) / 2)
+    else
+      $wrapper.width($timeline.width())
+
+    # Set the width of an image list as the sum of all of its images' widths,
+    # but not smaller than the width of the wrapper mask
+    width = 0
+    $wrapper.find('img').each((i, img) -> width += $(img).width())
+    $wrapper.find('ul').width(Math.max(width, $wrapper.width()))
+
+    # XXX make sure the carousels of even entries (left-handed) start their
+    # scrolling position from right to left
+    if onExpandedLayout and $wrapper.closest('.entry').hasClass('even')
+      $wrapper.scrollLeft($wrapper.width())
 
   @goTo: (slug, animate = true) ->
     ###
@@ -204,3 +247,8 @@ Template.timeline.iconClass = (icon) ->
 
 Template.timeline.parity = (index) ->
   return if index % 2 then 'odd' else 'even'
+
+
+Meteor.startup ->
+  $(window).resize ->
+    Timeline.adjustImageCarousels()
