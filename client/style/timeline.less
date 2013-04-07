@@ -12,7 +12,9 @@
 @entry-list-width: 8px;
 @entry-margin: 50px;
 @entry-width-excerpt: 400px;
+@entry-width-excerpt-outer: @entry-width-excerpt + (2 * @entry-margin);
 @entry-width-content: 500px;
+@entry-width-content-outer: @entry-width-content + (2 * @entry-margin);
 
 @bullet-size-post: 50px;
 @bullet-size-year: 100px;
@@ -35,7 +37,7 @@ body {
 
 /* Default timeline, for mobile display */
 #content.timeline {
-  min-width: @entry-width-content + (2 * @entry-margin);
+  min-width: @entry-width-content-outer;
   background: @color-background;
   color: @color-dark;
   font-family: @font-open-sans;
@@ -221,7 +223,7 @@ body {
       }
       .head {
         // Head needs padding since it's no longer centered
-        width: @entry-width-excerpt + (2 * @entry-margin);
+        width: @entry-width-excerpt-outer;
         // Align head to left instead of centering it
         margin: 0 0 0 50%;
         // Head no longer overlaps with the timeline so no need for any
@@ -244,15 +246,15 @@ body {
     .post.even {
       .bullet {
         // Bullet needs to be pulled to the right of left-sided posts
-        left: @entry-width-excerpt + (2 * @entry-margin);
+        left: @entry-width-excerpt-outer;
       }
       // Head and content need both to be pulled to the left
       .head {
-        left: -@entry-width-excerpt - (2 * @entry-margin);
+        left: -@entry-width-excerpt-outer;
       }
       .content {
         .text {
-          left: -@entry-width-content - (2 * @entry-margin);
+          left: -@entry-width-content-outer;
         }
       }
     }
