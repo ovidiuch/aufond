@@ -37,7 +37,7 @@ class @Timeline
 
   @adjustImageCarousels: ->
     # Adjust all image carousels (triggered on window resize)
-    @$container.find('.image-wrap').each (i, wrapper) =>
+    @$container?.find('.image-wrap').each (i, wrapper) =>
       @adjustImageCarousel($(wrapper))
 
   @adjustImageCarousel: ($wrapper) ->
