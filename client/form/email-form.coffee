@@ -1,4 +1,4 @@
-class EmailForm extends Form
+class @EmailForm extends Form
   template: Template.emailForm
 
   submit: ->

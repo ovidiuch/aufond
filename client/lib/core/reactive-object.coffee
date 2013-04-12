@@ -1,4 +1,4 @@
-class ReactiveObject
+class @ReactiveObject
   ###
     Dynamic object that invalidates reactive contexts on demand.
 

@@ -1,4 +1,4 @@
-class EntryCollection extends MeteorCollection
+class @EntryCollection extends MeteorCollection
   toJSON: ->
     entries = super()
     for entry, i in entries
@@ -6,7 +6,7 @@ class EntryCollection extends MeteorCollection
     return entries
 
 
-class Entry extends MeteorModel
+class @Entry extends MeteorModel
   @collection: EntryCollection
   @mongoCollection: new Meteor.Collection 'entries'
 
@@ -51,6 +51,7 @@ class Entry extends MeteorModel
   toJSON: ->
     data = super()
     data.year = @getYear()
+    data.hasExtendedContent = data.content or data.images.length
     return data
 
   getPath: ->
@@ -61,6 +62,33 @@ class Entry extends MeteorModel
   validate: ->
     return "Headline can't be empty" unless @get('headline').length
     return "Invalid date" if isNaN(@getTimeFromDate(@get('date')))
+
+  save: ->
+    # Make sure the entry has an array for the "images" field
+    @set('images', []) unless @get('images')?
+    super(arguments...)
+
+  addImage: (imageAttributes, callback) ->
+    ###
+      Attach a new image to an Entry
+    ###
+    images = @get('images')
+    images.push(imageAttributes)
+    @save(images: images, callback)
+
+  getImage: (imageUrl) ->
+    ###
+      Fetch an image attached to an Entry, targeted by its url directly
+    ###
+    return _.find(@get('images'), (image) -> image.url is imageUrl)
+
+  removeImage: (imageUrl, callback) ->
+    ###
+      Delete an image attached to an Entry, targeted by its url directly
+    ###
+    images = @get('images')
+    images = _.reject(images, (image) -> image.url is imageUrl)
+    @save(images: images, callback)
 
   getYear: ->
     return new Date(@get('time')).getFullYear()

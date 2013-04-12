@@ -1,4 +1,4 @@
-class RegisterModal extends FormModal
+class @RegisterModal extends FormModal
   formModel: 'User'
   formClass: 'RegisterForm'
 

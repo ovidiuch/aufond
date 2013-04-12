@@ -1,12 +1,33 @@
-class FilePicker extends ReactiveTemplate
-  template: Template.filePicker
+class @FilePicker extends ReactiveTemplate
+  # Default options
+  @options:
+    mimetypes: ['image/*']
+    services: [
+      'COMPUTER'
+      'DROPBOX'
+      'EVERNOTE'
+      'FACEBOOK'
+      'FLICKR'
+      'GOOGLE_DRIVE'
+      'PICASA'
+      'INSTAGRAM'
+      'URL'
+      'WEBCAM'
+    ]
 
+  @getResizedImageUrl: (url, options) ->
+    ###
+      Check possible options at
+      https://developers.filepicker.io/docs/web/#fpurl-images
+    ###
+    args = ("#{k}=#{v}" for k, v of options)
+    url += "/convert?#{args.join('&')}" if args.length
+    return url
+
+  template: Template.filePicker
   events:
     'click .btn': 'onSelect'
     'click .image': 'onRemove'
-
-  # Default options
-  options: {}
 
   createReactiveContainer: ->
     # Send "field" and "value" params to template data before creating the
@@ -20,7 +41,7 @@ class FilePicker extends ReactiveTemplate
   onSelect: (e) =>
     # Don't let the button act as a submit button if inside a form
     e.preventDefault()
-    filepicker.pick(@options, @onSuccess)
+    filepicker.pick(FilePicker.options, @onSuccess)
 
   onRemove: (e) =>
     e.preventDefault()
@@ -28,10 +49,17 @@ class FilePicker extends ReactiveTemplate
 
   onSuccess: (FPFile) =>
     # Refresh template with the received url as the value
-    @update(value: @getConvertedImageUrl(FPFile.url), true)
+    @update(value: FPFile.url, true)
 
-  getConvertedImageUrl: (imageUrl) ->
-    return "#{imageUrl}/convert?w=100&h=100&fit=crop"
+
+Handlebars.registerHelper 'getResizedImageUrl', (url, width, height, fit) ->
+  # Bypass options by setting them to "null". E.g.
+  # {{getResizedImageUrl url null 250 'clip'}}
+  options = {}
+  options.w = width if width?
+  options.h = height if height?
+  options.fit = fit if fit?
+  return FilePicker.getResizedImageUrl(url, options)
 
 
 Meteor.startup ->

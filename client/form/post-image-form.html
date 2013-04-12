@@ -1,0 +1,11 @@
+<template name="postImageForm">
+  <form id="post-image-caption-form" class="form-horizontal">
+    {{> formStatus}}
+    <div class="control-group">
+      <label class="control-label" for="form-caption">Caption</label>
+      <div class="controls">
+        <input type="text" name="caption" value="{{caption}}" id="form-caption" placeholder="A picture of my kitten Bianca">
+      </div>
+    </div>
+  </form>
+</template>

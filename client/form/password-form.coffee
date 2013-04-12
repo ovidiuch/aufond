@@ -1,4 +1,4 @@
-class PasswordForm extends Form
+class @PasswordForm extends Form
   template: Template.passwordForm
 
   submit: ->

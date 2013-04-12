@@ -1,9 +1,12 @@
-class Timeline
+class @Timeline
 
   @rendered: (container) ->
     @$container = $(container)
     @adjustHeader()
     @setupBubbles(12)
+    # XXX create own class for carousels to manage all set of images
+    # independently, including their preloading
+    @setupImageCarousels()
     # Go to opened path directly (no animation)
     # XXX should wait until DOM is completely ready (fonts, etc.)
     @goTo(App.router.args.slug, false)
@@ -27,6 +30,46 @@ class Timeline
       offset: offset
       target: '.head'
 
+  @setupImageCarousels: ->
+    # Setup the image carousels as their images load
+    @$container.find('.image-wrap img').load ->
+      Timeline.adjustImageCarousel($(this).closest('.image-wrap'))
+
+  @adjustImageCarousels: ->
+    # Adjust all image carousels (triggered on window resize)
+    @$container?.find('.image-wrap').each (i, wrapper) =>
+      @adjustImageCarousel($(wrapper))
+
+  @adjustImageCarousel: ($wrapper) ->
+    ###
+      This can be triggered by
+      - an image that finished loading
+      - a browser resize
+      and does the following:
+      - adjust the mask of a carousel as half the timeline's width
+      - sets the width of a carousel's list based on its child images
+    ###
+    $timeline = @$container.parent('.timeline')
+    # XXX determine whether we are on mobile or desktop view
+    onExpandedLayout = $(window).width() >= 1208
+    if onExpandedLayout
+      # XXX set it to half the timeline width and retract the width of the
+      # timeline bar
+      $wrapper.width(($timeline.width() - 8) / 2)
+    else
+      $wrapper.width($timeline.width())
+
+    # Set the width of an image list as the sum of all of its images' widths,
+    # but not smaller than the width of the wrapper mask
+    width = 0
+    $wrapper.find('img').each((i, img) -> width += $(img).width())
+    $wrapper.find('ul').width(Math.max(width, $wrapper.width()))
+
+    # XXX make sure the carousels of even entries (left-handed) start their
+    # scrolling position from right to left
+    if onExpandedLayout and $wrapper.closest('.entry').hasClass('even')
+      $wrapper.find('.viewport').scrollLeft($wrapper.width())
+
   @goTo: (slug, animate = true) ->
     ###
       Make its corresponding entry active and scroll to it, if the entry slug
@@ -43,8 +86,10 @@ class Timeline
       # hidden, in order to obtain better user experience and create the
       # sensation of going back to a previous position when untoggling an entry
       $activeEntry = @$container.find('.entry.active')
-      if $activeEntry.length
-        position -= @getPostContentHeight($activeEntry) / 2
+      if $activeEntry.find('.content').length
+        # XXX see @getPostHeight to understand why we're now substracting the
+        # height of the head instead of the content
+        position -= $activeEntry.find('.head').outerHeight() / 2
 
     # The scrolling transition can be animated or instant, based on the
     # "animate" parameter
@@ -133,7 +178,12 @@ class Timeline
       that's how it's going to be by the time we scroll to it
     ###
     height = $entry.find('.head').outerHeight()
-    height += @getPostContentHeight($entry)
+    # XXX use the height of the entry head instead of its content in order to
+    # align the entry on the middle, vertically, thus creating an effect where
+    # the border between the entry head and content splits the screen by two,
+    # horizontally
+    if $entry.find('.content').length
+      height += $entry.find('.head').outerHeight()
     return height
 
   @getPostContentHeight: ($entry) ->
@@ -144,8 +194,7 @@ class Timeline
       which the content element is folded
     ###
     return 0 unless $entry.find('.content').length
-    height = $entry.find('.content .inner-wrap').outerHeight()
-    return height
+    return $entry.find('.content .inner-wrap').outerHeight()
 
   @numberInRange: (number, range) ->
     range.push(number)
@@ -198,3 +247,8 @@ Template.timeline.iconClass = (icon) ->
 
 Template.timeline.parity = (index) ->
   return if index % 2 then 'odd' else 'even'
+
+
+Meteor.startup ->
+  $(window).resize ->
+    Timeline.adjustImageCarousels()

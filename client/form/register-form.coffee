@@ -1,4 +1,4 @@
-class RegisterForm extends Form
+class @RegisterForm extends Form
   template: Template.registerForm
 
   submit: ->

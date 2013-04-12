@@ -17,3 +17,6 @@ Template.admin.events
 
 Template.admin.postModal = ->
   module: PostModal
+
+Template.admin.postImageModal = ->
+  module: PostImageModal

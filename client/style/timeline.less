@@ -1,9 +1,9 @@
 @import "mixin.lessimport";
 
-@color-background: #f4f4f6;
-@color-light: #dcdce2;
-@color-medium: #8c8ca0;
-@color-dark: #46465a;
+@color-background: #fafafa;
+@color-light: #d1d1d6;
+@color-medium: #898990;
+@color-dark: #222226;
 @color-link: #c52352;
 
 @font-open-sans: "Open Sans", Helvetica, Arial, sans-serif;
@@ -12,7 +12,9 @@
 @entry-list-width: 8px;
 @entry-margin: 50px;
 @entry-width-excerpt: 400px;
+@entry-width-excerpt-outer: @entry-width-excerpt + (2 * @entry-margin);
 @entry-width-content: 500px;
+@entry-width-content-outer: @entry-width-content + (2 * @entry-margin);
 
 @bullet-size-post: 50px;
 @bullet-size-year: 100px;
@@ -35,7 +37,7 @@ body {
 
 /* Default timeline, for mobile display */
 #content.timeline {
-  min-width: @entry-width-content + (2 * @entry-margin);
+  min-width: @entry-width-content-outer;
   background: @color-background;
   color: @color-dark;
   font-family: @font-open-sans;
@@ -63,6 +65,9 @@ body {
   p {
     line-height: 24px;
   }
+  a {
+    color: @color-link;
+  }
   .entries {
     /* This helps the timeline line span 100% vertically */
     position: relative;
@@ -78,7 +83,8 @@ body {
     height: 100%;
     margin-left: -(@entry-list-width / 2);
     background: @color-light;
-  };
+    opacity: 0.6;
+  }
   .entry {
     position: relative;
     /* Since the timeline takes 50% of the window width and we want to make its
@@ -108,7 +114,7 @@ body {
       z-index: 2;
       width: @entry-width-excerpt;
       margin: 0 auto;
-      .backgroundGradient(~"rgba(244, 244, 246, 0.5) 80%,  rgba(244, 244, 246, 0) 100%");
+      .backgroundGradient(~"rgba(250, 250, 250, 0.5) 80%,  rgba(250, 250, 250, 0) 100%");
       // Overlay the subtle gradient with the timeline line only
       background-size: @entry-list-width 100%;
       background-repeat: no-repeat;
@@ -127,7 +133,6 @@ body {
       position: relative;
       height: 0;
       background: @color-dark;
-      box-shadow: inset 0 0 0 3px #3c3c50;
       color: @color-light;
       overflow: hidden;
       .transition(height, 0.2s);
@@ -137,15 +142,85 @@ body {
         position: relative;
         z-index: 1;
       }
+      .image-wrap {
+        position: relative;
+        // This will be changed from JS on browser resize (and init), with 100%
+        // the browser width on mobile and 50% - 4px on desktop
+        width: 100%;
+        height: 300px;
+        overflow: hidden;
+
+        /* This wrapper is meant to provide scrolling capabilities to the image
+        carousel, but to hide the scrollbar by having it outside the outer
+        wrapper's viewport, thus the +20px height */
+        .viewport {
+          width: 100%;
+          height: 320px;
+          overflow-x: auto;
+          overflow-y: hidden;
+        }
+        ul {
+          margin: 0;
+          padding: 0;
+          // This will be changed from JS and set to the summed width of all
+          // contained images (once they load)
+          width: 600px;
+          list-style-type: none;
+        }
+        li {
+          position: relative;
+          float: left;
+
+          img {
+            display: block;
+            // Full landscape images have a 2:1 aspect ratio;
+            height: 300px;
+          }
+          .caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            padding: 6px 10px;
+            background: @color-dark;
+            color: @color-light;
+            font-size: 12px;
+            line-height: 16px;
+            text-align: left;
+            opacity: 0.85;
+          }
+        }
+      }
       .text {
         position: relative;
         margin: 0 auto;
         padding: 30px 0 10px 0;
         width: @entry-width-content;
         text-align: left;
-      }
-      p {
-        margin-bottom: 20px;
+
+        p {
+          margin-bottom: 20px;
+        }
+        /* Note: This list is currently designed for links */
+        ul {
+          margin: 0 0 20px 0;
+          padding: 0;
+          list-style-type: none;
+        }
+        li {
+          margin: 0 0 4px 0;
+          line-height: 24px;
+          color: @color-medium;
+
+          a {
+            padding-right: 2px;
+          }
+        }
+        li:before {
+          padding: 0 10px 0 0;
+          font-family: FontAwesome;
+          -webkit-font-smoothing: antialiased;
+          content: '\f105';
+        }
       }
     }
     .content:before {
@@ -155,8 +230,8 @@ body {
       width: @entry-list-width;
       height: 100%;
       margin-left: -(@entry-list-width / 2);
-      background: #3c3c50;
-    };
+      background: rgba(0, 0, 0, 0.2);
+    }
   }
   .entry.year {
     // Grow into the size of the year bullet
@@ -209,9 +284,9 @@ body {
 }
 
 /* Timeline on larger, desktop devices */
-@media (min-width: 1200px) {
+@media (min-width: 1208px) {
   #content.timeline {
-    /* Odd posts stay on the left */
+    /* Odd posts stay on the right */
     .post {
       text-align: left;
 
@@ -221,7 +296,7 @@ body {
       }
       .head {
         // Head needs padding since it's no longer centered
-        width: @entry-width-excerpt + (2 * @entry-margin);
+        width: @entry-width-excerpt-outer;
         // Align head to left instead of centering it
         margin: 0 0 0 50%;
         // Head no longer overlaps with the timeline so no need for any
@@ -233,6 +308,22 @@ body {
         }
       }
       .content {
+        .image-wrap {
+          left: @entry-list-width / 2;
+          margin-left: 50%;
+
+          li {
+            float: left;
+
+            .caption {
+              opacity: 0;
+              .transition(opacity, 0.1s);
+            }
+          }
+          li:hover .caption {
+            opacity: 0.85;
+          }
+        }
         .text {
           margin-left: 50%;
           // Content also needs padding since it's no longer centered
@@ -244,15 +335,28 @@ body {
     .post.even {
       .bullet {
         // Bullet needs to be pulled to the right of left-sided posts
-        left: @entry-width-excerpt + (2 * @entry-margin);
+        left: @entry-width-excerpt-outer;
       }
       // Head and content need both to be pulled to the left
       .head {
-        left: -@entry-width-excerpt - (2 * @entry-margin);
+        left: -@entry-width-excerpt-outer;
       }
       .content {
+        .image-wrap {
+          left: 0;
+          margin-left: 0;
+
+          li {
+            float: right;
+
+            .caption {
+              left: auto;
+              right: 0;
+            }
+          }
+        }
         .text {
-          left: -@entry-width-content - (2 * @entry-margin);
+          left: -@entry-width-content-outer;
         }
       }
     }
