@@ -1,4 +1,4 @@
-class FormModal extends Modal
+class @FormModal extends Modal
   formClass: 'Form'
 
   events:

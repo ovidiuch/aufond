@@ -1,4 +1,4 @@
-class PostImageModal extends FormModal
+class @PostImageModal extends FormModal
   formModel: 'Entry'
   formClass: 'PostImageForm'
 

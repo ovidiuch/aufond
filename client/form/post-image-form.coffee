@@ -1,4 +1,4 @@
-class PostImageForm extends Form
+class @PostImageForm extends Form
   template: Template.postImageForm
 
   loadModel: (id) ->

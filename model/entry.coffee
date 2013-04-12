@@ -1,4 +1,4 @@
-class EntryCollection extends MeteorCollection
+class @EntryCollection extends MeteorCollection
   toJSON: ->
     entries = super()
     for entry, i in entries
@@ -6,7 +6,7 @@ class EntryCollection extends MeteorCollection
     return entries
 
 
-class Entry extends MeteorModel
+class @Entry extends MeteorModel
   @collection: EntryCollection
   @mongoCollection: new Meteor.Collection 'entries'
 

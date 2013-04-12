@@ -1,4 +1,4 @@
-class ProfileForm extends Form
+class @ProfileForm extends Form
   template: Template.profileForm
 
   decorateTemplateData: ->

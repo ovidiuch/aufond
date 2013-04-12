@@ -1,4 +1,4 @@
-class User extends MeteorModel
+class @User extends MeteorModel
   @collection: MeteorCollection
   @mongoCollection: Meteor.users
 

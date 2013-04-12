@@ -1,4 +1,4 @@
-class ReactiveTemplate extends ReactiveObject
+class @ReactiveTemplate extends ReactiveObject
   ###
     Reactive object subclass that revolves around a template.
 

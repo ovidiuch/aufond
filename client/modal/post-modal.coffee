@@ -1,4 +1,4 @@
-class PostModal extends FormModal
+class @PostModal extends FormModal
   formModel: 'Entry'
   formTemplate: Template.postForm
 

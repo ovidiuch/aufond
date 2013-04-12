@@ -1,4 +1,4 @@
-class MeteorCollection extends Array
+class @MeteorCollection extends Array
   ###
     XXX document
   ###
@@ -13,7 +13,7 @@ class MeteorCollection extends Array
     return models
 
 
-class MeteorModel
+class @MeteorModel
   ###
     XXX document
   ###

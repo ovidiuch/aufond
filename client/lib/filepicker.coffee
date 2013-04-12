@@ -1,4 +1,4 @@
-class FilePicker extends ReactiveTemplate
+class @FilePicker extends ReactiveTemplate
   # Default options
   @options:
     mimetypes: ['image/*']
