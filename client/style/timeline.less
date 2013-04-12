@@ -65,6 +65,9 @@ body {
   p {
     line-height: 24px;
   }
+  a {
+    color: @color-link;
+  }
   .entries {
     /* This helps the timeline line span 100% vertically */
     position: relative;
@@ -183,6 +186,7 @@ body {
         p {
           margin-bottom: 20px;
         }
+        /* Note: This list is currently designed for links */
         ul {
           margin: 0 0 20px 0;
           padding: 0;
@@ -191,6 +195,11 @@ body {
         li {
           margin: 0 0 4px 0;
           line-height: 24px;
+          color: @color-medium;
+
+          a {
+            padding-right: 2px;
+          }
         }
         li:before {
           padding: 0 10px 0 0;
