@@ -1,4 +1,4 @@
-class LoginForm extends Form
+class @LoginForm extends Form
   template: Template.loginForm
 
   submit: ->

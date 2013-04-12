@@ -1,4 +1,4 @@
-class LoginModal extends FormModal
+class @LoginModal extends FormModal
   formModel: 'User'
   formClass: 'LoginForm'
 

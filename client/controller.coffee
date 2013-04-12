@@ -1,4 +1,4 @@
-class Controller extends ReactiveTemplate
+class @Controller extends ReactiveTemplate
   template: Template.controller
 
   constructor: ->

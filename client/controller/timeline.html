@@ -4,7 +4,7 @@
       {{#match type="header"}}
         <li id="timeline-contact" class="entry header">
           <div class="head link" data-slug="contact">
-            <span class="bullet" style="background-image: url('{{avatar}}');"></span>
+            <span class="bullet" style="background-image: url('{{getResizedImageUrl avatar 100 100 'crop'}}');"></span>
             <div class="inner-wrap">
               {{{markdown name root="h1"}}}
               {{{markdown title root="h2"}}}
@@ -21,12 +21,30 @@
               {{{markdown excerpt}}}
             </div>
           </div>
-          {{#if content}}
+          {{#if hasExtendedContent}}
             <div class="content">
               <div class="inner-wrap">
-                <div class="text">
-                  {{{markdown content}}}
-                </div>
+                {{#if images.length}}
+                  <div class="image-wrap">
+                    <div class="viewport">
+                      <ul>
+                        {{#each images}}
+                          <li>
+                            <img src="{{getResizedImageUrl url null 300 'clip'}}" alt="{{caption}}">
+                            {{#if caption}}
+                              <span class="caption">{{caption}}</span>
+                            {{/if}}
+                          </li>
+                        {{/each}}
+                      </ul>
+                    </div>
+                  </div>
+                {{/if}}
+                {{#if content}}
+                  <div class="text">
+                    {{{markdown content}}}
+                  </div>
+                {{/if}}
               </div>
             </div>
           {{/if}}

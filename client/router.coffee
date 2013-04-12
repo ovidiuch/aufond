@@ -1,4 +1,4 @@
-class Router extends Backbone.Router
+class @Router extends Backbone.Router
 
   @start: (controller) ->
     App.router = new this(controller)

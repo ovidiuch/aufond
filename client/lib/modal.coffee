@@ -1,4 +1,4 @@
-class Modal extends ReactiveTemplate
+class @Modal extends ReactiveTemplate
   template: Template.modal
 
   events:

@@ -1,4 +1,4 @@
-class Form extends ReactiveTemplate
+class @Form extends ReactiveTemplate
 
   events:
     'submit form': 'onSubmit'
