@@ -29,7 +29,12 @@
                     <div class="viewport">
                       <ul>
                         {{#each images}}
-                          <li><img src="{{getResizedImageUrl url null 300 'clip'}}" alt="{{caption}}"></li>
+                          <li>
+                            <img src="{{getResizedImageUrl url null 300 'clip'}}" alt="{{caption}}">
+                            {{#if caption}}
+                              <span class="caption">{{caption}}</span>
+                            {{/if}}
+                          </li>
                         {{/each}}
                       </ul>
                     </div>

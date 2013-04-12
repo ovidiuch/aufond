@@ -168,12 +168,26 @@ body {
           list-style-type: none;
         }
         li {
+          position: relative;
           float: left;
-        }
-        img {
-          display: block;
-          // Images have a 2:1 aspect ratio;
-          height: 300px;
+
+          img {
+            display: block;
+            // Full landscape images have a 2:1 aspect ratio;
+            height: 300px;
+          }
+          .caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            padding: 6px 10px;
+            background: @color-dark;
+            color: @color-light;
+            font-size: 12px;
+            line-height: 16px;
+            text-align: left;
+            opacity: 0.85;
+          }
         }
       }
       .text {
@@ -300,6 +314,14 @@ body {
 
           li {
             float: left;
+
+            .caption {
+              opacity: 0;
+              .transition(opacity, 0.1s);
+            }
+          }
+          li:hover .caption {
+            opacity: 0.85;
           }
         }
         .text {
@@ -326,6 +348,11 @@ body {
 
           li {
             float: right;
+
+            .caption {
+              left: auto;
+              right: 0;
+            }
           }
         }
         .text {
