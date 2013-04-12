@@ -68,7 +68,7 @@ class @Timeline
     # XXX make sure the carousels of even entries (left-handed) start their
     # scrolling position from right to left
     if onExpandedLayout and $wrapper.closest('.entry').hasClass('even')
-      $wrapper.scrollLeft($wrapper.width())
+      $wrapper.find('.viewport').scrollLeft($wrapper.width())
 
   @goTo: (slug, animate = true) ->
     ###

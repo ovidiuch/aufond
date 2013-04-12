@@ -142,7 +142,7 @@ body {
         position: relative;
         z-index: 1;
       }
-      .image-outer-wrap {
+      .image-wrap {
         position: relative;
         // This will be changed from JS on browser resize (and init), with 100%
         // the browser width on mobile and 50% - 4px on desktop
@@ -153,7 +153,7 @@ body {
         /* This wrapper is meant to provide scrolling capabilities to the image
         carousel, but to hide the scrollbar by having it outside the outer
         wrapper's viewport, thus the +20px height */
-        .image-wrap {
+        .viewport {
           width: 100%;
           height: 320px;
           overflow-x: auto;
@@ -294,7 +294,7 @@ body {
         }
       }
       .content {
-        .image-outer-wrap {
+        .image-wrap {
           left: @entry-list-width / 2;
           margin-left: 50%;
 
@@ -320,7 +320,7 @@ body {
         left: -@entry-width-excerpt-outer;
       }
       .content {
-        .image-outer-wrap {
+        .image-wrap {
           left: 0;
           margin-left: 0;
 
