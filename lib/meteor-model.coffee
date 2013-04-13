@@ -143,6 +143,9 @@ class @MeteorModel
     else
       @mongoInsert(callback)
 
+  destroy: ->
+    @constructor.remove(@get('_id'))
+
   mongoInsert: (callback) ->
     ###
       Called whenever saving a new mongo document
