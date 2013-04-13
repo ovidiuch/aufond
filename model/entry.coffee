@@ -51,7 +51,7 @@ class @Entry extends MeteorModel
   toJSON: ->
     data = super()
     data.year = @getYear()
-    data.hasExtendedContent = data.content or data.images.length
+    data.hasExtendedContent = data.content or data.images?.length
     return data
 
   getPath: ->
