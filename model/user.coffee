@@ -2,6 +2,39 @@ class @User extends MeteorModel
   @collection: MeteorCollection
   @mongoCollection: Meteor.users
 
+  @remove: (id, exportToEmail = true) ->
+    user = User.find(id)
+    return unless user?
+
+    # Gather all entries posted by user
+    entries = Entry.get(createdBy: id)
+
+    # Dump entries to email if user has one
+    if exportToEmail and user.hasEmail()
+      cleanEntries = _.map entries.toJSON(true), (entry) ->
+        # Remove db ids from entry dump
+        _.omit(entry, '_id', 'createdBy')
+
+      # Call server method for sending email
+      Meteor.call(
+        'sendEmail'
+        user.getEmail()
+        'Ovidiu Cherecheș <hello@ovidiu.ch>'
+        "Thank you for using Aufond—here's your stuff"
+        JSON.stringify(cleanEntries))
+
+    # Delete all entries belonging to removing user
+    # XXX due to this being an untrusted client context, more than one
+    # document can not be removed at a time. Move this to a server method to
+    # improve its performance
+    entry.destroy() for entry in entries
+
+    # Delete user from database completely
+    super(id)
+
+    # Current session has been invalidated at this point
+    @logout()
+
   @current: ->
     ###
       Static method for fetching current user that can be used globally using
