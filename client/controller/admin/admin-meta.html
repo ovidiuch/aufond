@@ -2,5 +2,7 @@
   {{> reactive profileForm}}
   {{> reactive emailForm}}
   {{> reactive passwordForm}}
-  {{> reactive deleteForm}}
+  {{#unless isRootUser}}
+    {{> reactive deleteForm}}
+  {{/unless}}
 </template>
