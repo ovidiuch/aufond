@@ -6,10 +6,10 @@ class @MeteorCollection extends Array
     for model in models
       @push(model)
 
-  toJSON: ->
+  toJSON: (raw = false)->
     models = []
     for model in this
-      models.push(model.toJSON())
+      models.push(model.toJSON(arguments...))
     return models
 
 
@@ -114,7 +114,10 @@ class @MeteorModel
       data[key] = value
     @update data
 
-  toJSON: ->
+  toJSON: (raw = false) ->
+    ###
+      No extra decorations should be added when "raw" is set to true
+    ###
     return _.clone @data
 
   validate: ->

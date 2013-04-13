@@ -1,8 +1,9 @@
 class @EntryCollection extends MeteorCollection
-  toJSON: ->
-    entries = super()
-    for entry, i in entries
-      entry.index = i + 1
+  toJSON: (raw = false) ->
+    entries = super(arguments...)
+    unless raw
+      for entry, i in entries
+        entry.index = i + 1
     return entries
 
 
@@ -48,10 +49,11 @@ class @Entry extends MeteorModel
       data.urlSlug = @createUrlSlug(data.headline)
     super(data)
 
-  toJSON: ->
-    data = super()
-    data.year = @getYear()
-    data.hasExtendedContent = data.content or data.images?.length
+  toJSON: (raw = false) ->
+    data = super(arguments...)
+    unless raw
+      data.year = @getYear()
+      data.hasExtendedContent = data.content or data.images?.length
     return data
 
   getPath: ->
