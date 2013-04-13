@@ -88,8 +88,8 @@ class @User extends MeteorModel
     data = super(arguments...)
     unless raw
       # Export email address if present
-      if data.emails
-        data.email = data.emails[0].address
+      if @hasEmail()
+        data.email = @getEmail()
     return data
 
   isRoot: ->
@@ -97,6 +97,12 @@ class @User extends MeteorModel
       Helpers method that checks if a user is root
     ###
     return @get('isRoot')
+
+  hasEmail: ->
+    return @get('emails')?.length > 0
+
+  getEmail: ->
+    return @get('emails')?[0].address
 
 
 User.publish()
