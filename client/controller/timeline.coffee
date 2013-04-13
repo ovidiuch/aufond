@@ -132,11 +132,21 @@ class @Timeline
 
   @openLink: (e) =>
     e.preventDefault()
+    # Stop events from bubbling up so they don't reach the timeline element,
+    # which already listens to click events and will untoggle any active entry
+    # when receiving one
+    e.stopPropagation()
     # Toggle link path if currently on it
     path = @getPathByTarget(e.currentTarget)
     if path is @getCurrentPath()
       path = @getDefaultPath()
     App.router.navigate(path, trigger: true)
+
+  @untoggleEntry: (e) =>
+    ###
+      Untoggle any active entry
+    ###
+    $(e.currentTarget).find('.entry.active .link:first').click()
 
   @getPathByTarget: (target) ->
     slug = $(target).data('slug')
@@ -234,6 +244,14 @@ $.fn.contractEntry = ->
 
 Template.timeline.events
   'click .link': Timeline.openLink
+  # Untoggle any active entry when clicking on the timeline background,
+  # outside any entry link
+  'click .entries': Timeline.untoggleEntry
+  'click .entry .content': (e) ->
+    # Stop events from bubbling up so they don't reach the timeline element,
+    # which already listens to click events and will untoggle any active entry
+    # when receiving one
+    e.stopPropagation()
 
 Template.timeline.rendered = ->
   Timeline.rendered(@firstNode)
