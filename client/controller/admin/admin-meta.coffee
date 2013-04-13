@@ -10,3 +10,6 @@ Template.adminMeta.emailForm = ->
 
 Template.adminMeta.passwordForm = ->
   module: PasswordForm
+
+Template.adminMeta.deleteForm = ->
+  module: DeleteForm
