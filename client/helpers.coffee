@@ -9,6 +9,7 @@ Handlebars.registerHelper 'match', (options) ->
   return options.fn(this)
 
 Handlebars.registerHelper 'markdown', (text, options) ->
+  return '' unless text?
   if options.hash.root
     # Extract the root element of each block (which would be paragraphs) and
     # replace it with a different DOM element

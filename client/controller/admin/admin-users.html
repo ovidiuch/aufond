@@ -11,13 +11,17 @@
       <tbody>
         {{#each users}}
           <tr>
-            <td>{{username}}</td>
+            <td>
+              <button class="btn btn-user-timeline" data-username="{{username}}">
+                {{username}}
+              </button>
+            </td>
             <td>{{email}}</td>
             <td>
               {{#unless isRoot}}
                 <button class="btn btn-danger btn-delete pull-right" data-id="{{_id}}">Remove</button>
               {{/unless}}
-              <strong>{{profile.name}}</strong>
+              {{{markdown profile.name}}}
             </td>
           </tr>
         {{/each}}

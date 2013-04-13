@@ -4,11 +4,7 @@ Template.admin.events
     App.router.navigate("#{username}", trigger: true)
 
   'click .btn-logout': (e) ->
-    Meteor.logout (error) ->
-      if error
-        # XXX handle logout error
-      else
-        App.router.navigate('', trigger: true)
+    User.logout()
 
   'click .btn-post': (e) ->
     e.preventDefault()
