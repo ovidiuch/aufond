@@ -11,6 +11,13 @@ class @User extends MeteorModel
     return null unless userId
     return @find(userId)
 
+  @logout: ->
+    Meteor.logout (error) ->
+      if error
+        # XXX handle logout error
+      else
+        App.router.navigate('', trigger: true)
+
   @publish: ->
     if Meteor.isServer
       Meteor.publish 'users', ->
