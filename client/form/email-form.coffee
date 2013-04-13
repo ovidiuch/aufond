@@ -2,6 +2,7 @@ class @EmailForm extends Form
   template: Template.emailForm
 
   submit: ->
+    @clearStatus()
     email = @getDataFromForm().email
 
     # Don't do anything with the new email if it's the same as the current one
