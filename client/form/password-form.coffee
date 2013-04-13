@@ -18,7 +18,8 @@ class @PasswordForm extends Form
       Accounts.changePassword data.oldPassword, data.newPassword, (error) =>
         if error
           # XXX send custom error to users
-          @onError(error.reason)
+          # XXX sometimes Meteor uses "message" instead of "reason"
+          @onError(error.reason or error.message)
         else if _.isFunction(@onSuccess)
           @onSuccess()
 

@@ -2,6 +2,39 @@ class @User extends MeteorModel
   @collection: MeteorCollection
   @mongoCollection: Meteor.users
 
+  @remove: (id, exportToEmail = true) ->
+    user = User.find(id)
+    return unless user?
+
+    # Gather all entries posted by user
+    entries = Entry.get(createdBy: id)
+
+    # Dump entries to email if user has one
+    if exportToEmail and user.hasEmail()
+      cleanEntries = _.map entries.toJSON(true), (entry) ->
+        # Remove db ids from entry dump
+        _.omit(entry, '_id', 'createdBy')
+
+      # Call server method for sending email
+      Meteor.call(
+        'sendEmail'
+        user.getEmail()
+        'Ovidiu Cherecheș <hello@ovidiu.ch>'
+        "Thank you for using Aufond—here's your stuff"
+        JSON.stringify(cleanEntries))
+
+    # Delete all entries belonging to removing user
+    # XXX due to this being an untrusted client context, more than one
+    # document can not be removed at a time. Move this to a server method to
+    # improve its performance
+    entry.destroy() for entry in entries
+
+    # Delete user from database completely
+    super(id)
+
+    # Current session has been invalidated at this point
+    @logout()
+
   @current: ->
     ###
       Static method for fetching current user that can be used globally using
@@ -10,6 +43,13 @@ class @User extends MeteorModel
     userId = Meteor.userId()
     return null unless userId
     return @find(userId)
+
+  @logout: ->
+    Meteor.logout (error) ->
+      if error
+        # XXX handle logout error
+      else
+        App.router.navigate('', trigger: true)
 
   @publish: ->
     if Meteor.isServer
@@ -84,11 +124,12 @@ class @User extends MeteorModel
     else
       super(callback)
 
-  toJSON: ->
-    data = super()
-    # Export email address if present
-    if data.emails
-      data.email = data.emails[0].address
+  toJSON: (raw = false) ->
+    data = super(arguments...)
+    unless raw
+      # Export email address if present
+      if @hasEmail()
+        data.email = @getEmail()
     return data
 
   isRoot: ->
@@ -96,6 +137,12 @@ class @User extends MeteorModel
       Helpers method that checks if a user is root
     ###
     return @get('isRoot')
+
+  hasEmail: ->
+    return @get('emails')?.length > 0
+
+  getEmail: ->
+    return @get('emails')?[0].address
 
 
 User.publish()
