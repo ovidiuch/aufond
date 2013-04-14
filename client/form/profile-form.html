@@ -4,15 +4,22 @@
     <form id="profile-form" class="form-horizontal">
       {{> formStatus}}
       <div class="control-group">
-        <label class="control-label" for="form-profile-name">Name</label>
+        <label class="control-label" for="form-profile-name">Name*</label>
         <div class="controls">
-          <input type="text" name="profile.name" value="{{profile.name}}" id="form-profile-name">
+          <input type="text" name="profile.name" value="{{profile.name}}" id="form-profile-name" class="input-xlarge">
         </div>
       </div>
       <div class="control-group">
-        <label class="control-label" for="form-profile-title">Title</label>
+        <label class="control-label" for="form-profile-title">Title / tagline*</label>
         <div class="controls">
-          <textarea name="profile.title"  id="form-profile-title" rows="3">{{profile.title}}</textarea>
+          <input type="text" name="profile.title" value="{{profile.title}}" id="form-profile-title" class="input-xlarge">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="form-profile-bio">Short bio*</label>
+        <div class="controls">
+          <textarea name="profile.bio" id="form-profile-bio" rows="3" class="input-xxlarge">{{profile.bio}}</textarea>
+          <span class="help-block"><small>* Support <a href="http://daringfireball.net/projects/markdown/">Markup</a> formatting</small></span>
         </div>
       </div>
       <div class="control-group">
