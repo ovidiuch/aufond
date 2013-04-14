@@ -23,12 +23,8 @@ class @Entry extends MeteorModel
     return items unless user
 
     # Add user data as the first item of list
-    profile = user.get('profile')
-    items.push
-      type: 'header'
-      name: profile.name
-      title: profile.title
-      avatar: profile.avatar
+    profile = user.toJSON().profile
+    items.push(_.extend(type: 'header', profile))
 
     year = null
     for entry in @get({createdBy: user.get('_id')}, sort: {time: -1}).toJSON()
