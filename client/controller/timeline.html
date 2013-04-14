@@ -3,6 +3,15 @@
     {{#each entries}}
       {{#match type="header"}}
         <li id="timeline-contact" class="entry header">
+          {{#if hasExtendedContent}}
+            <div class="content">
+              <div class="inner-wrap">
+                <div class="text">
+                  {{{markdown bio}}}
+                </div>
+              </div>
+            </div>
+          {{/if}}
           <div class="head link" data-slug="contact">
             <span class="bullet" style="background-image: url('{{getResizedImageUrl avatar 100 100 'crop'}}');"></span>
             <div class="inner-wrap">
