@@ -7,9 +7,13 @@ class @Timeline
     # XXX create own class for carousels to manage all set of images
     # independently, including their preloading
     @setupImageCarousels()
+    @setupKeyboardEvents()
     # Go to opened path directly (no animation)
     # XXX should wait until DOM is completely ready (fonts, etc.)
     @goTo(App.router.args.slug, false)
+
+  @destroyed: ->
+    $(document).off('keyup', @onKeyUp)
 
   @adjustHeader: ->
     ###
@@ -69,6 +73,56 @@ class @Timeline
     # scrolling position from right to left
     if onExpandedLayout and $wrapper.closest('.entry').hasClass('even')
       $wrapper.find('.viewport').scrollLeft($wrapper.width())
+
+  @setupKeyboardEvents: ->
+    # XXX keyboard events are set on the document in order to make sure they
+    # are always caught, but this means that we need to make sure we're never
+    # binding them more than once
+    $(document).off('keyup', @onKeyUp).on('keyup', @onKeyUp)
+
+  @onKeyUp: (e) =>
+    # ESCAPE key
+    if e.keyCode is 27
+      @untoggleActiveEntry()
+    # LEFT ARROW OR J key
+    else if e.keyCode in [37, 74]
+      @prevEntry()
+    # RIGHT ARROW or K key
+    else if e.keyCode in [39, 75]
+      @nextEntry()
+
+  @untoggleActiveEntry: (e) =>
+    @toggleEntry(@$container.find('.entry.active'))
+
+  @prevEntry: ->
+    ###
+      Select the previous entry if an active one exists, otherwise start
+      navigation by making the closest entry to the user active
+    ###
+    $active = @$container.find('.active')
+    if $active.length
+      $entry = $active.nextAll('.entry:not(.year):first')
+    else
+      $entry = @getFrontmostEntry()
+    @toggleEntry($entry)
+
+  @nextEntry: ->
+    ###
+      Select the next entry if an active one exists, otherwise start navigation
+      by making the closest entry to the user active
+    ###
+    $active = @$container.find('.active')
+    if $active.length
+      $entry = $active.prevAll('.entry:not(.year):first')
+    else
+      $entry = @getFrontmostEntry()
+    @toggleEntry($entry)
+
+  @toggleEntry: ($entry) ->
+    ###
+      Simulate a click on an entry
+    ###
+    $entry.find('.link:first').click()
 
   @goTo: (slug, animate = true) ->
     ###
@@ -142,12 +196,6 @@ class @Timeline
       path = @getDefaultPath()
     App.router.navigate(path, trigger: true)
 
-  @untoggleEntry: (e) =>
-    ###
-      Untoggle any active entry
-    ###
-    $(e.currentTarget).find('.entry.active .link:first').click()
-
   @getPathByTarget: (target) ->
     slug = $(target).data('slug')
     return "#{App.router.args.username}/#{slug}"
@@ -160,6 +208,32 @@ class @Timeline
 
   @getDefaultPath: ->
     return App.router.args.username
+
+  @getFrontmostEntry: ->
+    ###
+      Get the entry most visible to the user (closest to the window center)
+    ###
+    # Calculate the offset to the center of the window viewport
+    userOffset = $(window).scrollTop() + ($(window).height() / 2)
+
+    # Start with the header entry and compare all entry offsets between them
+    $entry = @$container.find('.entry.header')
+    minOffset = Math.abs(userOffset - @getEntryOffset($entry))
+
+    @$container.find('.entry.post').each (i, entry) =>
+      offset = Math.abs(userOffset - @getEntryOffset($(entry)))
+      if offset < minOffset
+        $entry = $(entry)
+        minOffset = offset
+
+    return $entry
+
+  @getEntryOffset: ($entry) ->
+    ###
+      Calculate the top offset of an entry based on the position of its bullet
+    ###
+    $bullet = $entry.find('.bullet')
+    return $bullet.offset().top + ($bullet.height() / 2)
 
   @getEntryPosition: ($entry) ->
     position = $entry.offset().top
@@ -246,7 +320,7 @@ Template.timeline.events
   'click .link': Timeline.openLink
   # Untoggle any active entry when clicking on the timeline background,
   # outside any entry link
-  'click .entries': Timeline.untoggleEntry
+  'click .entries': Timeline.untoggleActiveEntry
   'click .entry .content': (e) ->
     # Stop events from bubbling up so they don't reach the timeline element,
     # which already listens to click events and will untoggle any active entry
@@ -255,6 +329,9 @@ Template.timeline.events
 
 Template.timeline.rendered = ->
   Timeline.rendered(@firstNode)
+
+Template.timeline.destroyed = ->
+  Timeline.destroyed(@firstNode)
 
 Template.timeline.entries = ->
   # Get entries of current user only
