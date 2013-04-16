@@ -60,8 +60,8 @@ class @Timeline
     if $header.hasClass('active')
       headerHeight += @getHeaderContentHeight($header)
 
-    # Make sure things don't overlap when the window is smaller than the header
-    # Keep 50px for the bottom margin and 50 for the peeking year bubble
+    # Make sure things don't overlap when the window is smaller than the header.
+    # Also keep 50px for the bottom margin and 50 for the peeking year bubble
     windowHeight = Math.max($(window).height(), headerHeight + 100)
 
     # Align vertically to center, while preserving the bottom padding of 100px
@@ -276,14 +276,12 @@ class @Timeline
   @getEntryPosition: ($entry) ->
     position = $entry.offset().top
 
-    # Substract the height of a previously active entry from the scroll
-    # position (because it will be contracted), but only if the previously
-    # active element precedes the new one
-    $activeEntry = $entry.prevAll('.entry.active')
+    # Subtract the height of a previously active post from the scroll
+    # position (because it will be contracted), but only if the post precedes
+    # the soon-to-be-active entry
+    $activeEntry = $entry.prevAll('.post.active')
     if $activeEntry.length
-      # Years can't be expanded and header has consistent height (100%)
-      if $activeEntry.hasClass('post')
-        position -= @getPostContentHeight($activeEntry)
+      position -= @getPostContentHeight($activeEntry)
 
     if $entry.hasClass('post')
       height = @getPostHeight($entry)
