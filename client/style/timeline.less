@@ -85,6 +85,11 @@ body {
     background: @color-light;
     opacity: 0.6;
   }
+  // This class is used before the timeline is initialized, in order to have
+  // all its elements in place at start
+  .entries.loading * {
+    .noTransition;
+  }
   .entry {
     position: relative;
     /* Since the timeline takes 50% of the window width and we want to make its
@@ -122,7 +127,7 @@ body {
       cursor: pointer;
 
       .inner-wrap {
-        padding: (@bullet-size-post + 5) 0 0 0;
+        padding: @bullet-size-post 0 0 0;
       }
       p {
         color: @color-medium;
@@ -248,12 +253,34 @@ body {
     }
   }
   .entry.header {
-    padding: 100px 0 0 0;
+    padding: 0;
+    // The entry header will be aligned with padding and we need that to be
+    // transitioned as well
+    .transition(~"height, padding", 0.2s);
 
     .head {
+      width: auto;
+
       .inner-wrap {
-        padding-top: @bullet-size-year + 5;
+        padding-top: @bullet-size-year;
       }
+    }
+    .content {
+      // Pull user avatar bullet upwards, to make it overlap with the extended
+      // profile content
+      margin: 0 0 -50px 0;
+
+      .inner-wrap {
+        // Prevent the extended profile content from overlapping with the
+        // avatar bullet
+        padding-bottom: @bullet-size-year / 2;
+      }
+    }
+    // This element is meant to fill up the gap that the negative margin of the
+    // content "eats"
+    .content-gap {
+      height: 50px;
+      .transition(height, 0.2s);
     }
     .bullet {
       .bullet(@bullet-size-year, 6px);
@@ -279,6 +306,12 @@ body {
   .entry.active.year {
     .bullet {
       background: @color-medium;
+    }
+  }
+  .entry.active.header {
+    // The content gap needs to gracefully disappear as the content expands
+    .content-gap {
+      height: 0;
     }
   }
 }

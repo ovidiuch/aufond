@@ -130,6 +130,7 @@ class @User extends MeteorModel
       # Export email address if present
       if @hasEmail()
         data.email = @getEmail()
+      data.profile.hasExtendedContent = Boolean(data.profile.bio)
     return data
 
   isRoot: ->
