@@ -4,7 +4,7 @@ class @Timeline
     @$container = $(container)
     @adjustHeader()
     @setupBubbles(12)
-    # XXX create own class for carousels to manage all set of images
+    # TODO create own class for carousels to manage all set of images
     # independently, including their preloading
     @setupImageCarousels()
     @bindWindowEvents()
