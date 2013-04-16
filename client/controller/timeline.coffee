@@ -4,25 +4,75 @@ class @Timeline
     @$container = $(container)
     @adjustHeader()
     @setupBubbles(12)
-    # XXX create own class for carousels to manage all set of images
+    # TODO create own class for carousels to manage all set of images
     # independently, including their preloading
     @setupImageCarousels()
-    @setupKeyboardEvents()
+    @bindWindowEvents()
     # Go to opened path directly (no animation)
     # XXX should wait until DOM is completely ready (fonts, etc.)
     @goTo(App.router.args.slug, false)
+    # XXX run with the next event loop to make sure all the CSS properties are
+    # set w/out transitions at init (removing .loading class enables them)
+    setTimeout(=> @$container.removeClass('loading'))
 
   @destroyed: ->
+    @unbindWindowEvents()
+
+  @bindWindowEvents: ->
+    # XXX some events cannot be set locally and have to be attached on the
+    # global document or window, but we need to take extra care in removing
+    # them after this template is destroyed and also never setting them more
+    # than once
+    @unbindWindowEvents()
+
+    $(window).on('resize', @onWindowResize)
+    $(document).on('keyup', @onKeyUp)
+
+  @unbindWindowEvents: ->
+    $(window).off('resize', @onWindowResize)
     $(document).off('keyup', @onKeyUp)
+
+  @onWindowResize: =>
+    @adjustHeader()
+    @adjustImageCarousels()
+
+  @onKeyUp: (e) =>
+    # ESCAPE key
+    if e.keyCode is 27
+      @untoggleActiveEntry()
+    # LEFT ARROW OR J key
+    else if e.keyCode in [37, 74]
+      @prevEntry()
+    # RIGHT ARROW or K key
+    else if e.keyCode in [39, 75]
+      @nextEntry()
 
   @adjustHeader: ->
     ###
       Make timeline header 100% height
     ###
-    windowHeight = Math.max($(window).height(), 400)
-    top = windowHeight / 2 - 110
-    @$container.find('.header').css
+    $header = @$container.find('.header')
+
+    # Detect the height of the header in its current state
+    headerHeight = $header.find('.head').outerHeight()
+    # Only take content height into consideration if visible (when the header
+    # is active)
+    if $header.hasClass('active')
+      headerHeight += @getHeaderContentHeight($header)
+
+    # Make sure things don't overlap when the window is smaller than the header.
+    # Also keep 50px for the bottom margin and 50 for the peeking year bubble
+    windowHeight = Math.max($(window).height(), headerHeight + 100)
+
+    # Align vertically to center, while preserving the bottom padding of 100px
+    availableHeight = windowHeight - headerHeight
+    top = Math.min(availableHeight / 2, availableHeight - 100)
+
+    # Height and padding of header entry use CSS transitions and will change
+    # gracefully and in sync
+    $header.css
       paddingTop: top
+      # XXX subtract 50px because we want to see a peek of last year's bullet
       height: windowHeight - top - 50
 
   @setupBubbles: (offset) ->
@@ -74,23 +124,6 @@ class @Timeline
     if onExpandedLayout and $wrapper.closest('.entry').hasClass('even')
       $wrapper.find('.viewport').scrollLeft($wrapper.width())
 
-  @setupKeyboardEvents: ->
-    # XXX keyboard events are set on the document in order to make sure they
-    # are always caught, but this means that we need to make sure we're never
-    # binding them more than once
-    $(document).off('keyup', @onKeyUp).on('keyup', @onKeyUp)
-
-  @onKeyUp: (e) =>
-    # ESCAPE key
-    if e.keyCode is 27
-      @untoggleActiveEntry()
-    # LEFT ARROW OR J key
-    else if e.keyCode in [37, 74]
-      @prevEntry()
-    # RIGHT ARROW or K key
-    else if e.keyCode in [39, 75]
-      @nextEntry()
-
   @untoggleActiveEntry: (e) =>
     @toggleEntry(@$container.find('.entry.active'))
 
@@ -135,11 +168,11 @@ class @Timeline
       position = @getEntryPosition($entry)
     else
       position = $(window).scrollTop()
-      # Subtract half the height of a currently expanded entry's content (if
+      # Subtract half the height of a currently expanded post's content (if
       # any and if it has one), because it's going to be untoggled and thus
       # hidden, in order to obtain better user experience and create the
-      # sensation of going back to a previous position when untoggling an entry
-      $activeEntry = @$container.find('.entry.active')
+      # sensation of going back to a previous position when untoggling an post
+      $activeEntry = @$container.find('.post.active')
       if $activeEntry.find('.content').length
         # XXX see @getPostHeight to understand why we're now substracting the
         # height of the head instead of the content
@@ -162,6 +195,11 @@ class @Timeline
 
     # Mark entire timeline as having an active post when appropriate
     @$container.toggleClass('active-post', Boolean $entry.hasClass('post'))
+
+    # The timeline header needs to be adjusted either when it becomes active or
+    # when a different entry does, after it being previously active, and it
+    # needs to go back in its default state in favour of that entry
+    @adjustHeader()
 
   @scrollTo: (targetScroll, duration) ->
     # Get the current scroll position in order to make a transitioned movement
@@ -238,10 +276,10 @@ class @Timeline
   @getEntryPosition: ($entry) ->
     position = $entry.offset().top
 
-    # Substract the height of a previously active entry from the scroll
-    # position (because it will be contracted), but only if the previously
-    # active element precedes the new one
-    $activeEntry = $entry.prevAll('.entry.active')
+    # Subtract the height of a previously active post from the scroll
+    # position (because it will be contracted), but only if the post precedes
+    # the soon-to-be-active entry
+    $activeEntry = $entry.prevAll('.post.active')
     if $activeEntry.length
       position -= @getPostContentHeight($activeEntry)
 
@@ -270,12 +308,21 @@ class @Timeline
       height += $entry.find('.head').outerHeight()
     return height
 
+  @getHeaderContentHeight: ($entry) ->
+    ###
+      Calculate the exact height of the header's content section. Unless it is
+      missing, in which case it will be zero.
+
+      Don't use outerHeight() in order not to include the bottom margin, which
+      overlaps with the height of the .head
+    ###
+    return 0 unless $entry.find('.content').length
+    return $entry.find('.content .inner-wrap').height()
+
   @getPostContentHeight: ($entry) ->
     ###
       Calculate the exact height of an entry's content section. Unless it is
-      missing, in which case it will be zero, it needs to be calculated as the
-      entire content height minus half the size of the entry bullet, under
-      which the content element is folded
+      missing, in which case it will be zero
     ###
     return 0 unless $entry.find('.content').length
     return $entry.find('.content .inner-wrap').outerHeight()
@@ -342,8 +389,3 @@ Template.timeline.iconClass = (icon) ->
 
 Template.timeline.parity = (index) ->
   return if index % 2 then 'odd' else 'even'
-
-
-Meteor.startup ->
-  $(window).resize ->
-    Timeline.adjustImageCarousels()

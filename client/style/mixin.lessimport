@@ -15,6 +15,12 @@
   -o-transition-duration: @duration;
   -o-transition-timing-function: @transition;
 }
+.noTransition {
+  transition: none !important;
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: all 0 ease-in !important;
+}
 .backgroundGradient (@gradient) {
   background-image: -webkit-linear-gradient(top, @gradient);
   background-image: -moz-linear-gradient(top, @gradient);
