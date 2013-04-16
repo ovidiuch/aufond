@@ -259,15 +259,19 @@ body {
     }
     .content {
       // Pull user avatar bullet upwards, to make it overlap with the extended
-      // profile content, but compensate with top margin (same amount) in order
-      // to fill the "eaten" space
-      margin: @bullet-size-year / 2 0 -(@bullet-size-year / 2) 0;
+      // profile content
+      margin: 0 0 -50px 0;
 
       .inner-wrap {
         // Prevent the extended profile content from overlapping with the
         // avatar bullet
         padding-bottom: @bullet-size-year / 2;
       }
+    }
+    // This element is meant to fill up the gap that the negative margin of the
+    // content "eats"
+    .content-gap {
+      height: 50px;
     }
     .bullet {
       .bullet(@bullet-size-year, 6px);
