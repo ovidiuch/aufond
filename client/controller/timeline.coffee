@@ -163,11 +163,11 @@ class @Timeline
       position = @getEntryPosition($entry)
     else
       position = $(window).scrollTop()
-      # Subtract half the height of a currently expanded entry's content (if
+      # Subtract half the height of a currently expanded post's content (if
       # any and if it has one), because it's going to be untoggled and thus
       # hidden, in order to obtain better user experience and create the
-      # sensation of going back to a previous position when untoggling an entry
-      $activeEntry = @$container.find('.entry.active')
+      # sensation of going back to a previous position when untoggling an post
+      $activeEntry = @$container.find('.post.active')
       if $activeEntry.find('.content').length
         # XXX see @getPostHeight to understand why we're now substracting the
         # height of the head instead of the content
@@ -276,7 +276,9 @@ class @Timeline
     # active element precedes the new one
     $activeEntry = $entry.prevAll('.entry.active')
     if $activeEntry.length
-      position -= @getPostContentHeight($activeEntry)
+      # Years can't be expanded and header has consistent height (100%)
+      if $activeEntry.hasClass('post')
+        position -= @getPostContentHeight($activeEntry)
 
     if $entry.hasClass('post')
       height = @getPostHeight($entry)
