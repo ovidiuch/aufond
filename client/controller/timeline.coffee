@@ -56,10 +56,8 @@ class @Timeline
     headerHeight = $header.find('.head').outerHeight() + 50
     # Only take content height into consideration if visible (when the header
     # is active)
-    if $header.hasClass('active') and $header.find('.content').length
-      # Don't use outerHeight() in order not to include the bottom margin,
-      # which overlaps with the height of the .head
-      headerHeight += $header.find('.content .inner-wrap').height()
+    if $header.hasClass('active')
+      headerHeight += @getHeaderContentHeight($header)
 
     # Make sure things don't overlap when the window is smaller than the header
     windowHeight = Math.max($(window).height(), headerHeight)
@@ -304,6 +302,17 @@ class @Timeline
     if $entry.find('.content').length
       height += $entry.find('.head').outerHeight()
     return height
+
+  @getHeaderContentHeight: ($entry) ->
+    ###
+      Calculate the exact height of the header's content section. Unless it is
+      missing, in which case it will be zero.
+
+      Don't use outerHeight() in order not to include the bottom margin, which
+      overlaps with the height of the .head
+    ###
+    return 0 unless $entry.find('.content').length
+    return $entry.find('.content .inner-wrap').height()
 
   @getPostContentHeight: ($entry) ->
     ###
