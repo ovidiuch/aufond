@@ -249,6 +249,9 @@ body {
   }
   .entry.header {
     padding: 100px 0 0 0;
+    // The entry header will be aligned with padding and we need that to be
+    // transitioned as well
+    .transition(~"height, padding", 0.2s);
 
     .head {
       width: auto;
@@ -272,6 +275,7 @@ body {
     // content "eats"
     .content-gap {
       height: 50px;
+      .transition(height, 0.2s);
     }
     .bullet {
       .bullet(@bullet-size-year, 6px);
@@ -297,6 +301,12 @@ body {
   .entry.active.year {
     .bullet {
       background: @color-medium;
+    }
+  }
+  .entry.active.header {
+    // The content gap needs to gracefully disappear as the content expands
+    .content-gap {
+      height: 0;
     }
   }
 }

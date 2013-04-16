@@ -7,22 +7,69 @@ class @Timeline
     # XXX create own class for carousels to manage all set of images
     # independently, including their preloading
     @setupImageCarousels()
-    @setupKeyboardEvents()
+    @bindWindowEvents()
     # Go to opened path directly (no animation)
     # XXX should wait until DOM is completely ready (fonts, etc.)
     @goTo(App.router.args.slug, false)
 
   @destroyed: ->
+    @unbindWindowEvents()
+
+  @bindWindowEvents: ->
+    # XXX some events cannot be set locally and have to be attached on the
+    # global document or window, but we need to take extra care in removing
+    # them after this template is destroyed and also never setting them more
+    # than once
+    @unbindWindowEvents()
+
+    $(window).on('resize', @onWindowResize)
+    $(document).on('keyup', @onKeyUp)
+
+  @unbindWindowEvents: ->
+    $(window).off('resize', @onWindowResize)
     $(document).off('keyup', @onKeyUp)
+
+  @onWindowResize: =>
+    @adjustHeader()
+    @adjustImageCarousels()
+
+  @onKeyUp: (e) =>
+    # ESCAPE key
+    if e.keyCode is 27
+      @untoggleActiveEntry()
+    # LEFT ARROW OR J key
+    else if e.keyCode in [37, 74]
+      @prevEntry()
+    # RIGHT ARROW or K key
+    else if e.keyCode in [39, 75]
+      @nextEntry()
 
   @adjustHeader: ->
     ###
       Make timeline header 100% height
     ###
-    windowHeight = Math.max($(window).height(), 400)
-    top = windowHeight / 2 - 110
-    @$container.find('.header').css
+    $header = @$container.find('.header')
+
+    # Detect the height of the header in its current state
+    # XXX add 50px because we want to allow half of the last year's bullet to
+    # be visible in the header screen
+    headerHeight = $header.find('.head').outerHeight() + 50
+    # Only take content height into consideration if visible (when the header
+    # is active)
+    if $header.hasClass('active') and $header.find('.content').length
+      # Don't use outerHeight() in order not to include the bottom margin,
+      # which overlaps with the height of the .head
+      headerHeight += $header.find('.content .inner-wrap').height()
+
+    # Make sure things don't overlap when the window is smaller than the header
+    windowHeight = Math.max($(window).height(), headerHeight)
+    top = (windowHeight - headerHeight) / 2
+
+    # Height and padding of header entry use CSS transitions and will change
+    # gracefully and in sync
+    $header.css
       paddingTop: top
+      # XXX subtract 50px because we want to see a peak of last year's bullet
       height: windowHeight - top - 50
 
   @setupBubbles: (offset) ->
@@ -73,23 +120,6 @@ class @Timeline
     # scrolling position from right to left
     if onExpandedLayout and $wrapper.closest('.entry').hasClass('even')
       $wrapper.find('.viewport').scrollLeft($wrapper.width())
-
-  @setupKeyboardEvents: ->
-    # XXX keyboard events are set on the document in order to make sure they
-    # are always caught, but this means that we need to make sure we're never
-    # binding them more than once
-    $(document).off('keyup', @onKeyUp).on('keyup', @onKeyUp)
-
-  @onKeyUp: (e) =>
-    # ESCAPE key
-    if e.keyCode is 27
-      @untoggleActiveEntry()
-    # LEFT ARROW OR J key
-    else if e.keyCode in [37, 74]
-      @prevEntry()
-    # RIGHT ARROW or K key
-    else if e.keyCode in [39, 75]
-      @nextEntry()
 
   @untoggleActiveEntry: (e) =>
     @toggleEntry(@$container.find('.entry.active'))
@@ -162,6 +192,11 @@ class @Timeline
 
     # Mark entire timeline as having an active post when appropriate
     @$container.toggleClass('active-post', Boolean $entry.hasClass('post'))
+
+    # The timeline header needs to be adjusted either when it becomes active or
+    # when a different entry does, after it being previously active, and it
+    # needs to go back in its default state in favour of that entry
+    @adjustHeader()
 
   @scrollTo: (targetScroll, duration) ->
     # Get the current scroll position in order to make a transitioned movement
@@ -342,8 +377,3 @@ Template.timeline.iconClass = (icon) ->
 
 Template.timeline.parity = (index) ->
   return if index % 2 then 'odd' else 'even'
-
-
-Meteor.startup ->
-  $(window).resize ->
-    Timeline.adjustImageCarousels()
