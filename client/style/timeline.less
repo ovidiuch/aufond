@@ -85,6 +85,11 @@ body {
     background: @color-light;
     opacity: 0.6;
   }
+  // This class is used before the timeline is initialized, in order to have
+  // all its elements in place at start
+  .entries.loading * {
+    transition: none !important;
+  }
   .entry {
     position: relative;
     /* Since the timeline takes 50% of the window width and we want to make its

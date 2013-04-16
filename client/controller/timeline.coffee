@@ -11,6 +11,9 @@ class @Timeline
     # Go to opened path directly (no animation)
     # XXX should wait until DOM is completely ready (fonts, etc.)
     @goTo(App.router.args.slug, false)
+    # XXX run with the next event loop to make sure all the CSS properties are
+    # set w/out transitions at init (removing .loading class enables them)
+    setTimeout(=> @$container.removeClass('loading'))
 
   @destroyed: ->
     @unbindWindowEvents()
