@@ -51,23 +51,25 @@ class @Timeline
     $header = @$container.find('.header')
 
     # Detect the height of the header in its current state
-    # XXX add 50px because we want to allow half of the last year's bullet to
-    # be visible in the header screen
-    headerHeight = $header.find('.head').outerHeight() + 50
+    headerHeight = $header.find('.head').outerHeight()
     # Only take content height into consideration if visible (when the header
     # is active)
     if $header.hasClass('active')
       headerHeight += @getHeaderContentHeight($header)
 
     # Make sure things don't overlap when the window is smaller than the header
-    windowHeight = Math.max($(window).height(), headerHeight)
-    top = (windowHeight - headerHeight) / 2
+    # Keep 50px for the bottom margin and 50 for the peeking year bubble
+    windowHeight = Math.max($(window).height(), headerHeight + 100)
+
+    # Align vertically to center, while preserving the bottom padding of 100px
+    availableHeight = windowHeight - headerHeight
+    top = Math.min(availableHeight / 2, availableHeight - 100)
 
     # Height and padding of header entry use CSS transitions and will change
     # gracefully and in sync
     $header.css
       paddingTop: top
-      # XXX subtract 50px because we want to see a peak of last year's bullet
+      # XXX subtract 50px because we want to see a peek of last year's bullet
       height: windowHeight - top - 50
 
   @setupBubbles: (offset) ->

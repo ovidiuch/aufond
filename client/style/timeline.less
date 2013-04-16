@@ -122,7 +122,7 @@ body {
       cursor: pointer;
 
       .inner-wrap {
-        padding: (@bullet-size-post + 5) 0 0 0;
+        padding: @bullet-size-post 0 0 0;
       }
       p {
         color: @color-medium;
@@ -248,7 +248,7 @@ body {
     }
   }
   .entry.header {
-    padding: 100px 0 0 0;
+    padding: 0;
     // The entry header will be aligned with padding and we need that to be
     // transitioned as well
     .transition(~"height, padding", 0.2s);
@@ -257,7 +257,7 @@ body {
       width: auto;
 
       .inner-wrap {
-        padding-top: @bullet-size-year + 5;
+        padding-top: @bullet-size-year;
       }
     }
     .content {
