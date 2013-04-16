@@ -308,9 +308,7 @@ class @Timeline
   @getPostContentHeight: ($entry) ->
     ###
       Calculate the exact height of an entry's content section. Unless it is
-      missing, in which case it will be zero, it needs to be calculated as the
-      entire content height minus half the size of the entry bullet, under
-      which the content element is folded
+      missing, in which case it will be zero
     ###
     return 0 unless $entry.find('.content').length
     return $entry.find('.content .inner-wrap').outerHeight()
