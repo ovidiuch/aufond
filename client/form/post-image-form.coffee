@@ -11,4 +11,4 @@ class @PostImageForm extends Form
     image = @model.getImage(@postImage)
     image.caption = data.caption
     # Trigger "images" as a changed field
-    @model.save(images: @model.get('images'))
+    @model.set(images: @model.get('images'))
