@@ -1,33 +1,14 @@
 class @PostImageForm extends Form
   template: Template.postImageForm
 
-  loadModel: (id) ->
-    ###
-      Extend the way the model is loaded and just save its reference w/out
-      rendering anything (a specific image will be loaded afterwards)
-    ###
-    # This form only work on existing entries (an image can't be attached to
-    # no entry)
-    @model = @getModelClass().find(id)
+  extractModelData: ->
+    # Use an Entry image as the data source for this form, the @postImage value
+    # should be set before attaching the Entry model to this form
+    @model.getImage(@postImage)
 
-  loadImage: (imageUrl) ->
-    ###
-      Render form template with the attributes of an Entry image
-    ###
-    # Also store reference to image so it can be modified later (on submit)
-    @update(@image = @model.getImage(imageUrl))
-
-  submit: ->
-    ###
-      Only update image caption
-    ###
-    @clearStatus()
+  updateModel: (data) ->
     # Update image object (it is referenced from the Entry data directly)
-    @image.caption = @getDataFromForm().caption
+    image = @model.getImage(@postImage)
+    image.caption = data.caption
     # Trigger "images" as a changed field
-    @model.save images: @model.get('images'), (error, model) =>
-      if error
-        @onError(error)
-      else
-        # The form will surely be loaded w/ an onSuccess handler from the modal
-        @onSuccess()
+    @model.save(images: @model.get('images'))
