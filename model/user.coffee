@@ -137,6 +137,12 @@ class @User extends MeteorModel
           link.index = i
     return data
 
+  validate: ->
+    if @get('profile').links?.length
+      for link in @get('profile').links
+        return "Can't add a link w/out a URL" unless link.url
+        return "Every link needs to have a corresponding icon" unless link.icon
+
   isRoot: ->
     ###
       Helpers method that checks if a user is root
