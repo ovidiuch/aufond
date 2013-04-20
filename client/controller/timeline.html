@@ -7,9 +7,18 @@
             <div class="content-gap"></div>
             <div class="content">
               <div class="inner-wrap">
-                <div class="text">
-                  {{{markdown bio}}}
-                </div>
+                {{#if bio}}
+                  <div class="text">
+                    {{{markdown bio}}}
+                  </div>
+                {{/if}}
+                {{#if links}}
+                  <ul class="links">
+                    {{#each links}}
+                      <li><a href="{{address}}"><i class="{{icon}}"></i></a></li>
+                    {{/each}}
+                  </ul>
+                {{/if}}
               </div>
             </div>
           {{/if}}
