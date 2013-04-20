@@ -1,6 +1,7 @@
 class @Form extends ReactiveTemplate
 
   events:
+    'focus input, select, textarea': 'onFocus'
     'submit form': 'onSubmit'
 
   constructor: ->
@@ -66,6 +67,11 @@ class @Form extends ReactiveTemplate
       else if _.isFunction(@onSuccess)
         @onSuccess()
 
+  rendered: ->
+    super(arguments...)
+    # Only restore previous focus when errors occur
+    @restoreFocus() if @data.error
+
   onSubmit: (e) =>
     e.preventDefault()
     @submit()
@@ -75,6 +81,12 @@ class @Form extends ReactiveTemplate
     # cleared, and that the other data attributes are left alone (second param
     # is extend: true)
     @update(error: error, true)
+
+  onFocus: (e) =>
+    # Keep track of the last focused input in case we want to restore it after
+    # a template re-render. Save "name" attribute and not a reference to the
+    # DOM element because the element will change once a re-rendering occurs
+    @focusedInput = $(e.currentTarget).attr('name')
 
   getModelClass: ->
     ###
@@ -103,3 +115,11 @@ class @Form extends ReactiveTemplate
 
   updateModel: (data) ->
     @model.set(data)
+
+  restoreFocus: ->
+    ###
+      Restore focus on last focused input (focus that was probably lost because
+      of a template re-render)
+    ###
+    if @focusedInput
+      @view.$el.find("[name='#{@focusedInput}']").focus()
