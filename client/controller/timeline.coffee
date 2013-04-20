@@ -3,7 +3,7 @@ class @Timeline
   @rendered: (container) ->
     @$container = $(container)
     @adjustHeader()
-    @setupBubbles(12)
+    @setupBubbles()
     # TODO create own class for carousels to manage all set of images
     # independently, including their preloading
     @setupImageCarousels()
@@ -75,14 +75,21 @@ class @Timeline
       # XXX subtract 50px because we want to see a peek of last year's bullet
       height: windowHeight - top - 50
 
-  @setupBubbles: (offset) ->
+  @setupBubbles: ->
     @$container.find('.year .bullet').bubble
       time: 0.1
-      offset: offset
-    @$container.find('.post .bullet, .header .bullet').bubble
+      offset: 12
+    @$container.find('.header .bullet').bubble
       time: 0.1
-      offset: offset
+      offset: 12
       target: '.head'
+    @$container.find('.post .bullet').bubble
+      time: 0.1
+      offset: 8
+      target: '.head'
+    @$container.find('.header .links a').bubble
+      time: 0.1
+      offset: 8
 
   @setupImageCarousels: ->
     # Setup the image carousels as their images load

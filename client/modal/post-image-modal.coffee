@@ -8,6 +8,6 @@ class @PostImageModal extends FormModal
     App.postImageModal = this
 
   update: (data) ->
+    # Attach specific Entry image to corresponding form
+    @reactiveBody.postImage = data.image
     super(data)
-    # Load specific Entry image in corresponding form
-    @reactiveBody.loadImage(data.image)

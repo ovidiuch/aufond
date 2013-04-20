@@ -2,8 +2,8 @@ class @PasswordForm extends Form
   template: Template.passwordForm
 
   submit: ->
-    @clearStatus()
     data = @getDataFromForm()
+    @updateFormData(data)
 
     # Validate user data beforehand
     error = null
@@ -25,6 +25,3 @@ class @PasswordForm extends Form
 
   onSuccess: ->
     @update(success: 'Password changed successfully')
-    # Clear form inputs manually since they are preserved by default, because
-    # of the preserve-inputs package
-    @view.$el.find('input').val('')
