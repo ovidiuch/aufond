@@ -3,6 +3,8 @@ class @RegisterForm extends Form
 
   submit: ->
     data = @getDataFromForm()
+    @updateFormData(data)
+
     options =
       username: data.username
       email: data.email

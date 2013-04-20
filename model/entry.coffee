@@ -49,7 +49,7 @@ class @Entry extends MeteorModel
     data = super(arguments...)
     unless raw
       data.year = @getYear()
-      data.hasExtendedContent = data.content or data.images?.length
+      data.hasExtendedContent = Boolean(data.content or data.images?.length)
     return data
 
   getPath: ->

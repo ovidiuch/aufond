@@ -3,6 +3,7 @@ class @LoginForm extends Form
 
   submit: ->
     data = @getDataFromForm()
+    @updateFormData(data)
 
     Meteor.loginWithPassword data.handle, data.password, (error) =>
       if error

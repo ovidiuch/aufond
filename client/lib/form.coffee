@@ -1,63 +1,76 @@
 class @Form extends ReactiveTemplate
 
   events:
+    'focus input, select, textarea': 'onFocus'
     'submit form': 'onSubmit'
 
   constructor: ->
     super(arguments...)
-
+    # A model id can be passed when instantiating the Form, in order to setup
+    # a form instance on a model entry specifically. This model will persist
+    # its data inside the form with every re-render (reactive)
+    @loadModel(@params.modelId) if @params.modelId?
     # Accept an onSuccess callback that overrides what's defined in the
     # prototype for it
     @onSuccess = @params.onSuccess if @params.onSuccess?
 
   onRender: =>
-    # A model id can be passed when instantiating the Form, in order to setup
-    # a form instance on a model entry specifically. This model will persist
-    # its data inside the form with every re-render (reactive)
-    @loadModel(@params.modelId, true, false) if @params.modelId
-
-    return super()
-
-  loadModel: (id, updateParams...) ->
     ###
-      Load a model entry and pour its attributes into the module's data set.
-      This method receives the model id as the first parameter and then
-      implements the same parameters as the ReactiveTemplate.update method,
-      which means that the module data cand either be overriden or extended
-      and a context change can or can not be triggered
+      Hook reactive context to the data of a model instance by requesting the
+      model inside the render callback
     ###
-    # Clear model reference and data before attempting to load a new one
-    delete @model
     data = {}
+    # A model id is optional at this point (no need for model data inside a
+    # create form for example)
+    if @modelId
+      # It's important to save a reference to the model instance, since we need
+      # to know which document to update when submitting the form
+      @model = @getModelClass().find(@modelId)
+      # The model instance may or may not have been found, depending on the
+      # requested document id
+      data = @extractModelData() if @model
+    else
+      # Clear model reference if a previous instance was loaded in this form
+      @model = null
 
-    # A model id is optional at this point, no need for model data when
-    # loading a create form for example
-    if id
-      # It's important to save the model reference at this point, since we'll
-      # now know which document to update when submitting the form
-      @model = @getModelClass().find(id)
-      if @model
-        data = @model.toJSON()
+    # Ensure the model attributes inside the template data, but as a base for
+    # the current data set and without triggering a context change, since we're
+    # already inside a callback of one
+    @update(_.extend(data, @data), false, false)
+    # Enable context and decorate template data in ReactiveTemplate superclass
+    super()
 
-    @update(data, updateParams...)
+  loadModel: (id) ->
+    ###
+      Attach a model entry to this form
+    ###
+    @modelId = id
+    # Reset template and trigger a context change in order to make sure the
+    # onRender hook gets called and the model data reaches the template
+    @update({})
 
   submit: ->
-    @clearStatus()
-    data = @getDataFromForm()
-
-    # Create an empty model instance on create, and only set the data
-    # attributes on save in order to be consistent between both methods
+    # Create an empty model instance on create
     unless @model?
       @model = new (@getModelClass())()
-
       # Add the user id to any model saved inside a form
-      data.createdBy = Meteor.userId()
+      @model.set('createdBy', Meteor.userId())
 
-    @model.save data, (error, model) =>
+    # Fetch data from form inputs and update the form instance with it (this
+    # updates the model attributes as well)
+    data = @getDataFromForm()
+    @updateFormData(data)
+
+    @model.save (error, model) =>
       if error
         @onError(error)
       else if _.isFunction(@onSuccess)
         @onSuccess()
+
+  rendered: ->
+    super(arguments...)
+    # Only restore previous focus when errors occur
+    @restoreFocus() if @data.error
 
   onSubmit: (e) =>
     e.preventDefault()
@@ -69,14 +82,11 @@ class @Form extends ReactiveTemplate
     # is extend: true)
     @update(error: error, true)
 
-  clearStatus: ->
-    ###
-      Clear all form status messages, usually called before submitting a new
-      set of values
-    ###
-    @update
-      error: ''
-      success: ''
+  onFocus: (e) =>
+    # Keep track of the last focused input in case we want to restore it after
+    # a template re-render. Save "id" attribute and not a reference to the
+    # DOM element because the element will change once a re-rendering occurs
+    @focusedInput = $(e.currentTarget).attr('id')
 
   getModelClass: ->
     ###
@@ -88,3 +98,28 @@ class @Form extends ReactiveTemplate
 
   getDataFromForm: ->
     return $(@templateInstance.find('form')).serializeObject()
+
+  extractModelData: ->
+    return @model.toJSON()
+
+  updateFormData: (data) ->
+    # If there's a model attached to this form, update it and use its exported
+    # attribute dump (including whatever decorations the model might provide)
+    # for the form data set
+    if @model
+      @updateModel(data)
+      data = @extractModelData()
+    # Reset the entire form data but don't trigger any context change (which
+    # means the template will not re-render because of this update)
+    @update(data, false, false)
+
+  updateModel: (data) ->
+    @model.set(data)
+
+  restoreFocus: ->
+    ###
+      Restore focus on last focused input (focus that was probably lost because
+      of a template re-render)
+    ###
+    if @focusedInput
+      @view.$el.find("##{@focusedInput}").focus()

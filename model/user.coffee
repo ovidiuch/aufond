@@ -130,8 +130,19 @@ class @User extends MeteorModel
       # Export email address if present
       if @hasEmail()
         data.email = @getEmail()
-      data.profile.hasExtendedContent = Boolean(data.profile.bio)
+      data.profile.hasExtendedContent = Boolean(data.profile.bio or
+                                                data.profile.links?.length)
+      # Add indices to links in order to make them countable in templates
+      if data.profile.links?.length
+        for link, i in data.profile.links
+          link.index = i
     return data
+
+  validate: ->
+    if @get('profile').links?.length
+      for link in @get('profile').links
+        return "Can't add a link w/out an address" unless link.address
+        return "Every link needs to have a corresponding icon" unless link.icon
 
   isRoot: ->
     ###
