@@ -140,7 +140,7 @@ class @User extends MeteorModel
   validate: ->
     if @get('profile').links?.length
       for link in @get('profile').links
-        return "Can't add a link w/out a URL" unless link.url
+        return "Can't add a link w/out an address" unless link.address
         return "Every link needs to have a corresponding icon" unless link.icon
 
   isRoot: ->

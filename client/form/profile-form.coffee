@@ -24,25 +24,25 @@ class @ProfileForm extends Form
       still flat at this point, it will get nested only after it reaches the
       model
     ###
-    urls = data['profile.links.url']
+    addresses = data['profile.links.address']
     icons = data['profile.links.icon']
     links = []
 
     # Link values come as strings if there's only one row in the form, we need
     # to ensure their array structure
-    if _.isString(urls)
-      urls = [urls]
+    if _.isString(addresses)
+      addresses = [addresses]
       icons = [icons]
 
-    for url, i in urls
+    for address, i in addresses
       # Ignore completely blank rows
-      continue unless url or icons[i]
+      continue unless address or icons[i]
       links.push
-        url: url
+        address: address
         icon: icons[i]
 
     # Delete specific keys used by the inputs
-    delete data['profile.links.url']
+    delete data['profile.links.address']
     delete data['profile.links.icon']
     # Add parsed links into original data object, as an array of objects
     data['profile.links'] = links

@@ -28,16 +28,16 @@
           <div class="profile-links">
             {{#each profile.links}}
               <div class="link-row">
-                <input type="text" name="profile.links.url" value="{{url}}" id="form-profile-link-url-{{index}}" class="input-xlarge" placeholder="http://twitter.com/louisck">
+                <input type="text" name="profile.links.address" value="{{address}}" id="form-profile-link-address-{{index}}" class="input-xlarge" placeholder="https://twitter.com/louisck">
                 <input type="text" name="profile.links.icon" value="{{icon}}" id="form-profile-link-icon-{{index}}" class="input-medium" placeholder="icon-twitter">
              </div>
             {{/each}}
             <div class="link-row">
-              <input type="text" name="profile.links.url" id="form-profile-link-url-{{profile.links.length}}" class="input-xlarge" placeholder="http://twitter.com/louisck">
+              <input type="text" name="profile.links.address" id="form-profile-link-address-{{profile.links.length}}" class="input-xlarge" placeholder="https://twitter.com/louisck">
               <input type="text" name="profile.links.icon" id="form-profile-icon-icon-{{profile.links.length}}" class="input-medium" placeholder="icon-twitter">
             </div>
           </div>
-          <span class="help-block"><small>Links are saved in URL-icon pairs (icons from the <a href="http://fortawesome.github.com/Font-Awesome/#icons-web-app">Font Awesome</a> selection)</small></span>
+          <span class="help-block"><small>Links are saved in address-icon pairs (icons from the <a href="http://fortawesome.github.com/Font-Awesome/#icons-web-app">Font Awesome</a> selection)</small></span>
         </div>
       </div>
       <div class="control-group">
