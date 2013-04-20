@@ -84,9 +84,9 @@ class @Form extends ReactiveTemplate
 
   onFocus: (e) =>
     # Keep track of the last focused input in case we want to restore it after
-    # a template re-render. Save "name" attribute and not a reference to the
+    # a template re-render. Save "id" attribute and not a reference to the
     # DOM element because the element will change once a re-rendering occurs
-    @focusedInput = $(e.currentTarget).attr('name')
+    @focusedInput = $(e.currentTarget).attr('id')
 
   getModelClass: ->
     ###
@@ -122,4 +122,4 @@ class @Form extends ReactiveTemplate
       of a template re-render)
     ###
     if @focusedInput
-      @view.$el.find("[name='#{@focusedInput}']").focus()
+      @view.$el.find("##{@focusedInput}").focus()
