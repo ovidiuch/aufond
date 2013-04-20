@@ -131,6 +131,10 @@ class @User extends MeteorModel
       if @hasEmail()
         data.email = @getEmail()
       data.profile.hasExtendedContent = Boolean(data.profile.bio)
+      # Add indices to links in order to make them countable in templates
+      if data.profile.links?.length
+        for link, i in data.profile.links
+          link.index = i
     return data
 
   isRoot: ->
