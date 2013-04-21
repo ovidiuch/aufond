@@ -32,8 +32,10 @@ class @User extends MeteorModel
     # Delete user from database completely
     super(id)
 
-    # Current session has been invalidated at this point
-    @logout()
+    # Current session has been invalidated at this point if currently logged-in
+    # user has removed itself (this is the normal case because only admins can
+    # remove other users)
+    @logout() if id is Meteor.userId()
 
   @current: ->
     ###
