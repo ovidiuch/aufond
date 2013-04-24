@@ -189,6 +189,7 @@ class @Timeline
     # "animate" parameter
     @scrollTo(position, if animate then 0.2 else 0)
     @selectEntry($entry)
+    @updatePageTitle($entry)
 
   @selectEntry: ($entry) ->
     ###
@@ -228,6 +229,19 @@ class @Timeline
         # off bounds
         if @numberInRange(currentScroll, [startScroll, nextScroll])
           $('html, body').scrollTop(nextScroll)
+
+  @updatePageTitle: ($entry) ->
+    # End all titles with the name of the timeline user
+    title = @$container.find('h1').text()
+    if $entry.hasClass('post')
+      headline = $entry.find('h3').text()
+      title = "#{headline} — #{title}"
+    else if $entry.hasClass('year')
+      year = $entry.find('.bullet').text()
+      title = "#{year} — #{title}"
+    else if $entry.hasClass('header')
+      title = "Contact — #{title}"
+    document.title = title or "Aufond.me"
 
   @openLink: (e) =>
     e.preventDefault()
