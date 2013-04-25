@@ -113,18 +113,30 @@ class @Timeline
     $timeline = @$container.parent('.timeline')
     # XXX determine whether we are on mobile or desktop view
     onExpandedLayout = $(window).width() >= 1208
+
+    # Determine the width of the entire carousel by summing up the widths of
+    # all its images
+    carouselWidth = 0
+    $wrapper.find('img').each((i, img) -> carouselWidth += $(img).width())
+
     if onExpandedLayout
       # XXX set it to half the timeline width and retract the width of the
       # timeline bar
-      $wrapper.width(($timeline.width() - 8) / 2)
+      availableWidth = ($timeline.width() - 8) / 2
+      # XXX the carousel width must not be smaller then the available one in
+      # expanded view, in order for left-sided carousels to have their images
+      # reach the timeline bar on their side
+      carouselWidth = Math.max(carouselWidth, availableWidth)
     else
-      $wrapper.width($timeline.width())
+      availableWidth = $timeline.width()
+      # Center the carousel horizontally when its entire image list doesn't
+      # cover the available width
+      if carouselWidth < availableWidth
+        availableWidth -= availableWidth - carouselWidth
 
-    # Set the width of an image list as the sum of all of its images' widths,
-    # but not smaller than the width of the wrapper mask
-    width = 0
-    $wrapper.find('img').each((i, img) -> width += $(img).width())
-    $wrapper.find('ul').width(Math.max(width, $wrapper.width()))
+    # Apply detected sizes to DOM nodes
+    $wrapper.width(availableWidth)
+    $wrapper.find('ul').width(carouselWidth)
 
     # XXX make sure the carousels of even entries (left-handed) start their
     # scrolling position from right to left
