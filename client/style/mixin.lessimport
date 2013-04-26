@@ -1,3 +1,12 @@
+@color-background: #fafafa;
+@color-light: #d1d1d6;
+@color-medium: #898990;
+@color-dark: #222226;
+@color-link: #c52352;
+
+@font-open-sans: "Open Sans", Helvetica, Arial, sans-serif;
+@font-source-sans-pro: "Source Sans Pro", Helvetica, Arial, sans-serif;
+
 .transition (@property, @duration, @transition: linear) {
   transition-property: @property;
   transition-duration: @duration;
@@ -26,4 +35,11 @@
   background-image: -moz-linear-gradient(top, @gradient);
   background-image: -o-linear-gradient(top, @gradient);
   background-image: linear-gradient(to bottom, @gradient);
+}
+.subtitle {
+  color: @color-medium;
+  font-family: @font-open-sans;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1em;
 }

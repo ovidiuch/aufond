@@ -1,14 +1,5 @@
 @import "mixin.lessimport";
 
-@color-background: #fafafa;
-@color-light: #d1d1d6;
-@color-medium: #898990;
-@color-dark: #222226;
-@color-link: #c52352;
-
-@font-open-sans: "Open Sans", Helvetica, Arial, sans-serif;
-@font-source-sans-pro: "Source Sans Pro", Helvetica, Arial, sans-serif;
-
 @entry-list-width: 8px;
 @entry-margin: 50px;
 @entry-width-excerpt: 400px;
@@ -30,11 +21,6 @@
   line-height: @size - (2 * @border);
 }
 
-body {
-  /* Reset Bootstrap's paddings on mobile resolutions */
-  padding: 0;
-}
-
 /* Default timeline, for mobile display */
 #content.timeline {
   min-width: @entry-width-content-outer;
@@ -43,30 +29,8 @@ body {
   font-family: @font-open-sans;
   text-align: center;
 
-  h1 {
-    font-family: @font-source-sans-pro;
-    font-size: 44px;
-    font-weight: 400;
-    line-height: 1em;
-  }
-  h2 {
-    color: @color-medium;
-    font-family: @font-open-sans;
-    font-size: 20px;
-    font-weight: 300;
-    line-height: 1em;
-  }
-  h3 {
-    font-family: @font-source-sans-pro;
-    font-size: 32px;
-    font-weight: 400;
-    line-height: 1em;
-  }
   p {
     line-height: 24px;
-  }
-  a {
-    color: @color-link;
   }
   .entries {
     /* This helps the timeline line span 100% vertically */
@@ -264,6 +228,10 @@ body {
 
       .inner-wrap {
         padding-top: @bullet-size-year;
+      }
+      // Treat the only paragraph from the header entry's head as a tagline
+      p {
+        .subtitle;
       }
     }
     .content {

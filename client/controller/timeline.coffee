@@ -246,7 +246,7 @@ class @Timeline
     # End all titles with the name of the timeline user
     title = @$container.find('h1').text()
     if $entry.hasClass('post')
-      headline = $entry.find('h3').text()
+      headline = $entry.find('h2').text()
       title = "#{headline} — #{title}"
     else if $entry.hasClass('year')
       year = $entry.find('.bullet').text()
