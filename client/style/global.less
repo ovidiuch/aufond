@@ -24,3 +24,27 @@ h3 {
 a, a:hover {
   color: @color-link;
 }
+
+/* Forms */
+fieldset.row {
+  // Reset the left margin that fieldsets have by default
+  margin: 0;
+}
+form, legend, .form-horizontal .control-group, .alert {
+  margin-bottom: 10px;
+}
+.form-horizontal textarea + .help-block {
+  margin-top: 5px;
+}
+.form-actions {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 9px 10px 10px 10px;
+}
+.modal form {
+  margin-bottom: 0;
+
+  .control-group:last-child {
+    margin-bottom: 0;
+  }
+}
