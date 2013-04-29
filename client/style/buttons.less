@@ -17,7 +17,7 @@
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: @depth + 2;
   // Make button look 3D by giving a thicker border at the bottom
-  box-shadow: inset 0px -@depth 0 0px rgba(0, 0, 0, 0.1);
+  .boxShadow(inset 0px -@depth 0 0 rgba(0, 0, 0, 0.1));
   font-size: @font-size;
   line-height: @height - @depth;
   .buttonColor(#fafafa, #222);
@@ -32,38 +32,38 @@
   &:active {
     // Remove excess of bottom border when clicking on the button in order to
     // make it seem like it's physically pressed
-    box-shadow: none !important;
+    .boxShadow(~"none !important");
     line-height: @height;
   }
 
   &.button-primary {
     border: 1px solid rgba(0, 0, 0, 0.2);
-    box-shadow: inset 0px -@depth 0 0px rgba(0, 0, 0, 0.2);
+    .boxShadow(inset 0px -@depth 0 0 rgba(0, 0, 0, 0.2));
     .buttonColor(#0088cc, #fafafa);
   }
   &.button-info {
     border: 1px solid rgba(0, 0, 0, 0.2);
-    box-shadow: inset 0px -@depth 0 0px rgba(0, 0, 0, 0.2);
+    .boxShadow(inset 0px -@depth 0 0 rgba(0, 0, 0, 0.2));
     .buttonColor(#49afcd, #fafafa);
   }
   &.button-success {
     border: 1px solid rgba(0, 0, 0, 0.2);
-    box-shadow: inset 0px -@depth 0 0px rgba(0, 0, 0, 0.2);
+    .boxShadow(inset 0px -@depth 0 0 rgba(0, 0, 0, 0.2));
     .buttonColor(#5bb75b, #fafafa);
   }
   &.button-warning {
     border: 1px solid rgba(0, 0, 0, 0.2);
-    box-shadow: inset 0px -@depth 0 0px rgba(0, 0, 0, 0.2);
+    .boxShadow(inset 0px -@depth 0 0 rgba(0, 0, 0, 0.2));
     .buttonColor(#faa732, #fafafa);
   }
   &.button-danger {
     border: 1px solid rgba(0, 0, 0, 0.2);
-    box-shadow: inset 0px -@depth 0 0px rgba(0, 0, 0, 0.2);
+    .boxShadow(inset 0px -@depth 0 0 rgba(0, 0, 0, 0.2));
     .buttonColor(#da4f49, #fafafa);
   }
   &.button-inverse {
     border: 1px solid rgba(0, 0, 0, 0.2);
-    box-shadow: inset 0px -@depth 0 0px rgba(0, 0, 0, 0.2);
+    .boxShadow(inset 0px -@depth 0 0 rgba(0, 0, 0, 0.2));
     .buttonColor(#363636, #fafafa);
   }
 }

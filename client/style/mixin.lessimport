@@ -35,6 +35,11 @@
   background-image: -o-linear-gradient(top, @gradient);
   background-image: linear-gradient(to bottom, @gradient);
 }
+.boxShadow (@statement) {
+  box-shadow: @statement;
+  -webkit-box-shadow: @statement;
+  -moz-box-shadow: @statement;
+}
 .subtitle {
   color: @color-medium;
   font-family: @font-open-sans;
