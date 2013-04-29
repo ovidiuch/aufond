@@ -2,7 +2,6 @@
 @color-light: #d1d1d6;
 @color-medium: #898990;
 @color-dark: #222226;
-@color-link: #c52352;
 
 @font-open-sans: "Open Sans", Helvetica, Arial, sans-serif;
 @font-source-sans-pro: "Source Sans Pro", Helvetica, Arial, sans-serif;
