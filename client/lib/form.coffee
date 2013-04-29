@@ -2,7 +2,12 @@ class @Form extends ReactiveTemplate
 
   events:
     'focus input, select, textarea': 'onFocus'
-    'submit form': 'onSubmit'
+    # XXX forms are being submitted inconsistently on RETURN key when not
+    # having a submit button inside them, so we need to disable the native
+    # behavior and rely solely on custom keyboard and mouse event handlers
+    'submit form': (e) -> e.preventDefault()
+    'keyup input': 'onKeyUp'
+    'click .button-primary': 'onSubmit'
 
   constructor: ->
     super(arguments...)
@@ -71,6 +76,10 @@ class @Form extends ReactiveTemplate
     super(arguments...)
     # Only restore previous focus when errors occur
     @restoreFocus() if @data.error
+
+  onKeyUp: (e) =>
+    # Submit form on RETURN key
+    @submit() if e.keyCode is 13
 
   onSubmit: (e) =>
     e.preventDefault()
