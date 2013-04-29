@@ -1,0 +1,92 @@
+@import "mixin.lessimport";
+
+.placeholderColor (@color) {
+  &::-webkit-input-placeholder {
+    color: @color;
+  }
+  &:-moz-placeholder {
+    color: @color;
+  }
+  &::-moz-placeholder {
+    color: @color;
+  }
+  &:-ms-input-placeholder {
+    color: @color;
+  }
+}
+// Mixin to target all input types with, and to avoid having to declare all the
+// types more than once
+.allInputs () {
+  padding: 6px;
+  border: 1px solid @color-light;
+  .boxShadow(inset 0px 2px 0 0 rgba(0, 0, 0, 0.04));
+  color: lighten(#222226, 20%);
+  .placeholderColor(@color-light);
+  .transition(~"background, box-shadow", 0.2s);
+
+  &:focus {
+    border: 1px solid @color-light;
+    .boxShadow(inset 0px 2px 0 0 rgba(0, 0, 0, 0.04));
+    background: @color-background;
+  }
+}
+textarea,
+input[type='text'],
+input[type='password'],
+input[type='datetime'],
+input[type='datetime-local'],
+input[type='date'],
+input[type='month'],
+input[type='time'],
+input[type='week'],
+input[type='number'],
+input[type='email'],
+input[type='url'],
+input[type='search'],
+input[type='tel'],
+input[type='color'],
+.uneditable-input {
+  .allInputs();
+}
+
+// Make form legends look like h3 headings
+legend {
+  font-family: @font-source-sans-pro;
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 40px;
+}
+form, legend, .form-horizontal .control-group, .alert {
+  margin-bottom: 10px;
+}
+// Add explicit prefix to force priority
+#content .form-horizontal .help-block {
+  margin-top: 5px;
+  color: @color-medium;
+}
+.form-actions {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 9px 10px 10px 10px;
+  border: none;
+  border-radius: 6px;
+  background: #fafafa;
+}
+.modal-header h3 {
+  line-height: 40px;
+}
+.modal-footer {
+  border: 0;
+  background: none;
+  padding: 0 15px 15px 15px;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+.modal form {
+  margin-bottom: 0;
+
+  .control-group:last-child {
+    margin-bottom: 0;
+  }
+}
