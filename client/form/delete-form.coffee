@@ -1,5 +1,6 @@
 class @DeleteForm extends Form
   template: Template.deleteForm
+  submitButton: '.button-danger'
 
   submit: ->
     # Delete account permanently
