@@ -40,6 +40,7 @@ class @FormModal extends Modal
     ###
       Submit the form on modal submit, which then closes the modal on success
     ###
+    super(arguments...)
     @reactiveBody.submit()
 
   onSuccess: =>

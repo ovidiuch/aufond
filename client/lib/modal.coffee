@@ -29,11 +29,12 @@ class @Modal extends ReactiveTemplate
     @$modal.closest('.modal').off('shown').on 'shown', ->
       $(this).find('input:not([type=hidden])').first().focus()
 
-  onSubmit: =>
+  onSubmit: (e) =>
     ###
       Called when the primary modal button is pressed. Extend in subclasses
       or send as a constructor parameter
     ###
+    e.preventDefault()
 
   close: ->
     @$modal.modal('hide')
