@@ -1,4 +1,6 @@
 class @Form extends ReactiveTemplate
+  # Accepted DOM selector for a submit button
+  submitButton: '.button-primary'
 
   events:
     'focus input, select, textarea': 'onFocus'
@@ -7,7 +9,7 @@ class @Form extends ReactiveTemplate
     # behavior and rely solely on custom keyboard and mouse event handlers
     'submit form': (e) -> e.preventDefault()
     'keyup input': 'onKeyUp'
-    'click .button-primary': 'onSubmit'
+    'click .button': 'onButtonClick'
 
   constructor: ->
     super(arguments...)
@@ -81,9 +83,11 @@ class @Form extends ReactiveTemplate
     # Submit form on RETURN key
     @submit() if e.keyCode is 13
 
-  onSubmit: (e) =>
-    e.preventDefault()
-    @submit()
+  onButtonClick: (e) =>
+    # Ignore buttons that aren't submit-eligible
+    if $(e.currentTarget).is(@submitButton)
+      e.preventDefault()
+      @submit()
 
   onError: (error) ->
     # Make sure the error is sent to the template, that any success message is
