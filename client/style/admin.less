@@ -47,18 +47,26 @@
     list-style-type: none;
 
     li {
-      min-height: 60px;
+      margin: 0;
+      padding: 0;
 
       img {
         float: left;
         width: 120px;
         height: 60px;
-        margin: 0 10px 0 0;
+        margin: 0 10px 10px 0;
         border-radius: 4px;
       }
       .caption {
+        float: left;
+        margin: 0 0 10px 0;
         padding: 5px 10px;
-        margin-bottom: 10px;
+        background: @color-medium;
+        color: @color-background;
+
+        .buttons, .buttons a {
+          color: darken(@color-background, 10%);
+        }
       }
     }
     li:last-child .controls {
