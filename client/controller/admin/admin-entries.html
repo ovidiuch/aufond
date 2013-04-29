@@ -3,9 +3,9 @@
     <thead>
       <tr>
         <th>&nbsp;</th>
+        <th>From</th>
         <th>Headline</th>
         <th>Excerpt</th>
-        <th>From</th>
       </tr>
     </thead>
     <tbody>
@@ -20,6 +20,7 @@
               {{/if}}
             </a>
           </td>
+          <td>{{timeago time}}</td>
           <td>{{{markdown headline}}}</td>
           <td class="excerpt">
             {{{markdown excerpt}}}
@@ -46,7 +47,6 @@
               </ul>
             {{/if}}
           </td>
-          <td>{{timeago time}}</td>
         </tr>
       {{/each}}
     </tbody>
