@@ -1,12 +1,14 @@
 Template.admin.events
-  'click .btn-timeline': (e) ->
+  'click .button-timeline': (e) ->
+    e.preventDefault()
     username = Meteor.user().username
     App.router.navigate("#{username}", trigger: true)
 
-  'click .btn-logout': (e) ->
+  'click .button-logout': (e) ->
+    e.preventDefault()
     User.logout()
 
-  'click .btn-post': (e) ->
+  'click .button-post': (e) ->
     e.preventDefault()
     data = $(e.currentTarget).data()
     App.postModal.update(data)
