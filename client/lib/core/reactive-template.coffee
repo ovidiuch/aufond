@@ -130,9 +130,12 @@ class @ReactiveTemplate extends ReactiveObject
     ###
     events = {}
     for event, listener of @events
-      if not _.isFunction(this[listener])
-        throw new Error "Class has no event listener named #{listener}"
-      events[event] = this[listener]
+      if _.isFunction(listener)
+        events[event] = listener
+      else
+        if not _.isFunction(this[listener])
+          throw new Error "Class has no event listener named #{listener}"
+        events[event] = this[listener]
     return events
 
   created: (templateInstance) ->

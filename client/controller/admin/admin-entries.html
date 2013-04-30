@@ -3,53 +3,50 @@
     <thead>
       <tr>
         <th>&nbsp;</th>
+        <th>From</th>
         <th>Headline</th>
         <th>Excerpt</th>
-        <th>From</th>
       </tr>
     </thead>
     <tbody>
       {{#each entries}}
         <tr>
           <td>
-            <button class="btn btn-view" data-id="{{_id}}">
+            <a href="#timeline" class="button button-inline button-view" data-id="{{_id}}">
               {{#if icon}}
                 <i class="{{icon}}"></i>
               {{else}}
                 {{index}}
               {{/if}}
-            </button>
+            </a>
           </td>
+          <td>{{timeago time}}</td>
           <td>{{{markdown headline}}}</td>
           <td class="excerpt">
             {{{markdown excerpt}}}
-            <div class="controls">
-              <div class="btn-group">
-                <button class="btn btn-edit" data-toggle="modal" data-target="#post-modal" data-title="What have you been up to?" data-button="Update" data-id="{{_id}}"><i class="icon-edit"></i> Edit</button>
-                <button class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                  <li><a href="#" class="btn-image-attach" data-id="{{_id}}"><i class="icon-picture"></i> Attach image</a></li>
-                </ul>
-              </div>
-              <button class="btn btn-danger btn-delete" data-id="{{_id}}"><i class="icon-trash"></i></button>
+            <div class="clearfix">
+              <a href="#edit" class="button button-inline button-edit" data-toggle="modal" data-target="#post-modal" data-title="What have you been up to?" data-button="Update" data-id="{{_id}}"><i class="icon-edit"></i> Edit</a>
+              <a href="#attach-image" class="button button-inline button-image-attach" data-id="{{_id}}"><i class="icon-picture"></i> Attach image</a>
+              <a href="#remove" class="button button-inline button-danger button-delete" data-id="{{_id}}"><i class="icon-trash"></i> Remove</a>
             </div>
             {{#if images.length}}
               <h4>Images</h4>
               <ul class="entry-image-list">
                 {{#each images}}
-                  <li>
+                  <li class="clearfix">
                     <img src="{{getResizedImageUrl url 120 60 'crop'}}">
-                    <p class="caption label">{{caption}}</p>
-                    <p class="controls">
-                      <button class="btn btn-small btn-image-edit" data-toggle="modal" data-target="#post-image-modal" data-title="What is this image about?" data-button="Update" data-id="{{../_id}}" data-image="{{url}}"><i class="icon-edit"></i> Change</button>
-                      <button class="btn btn-small btn-danger btn-image-delete" data-id="{{../_id}}" data-image="{{url}}"><i class="icon-trash"></i></button>
+                    <p class="caption label">
+                      {{caption}}
+                      <span class="buttons">
+                        {{#if caption}}• {{/if}}<a href="#change-image-caption" class="button-image-edit" data-toggle="modal" data-target="#post-image-modal" data-title="What is this image about?" data-button="Update" data-id="{{../_id}}" data-image="{{url}}">Edit caption</a>
+                        • <a href="#remove-image" class="button-image-delete" data-id="{{../_id}}" data-image="{{url}}">Remove</a>
+                      </span>
                     </p>
                   </li>
                 {{/each}}
               </ul>
             {{/if}}
           </td>
-          <td>{{timeago time}}</td>
         </tr>
       {{/each}}
     </tbody>

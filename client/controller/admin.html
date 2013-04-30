@@ -1,11 +1,11 @@
 <template name="admin">
-  <div class="container-fluid admin">
+  <div class="container-fluid">
     <div class="page-header">
       <div class="pull-right">
-        <button class="btn btn-large btn-timeline">Timeline</button>
-        <button class="btn btn-large btn-inverse btn-logout"><i class="icon-off"></i></button>
+        <a href="#timeline" class="button button-inline button-large button-timeline">Timeline</a>
+        <a href="#logout" class="button button-inline button-large button-inverse button-logout"><i class="icon-off"></i></a>
       </div>
-      <h1>Aufond</h1>
+      <h1><strong>Aufond</strong>.me</h1>
     </div>
     {{> adminTabs}}
     <div class="tab-content">
@@ -16,8 +16,8 @@
         <div id="post-image-modal" class="modal hide fade">
           {{> reactive postImageModal}}
         </div>
-        <p>
-          <button class="btn btn-primary btn-large btn-post" data-toggle="modal" data-target="#post-modal" data-title="What have you been up to?" data-button="Create">Post a new story about yourself</button>
+        <p class="clearfix">
+          <a href="#post" class="button button-inline button-primary button-xlarge button-post" data-toggle="modal" data-target="#post-modal" data-title="What have you been up to?" data-button="Create">Post a new story about yourself</a>
         </p>
         {{> adminEntries}}
       </div>

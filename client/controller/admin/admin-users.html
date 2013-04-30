@@ -12,14 +12,16 @@
         {{#each users}}
           <tr>
             <td>
-              <button class="btn btn-user-timeline" data-username="{{username}}">
+              <a href="#timeline" class="button button-inline button-user-timeline" data-username="{{username}}">
                 {{username}}
-              </button>
+              </a>
             </td>
             <td>{{email}}</td>
             <td>
               {{#unless isRoot}}
-                <button class="btn btn-danger btn-delete pull-right" data-id="{{_id}}">Remove</button>
+                <div class="pull-right">
+                  <a href="#remove" class="button button-inline button-danger button-delete" data-id="{{_id}}"><i class="icon-trash"></i> Remove</a>
+                </div>
               {{/unless}}
               {{{markdown profile.name}}}
             </td>

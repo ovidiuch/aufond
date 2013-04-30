@@ -2,8 +2,7 @@ class @FormModal extends Modal
   formClass: 'Form'
 
   events:
-    'click .btn-primary': 'onSubmit'
-    'keyup input': 'onKeyUp'
+    'click .button-primary': 'onSubmit'
 
   constructor: ->
     super(arguments...)
@@ -37,17 +36,11 @@ class @FormModal extends Modal
     # Also update the modal template with the non form-related attributes
     super(data)
 
-  onKeyUp: (e) =>
-    # Submit container form when pressing ENTER inside an input (it will not be
-    # done automatically because forms loaded inside a modal have their submit
-    # button outside their <form> DOM tag)
-    if e.keyCode is 13
-      @reactiveBody.submit()
-
   onSubmit: =>
     ###
       Submit the form on modal submit, which then closes the modal on success
     ###
+    super(arguments...)
     @reactiveBody.submit()
 
   onSuccess: =>
