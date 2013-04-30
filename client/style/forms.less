@@ -14,22 +14,7 @@
     color: @color;
   }
 }
-// Mixin to target all input types with, and to avoid having to declare all the
-// types more than once
-.allInputs () {
-  padding: 6px;
-  border: 1px solid @color-light;
-  .boxShadow(inset 0px 2px 0 0 rgba(0, 0, 0, 0.04));
-  color: lighten(#222226, 20%);
-  .placeholderColor(@color-light);
-  .transition(~"background, box-shadow", 0.2s);
 
-  &:focus {
-    border: 1px solid @color-light;
-    .boxShadow(inset 0px 2px 0 0 rgba(0, 0, 0, 0.04));
-    background: @color-background;
-  }
-}
 textarea,
 input[type='text'],
 input[type='password'],
@@ -46,7 +31,18 @@ input[type='search'],
 input[type='tel'],
 input[type='color'],
 .uneditable-input {
-  .allInputs();
+  padding: 6px;
+  border: 1px solid @color-light;
+  .boxShadow(inset 0px 2px 0 0 rgba(0, 0, 0, 0.04));
+  color: lighten(#222226, 20%);
+  .placeholderColor(@color-light);
+  .transition(~"background, box-shadow", 0.2s);
+
+  &:focus {
+    border: 1px solid @color-light;
+    .boxShadow(inset 0px 2px 0 0 rgba(0, 0, 0, 0.04));
+    background: @color-background;
+  }
 }
 
 // Make form legends look like h3 headings
@@ -56,7 +52,10 @@ legend {
   font-weight: 400;
   line-height: 40px;
 }
-form, legend, .form-horizontal .control-group, .alert {
+form,
+legend,
+.form-horizontal .control-group,
+.alert {
   margin-bottom: 10px;
 }
 // Add explicit prefix to force priority
