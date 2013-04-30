@@ -1,23 +1,23 @@
 Template.adminEntries.events
-  'click .btn-view': (e) ->
+  'click .button-view': (e) ->
     e.preventDefault()
     id = $(e.currentTarget).data('id')
     entry = Entry.find(id)
     if entry
       App.router.navigate(entry.getPath(), trigger: true)
 
-  'click .btn-edit': (e) ->
+  'click .button-edit': (e) ->
     e.preventDefault()
     data = $(e.currentTarget).data()
     App.postModal.update(data)
 
-  'click .btn-delete': (e) ->
+  'click .button-delete': (e) ->
     e.preventDefault()
     data = $(e.currentTarget).data()
     # XXX delete without warning
     Entry.remove(data.id)
 
-  'click .btn-image-attach': (e) ->
+  'click .button-image-attach': (e) ->
     e.preventDefault()
     id = $(e.currentTarget).data('id')
     filepicker.pick FilePicker.options, (FPFile) ->
@@ -25,12 +25,12 @@ Template.adminEntries.events
         url: FPFile.url
         caption: FPFile.filename
 
-  'click .btn-image-edit': (e) ->
+  'click .button-image-edit': (e) ->
     e.preventDefault()
     data = $(e.currentTarget).data()
     App.postImageModal.update(data)
 
-  'click .btn-image-delete': (e) ->
+  'click .button-image-delete': (e) ->
     e.preventDefault()
     data = $(e.currentTarget).data()
     # XXX delete without warning

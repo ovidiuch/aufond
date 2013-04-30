@@ -1,10 +1,10 @@
 Template.adminUsers.events
-  'click .btn-user-timeline': (e) ->
+  'click .button-user-timeline': (e) ->
     e.preventDefault()
     username = $(e.currentTarget).data('username')
     App.router.navigate("#{username}", trigger: true)
 
-  'click .btn-delete': (e) ->
+  'click .button-delete': (e) ->
     e.preventDefault()
     data = $(e.currentTarget).data()
     # XXX delete without warning

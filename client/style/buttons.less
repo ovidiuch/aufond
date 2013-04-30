@@ -1,0 +1,98 @@
+@import "mixin.lessimport";
+
+.buttonColor (@background, @text) {
+  background: @background;
+  color: @text;
+
+  &:hover,
+  &:focus {
+    background: darken(@background, 4%);
+    color: @text;
+  }
+}
+.buttonSize (@height, @depth, @font-size) {
+  height: @height;
+  // Fine-tuned to look match font size
+  padding: 0 @font-size - 4;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: @depth + 2;
+  // Make button look 3D by giving a thicker border at the bottom
+  .boxShadow(inset 0px -@depth 0 0 rgba(0, 0, 0, 0.1));
+  font-size: @font-size;
+  line-height: @height - @depth;
+  .buttonColor(#fafafa, #222);
+
+  &:hover {
+    text-decoration: none;
+  }
+  &:focus {
+    text-decoration: none;
+    outline: none;
+  }
+  &:active {
+    // Remove excess of bottom border when clicking on the button in order to
+    // make it seem like it's physically pressed
+    .boxShadow(~"none !important");
+    line-height: @height;
+  }
+
+  &.button-primary {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    .boxShadow(inset 0px -@depth 0 0 rgba(0, 0, 0, 0.2));
+    .buttonColor(#0088cc, #fafafa);
+  }
+  &.button-info {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    .boxShadow(inset 0px -@depth 0 0 rgba(0, 0, 0, 0.2));
+    .buttonColor(#49afcd, #fafafa);
+  }
+  &.button-success {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    .boxShadow(inset 0px -@depth 0 0 rgba(0, 0, 0, 0.2));
+    .buttonColor(#5bb75b, #fafafa);
+  }
+  &.button-warning {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    .boxShadow(inset 0px -@depth 0 0 rgba(0, 0, 0, 0.2));
+    .buttonColor(#faa732, #fafafa);
+  }
+  &.button-danger {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    .boxShadow(inset 0px -@depth 0 0 rgba(0, 0, 0, 0.2));
+    .buttonColor(#da4f49, #fafafa);
+  }
+  &.button-inverse {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    .boxShadow(inset 0px -@depth 0 0 rgba(0, 0, 0, 0.2));
+    .buttonColor(#363636, #fafafa);
+  }
+}
+
+.button {
+  // Buttons will need to be floated to have organic width—just couldn't play
+  // along with the rigid inline-block display; see .button-inline {}
+  display: block;
+  font-family: @font-source-sans-pro;
+  text-align: center;
+  cursor: pointer;
+  .buttonSize(30px, 1px, 14px);
+  .transition(background-color, 0.2s);
+}
+.button-large {
+  .buttonSize(40px, 2px, 18px);
+}
+.button-xlarge {
+  .buttonSize(50px, 3px, 22px);
+}
+
+// Make a button fit inline by making it float. Add a default out-of-the-box
+// right margin of 10px to play along nice w/ other elements from the same row
+.button-inline {
+  float: left;
+  margin: 0 10px 0 0;
+}
+// The last inline button from a sequence of elements on a certain row will no
+// longer receive a right margin
+.button-inline:last-child {
+  margin-right: 0;
+}
