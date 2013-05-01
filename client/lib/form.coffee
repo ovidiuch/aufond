@@ -9,7 +9,7 @@ class @Form extends ReactiveTemplate
     # behavior and rely solely on custom keyboard and mouse event handlers
     'submit form': (e) -> e.preventDefault()
     'keyup input': 'onKeyUp'
-    'click .button': 'onButtonClick'
+    'mouseup .button': 'onButtonClick'
 
   constructor: ->
     super(arguments...)

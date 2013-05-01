@@ -26,7 +26,7 @@ class @FilePicker extends ReactiveTemplate
 
   template: Template.filePicker
   events:
-    'click .button': 'onSelect'
+    'mouseup .button': 'onSelect'
     'click .image': 'onRemove'
 
   createReactiveContainer: ->
