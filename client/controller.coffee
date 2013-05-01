@@ -1,6 +1,13 @@
 class @Controller extends ReactiveTemplate
   template: Template.controller
 
+  events:
+    # Alter the global .button event handling and rely on "mouseup" events
+    # instead of "click" ones, in order to fix a bug related to intercepting
+    # mouse click events https://github.com/skidding/aufond/issues/33
+    'mouseup .button': 'onButtonMouseUp'
+    'click .button': 'onButtonClick'
+
   constructor: ->
     super(arguments...)
     # Init application router
@@ -28,3 +35,12 @@ class @Controller extends ReactiveTemplate
     # If controller content hasn't been already injected
     if $content.is(':empty') and @data.name
       $content.append(Meteor.render => Template[@data.name]())
+
+  onButtonMouseUp: (e) =>
+    # Turn all "mouseup" events into "click" ones
+    $(e.currentTarget).click()
+
+  onButtonClick: (e) =>
+    # Make sure to ignore "natural" click events and only accept those manually
+    # triggered from the "mouseup" handler
+    e.stopPropagation() if e.originalEvent?
