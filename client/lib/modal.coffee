@@ -2,7 +2,7 @@ class @Modal extends ReactiveTemplate
   template: Template.modal
 
   events:
-    'mouseup .button-primary': 'onSubmit'
+    'click .button-primary': 'onSubmit'
 
   constructor: ->
     super(arguments...)
