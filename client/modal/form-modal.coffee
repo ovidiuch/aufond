@@ -1,9 +1,6 @@
 class @FormModal extends Modal
   formClass: 'Form'
 
-  events:
-    'click .button-primary': 'onSubmit'
-
   constructor: ->
     super(arguments...)
     @createForm()
