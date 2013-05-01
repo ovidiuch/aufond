@@ -3,8 +3,9 @@ class @Controller extends ReactiveTemplate
 
   events:
     # Alter the global .button event handling and rely on "mouseup" events
-    # instead of "click" ones, in order to fix a bug related to intercepting
+    # besides the "click" ones, in order to fix a bug related to intercepting
     # mouse click events https://github.com/skidding/aufond/issues/33
+    'mousedown .button': 'onButtonMouseDown'
     'mouseup .button': 'onButtonMouseUp'
     'click .button': 'onButtonClick'
 
@@ -36,13 +37,27 @@ class @Controller extends ReactiveTemplate
     if $content.is(':empty') and @data.name
       $content.append(Meteor.render => Template[@data.name]())
 
+  onButtonMouseDown: (e) =>
+    # Mark the beginning of a click
+    $(e.currentTarget).data('_pressing', true)
+
   onButtonMouseUp: (e) =>
-    # Turn all "mouseup" events into "click" ones
-    $(e.currentTarget).click()
+    # Wait to see if a click event will follow this one, and similate it in
+    # case it doesn't
+    window.setTimeout =>
+      # Trigger a manual click event if a natural one hasn't by now
+      if $(e.currentTarget).data('_pressing')
+        @triggerClickEvent(e.currentTarget)
 
   onButtonClick: (e) =>
-    # Buttons should never follow through with its location
-    e.preventDefault()
-    # Make sure to ignore "natural" click events and only accept those manually
-    # triggered from the "mouseup" handler
-    e.stopPropagation() if e.originalEvent?
+    # Flag the button as clicked so the mouseup hack doesn't kick in anomore
+    $(e.currentTarget).data('_pressing', false)
+
+  triggerClickEvent: (element) ->
+    # XXX IE vs others
+    if document.createEventObject
+      element.fireEvent('onclick', document.createEventObject())
+    else
+      e = document.createEvent('HTMLEvents')
+      e.initEvent('click', true, true)
+      element.dispatchEvent(e)
