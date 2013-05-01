@@ -41,6 +41,8 @@ class @Controller extends ReactiveTemplate
     $(e.currentTarget).click()
 
   onButtonClick: (e) =>
+    # Buttons should never follow through with its location
+    e.preventDefault()
     # Make sure to ignore "natural" click events and only accept those manually
     # triggered from the "mouseup" handler
     e.stopPropagation() if e.originalEvent?
