@@ -50,25 +50,31 @@
     list-style-type: none;
 
     li {
-      margin: 0;
+      float: left;
+      position: relative;
+      margin: 0 10px 10px 0;
       padding: 0;
 
       img {
-        float: left;
+        display: block;
         width: 120px;
         height: 60px;
-        margin: 0 10px 10px 0;
         border-radius: 4px;
+        .transition(opacity, 0.1s);
       }
-      .caption {
-        float: left;
-        margin: 0 0 10px 0;
-        padding: 5px 10px;
-        background: @color-medium;
-        color: @color-background;
-
-        .buttons, .buttons a {
-          color: darken(@color-background, 10%);
+      .buttons {
+        position: absolute;
+        top: 14px;
+        left: 15px;
+        opacity: 0;
+        .transition(opacity, 0.1s);
+      }
+      &:hover {
+        img {
+          opacity: 0.5;
+        }
+        .buttons {
+          opacity: 1;
         }
       }
     }
