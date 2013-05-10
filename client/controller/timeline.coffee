@@ -253,7 +253,7 @@ class @Timeline
       title = "#{year} — #{title}"
     else if $entry.hasClass('header')
       title = "Contact — #{title}"
-    document.title = title or "Aufond.me"
+    document.title = title
 
   @openLink: (e) =>
     e.preventDefault()
