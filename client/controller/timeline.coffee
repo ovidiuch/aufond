@@ -122,7 +122,7 @@ class @Timeline
     if onExpandedLayout
       # XXX set it to half the timeline width and retract the width of the
       # timeline bar
-      availableWidth = ($timeline.width() - 8) / 2
+      availableWidth = ($timeline.width() - 6) / 2
       # XXX the carousel width must not be smaller then the available one in
       # expanded view, in order for left-sided carousels to have their images
       # reach the timeline bar on their side

@@ -1,6 +1,6 @@
 @import "mixin.lessimport";
 
-@entry-list-width: 8px;
+@entry-list-width: 6px;
 @entry-margin: 50px;
 @entry-width-excerpt: 400px;
 @entry-width-excerpt-outer: @entry-width-excerpt + (2 * @entry-margin);
@@ -117,7 +117,8 @@
       .image-wrap {
         position: relative;
         // This will be changed from JS on browser resize (and init), with 100%
-        // the browser width on mobile and 50% - 4px on desktop
+        // the browser width on mobile and 50% - half the timeline line width
+        // on desktop
         width: 100%;
         height: 300px;
         margin: 0 auto;
@@ -323,7 +324,7 @@
 }
 
 /* Timeline on larger, desktop devices */
-@media (min-width: 1208px) {
+@media (min-width: 1206px) {
   #content.timeline {
     /* Odd posts stay on the right */
     .post {
