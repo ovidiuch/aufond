@@ -78,10 +78,10 @@ class @Timeline
   @setupBubbles: ->
     @$container.find('.year .bullet').bubble
       time: 0.1
-      offset: 12
+      offset: 10
     @$container.find('.header .bullet').bubble
       time: 0.1
-      offset: 12
+      offset: 10
       target: '.head'
     @$container.find('.post .bullet').bubble
       time: 0.1
