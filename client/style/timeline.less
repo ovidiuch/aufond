@@ -9,6 +9,7 @@
 
 @bullet-size-post: 50px;
 @bullet-size-year: 100px;
+@bullet-size-avatar: 120px;
 
 .bullet (@size, @border: 0) {
   width: @size - (2 * @border);
@@ -231,7 +232,7 @@
       width: auto;
 
       .inner-wrap {
-        padding-top: @bullet-size-year;
+        padding-top: @bullet-size-avatar;
       }
       // Treat the only paragraph from the header entry's head as a tagline
       p {
@@ -241,13 +242,13 @@
     .content {
       // Pull user avatar bullet upwards, to make it overlap with the extended
       // profile content
-      margin: 0 0 -50px 0;
+      margin: 0 0 -(@bullet-size-avatar / 2) 0;
 
       .inner-wrap {
         padding-top: 30px;
         // Prevent the extended profile content from overlapping with the
         // avatar bullet
-        padding-bottom: @bullet-size-year / 2 + 10;
+        padding-bottom: @bullet-size-avatar / 2 + 10;
       }
       .text {
         padding: 0;
@@ -286,11 +287,11 @@
     // This element is meant to fill up the gap that the negative margin of the
     // content "eats"
     .content-gap {
-      height: 50px;
+      height: @bullet-size-avatar / 2;
       .transition(height, 0.2s);
     }
     .bullet {
-      .bullet(@bullet-size-year, 6px);
+      .bullet(@bullet-size-avatar, 6px);
       background-color: @color-light;
       background-repeat: no-repeat;
       background-position: center center;

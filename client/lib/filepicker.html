@@ -4,10 +4,10 @@
     <div class="clearfix">
       <a href="#upload" class="button button-inline"><i class="icon-cloud-upload"></i> Choose image</a>
     </div>
-    <span class="help-block"><small>Image will be resized to 100x100px and cropped by center</small></span>
+    <span class="help-block"><small>Image will be resized to 120x120px and cropped by center</small></span>
     {{#if value}}
       <a href="#remove" class="image" title="Remove image">
-        <img src="{{getResizedImageUrl value 100 100 'crop'}}" class="img-circle">
+        <img src="{{getResizedImageUrl value 120 120 'crop'}}" class="img-circle">
         <i class="icon-remove-sign"></i>
       </a>
     {{/if}}
