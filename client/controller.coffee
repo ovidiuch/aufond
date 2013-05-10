@@ -3,6 +3,7 @@ class @Controller extends ReactiveTemplate
 
   constructor: ->
     super(arguments...)
+    @defaultPageTitle = document.title
     # Init application router
     Router.start(this)
 
@@ -20,6 +21,9 @@ class @Controller extends ReactiveTemplate
     else if data.name is 'admin' and @data.name is 'admin'
       return
     else
+      # Revert page title to its default value whenever switching between
+      # controllers
+      document.title = @defaultPageTitle
       super(arguments...)
 
   rendered: (templateInstance) ->
