@@ -23,29 +23,25 @@
           <td>{{timeago time}}</td>
           <td>{{{markdown headline}}}</td>
           <td class="excerpt">
+            {{#if images.length}}
+              <ul class="entry-image-list clearfix">
+                {{#each images}}
+                  <li>
+                    <img src="{{getResizedImageUrl url 120 60 'crop'}}">
+                    <span class="buttons">
+                      <a href="#change-image-caption" class="button button-inline button-image-edit" data-toggle="modal" data-target="#post-image-modal" data-title="What is this image about?" data-button="Update" data-id="{{../_id}}" data-image="{{url}}"><i class="icon-edit"></i></a>
+                      <a href="#remove-image" class="button button-inline button-danger button-image-delete" data-id="{{../_id}}" data-image="{{url}}"><i class="icon-trash"></i></a>
+                    </span>
+                  </li>
+                {{/each}}
+              </ul>
+            {{/if}}
             {{{markdown excerpt}}}
             <div class="clearfix">
               <a href="#edit" class="button button-inline button-edit" data-toggle="modal" data-target="#post-modal" data-title="What have you been up to?" data-button="Update" data-id="{{_id}}"><i class="icon-edit"></i> Edit</a>
               <a href="#attach-image" class="button button-inline button-image-attach" data-id="{{_id}}"><i class="icon-picture"></i> Attach image</a>
               <a href="#remove" class="button button-inline button-danger button-delete" data-id="{{_id}}"><i class="icon-trash"></i> Remove</a>
             </div>
-            {{#if images.length}}
-              <h4>Images</h4>
-              <ul class="entry-image-list">
-                {{#each images}}
-                  <li class="clearfix">
-                    <img src="{{getResizedImageUrl url 120 60 'crop'}}">
-                    <p class="caption label">
-                      {{caption}}
-                      <span class="buttons">
-                        {{#if caption}}• {{/if}}<a href="#change-image-caption" class="button-image-edit" data-toggle="modal" data-target="#post-image-modal" data-title="What is this image about?" data-button="Update" data-id="{{../_id}}" data-image="{{url}}">Edit caption</a>
-                        • <a href="#remove-image" class="button-image-delete" data-id="{{../_id}}" data-image="{{url}}">Remove</a>
-                      </span>
-                    </p>
-                  </li>
-                {{/each}}
-              </ul>
-            {{/if}}
           </td>
         </tr>
       {{/each}}
