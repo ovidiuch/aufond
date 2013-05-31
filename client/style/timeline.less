@@ -116,21 +116,18 @@
         z-index: 1;
       }
       .image-wrap {
-        position: relative;
-        // This will be changed from JS on browser resize (and init), with 100%
-        // the browser width on mobile and 50% - half the timeline line width
-        // on desktop
-        width: 100%;
         height: 300px;
-        margin: 0 auto;
+        background: rgba(0, 0, 0, 0.2);
         overflow: hidden;
 
-        /* This wrapper is meant to provide scrolling capabilities to the image
-        carousel, but to hide the scrollbar by having it outside the outer
-        wrapper's viewport, thus the +20px height */
         .viewport {
+          position: relative;
+          // This will be changed from JS on browser resize (and init), with 100%
+          // the browser width on mobile and 50% - half the timeline line width
+          // on desktop
           width: 100%;
           height: 300px;
+          margin: 0 auto;
           overflow-x: auto;
           overflow-y: hidden;
         }
@@ -139,7 +136,7 @@
           padding: 0;
           // This will be changed from JS and set to the summed width of all
           // contained images (once they load)
-          width: 600px;
+          width: 100%;
           list-style-type: none;
         }
         li {
@@ -353,9 +350,10 @@
       }
       .content {
         .image-wrap {
-          left: @entry-list-width / 2;
-          margin-left: 50%;
-
+          .viewport {
+            left: @entry-list-width / 2;
+            margin-left: 50%;
+          }
           li {
             float: left;
 
@@ -387,9 +385,10 @@
       }
       .content {
         .image-wrap {
-          left: 0;
-          margin-left: 0;
-
+          .viewport {
+            left: 0;
+            margin-left: 0;
+          }
           li {
             float: right;
 

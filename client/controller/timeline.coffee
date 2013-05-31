@@ -135,13 +135,13 @@ class @Timeline
         availableWidth -= availableWidth - carouselWidth
 
     # Apply detected sizes to DOM nodes
-    $wrapper.width(availableWidth)
+    $wrapper.find('.viewport').width(availableWidth)
     $wrapper.find('ul').width(carouselWidth)
 
     # XXX make sure the carousels of even entries (left-handed) start their
     # scrolling position from right to left
     if onExpandedLayout and $wrapper.closest('.entry').hasClass('even')
-      $wrapper.find('.viewport').scrollLeft($wrapper.width())
+      $wrapper.find('.viewport').scrollLeft(availableWidth)
 
   @untoggleActiveEntry: (e) =>
     @toggleEntry(@$container.find('.entry.active'))
