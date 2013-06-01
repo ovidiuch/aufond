@@ -4,7 +4,7 @@ class @PostImageForm extends Form
   extractModelData: ->
     # Use an Entry image as the data source for this form, the @postImage value
     # should be set before attaching the Entry model to this form
-    @model.getImage(@postImage)
+    return @model.getImage(@postImage) or {}
 
   updateModel: (data) ->
     # Update image object (it is referenced from the Entry data directly)
