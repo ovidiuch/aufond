@@ -6,6 +6,11 @@ Template.admin.events
 
   'click .button-logout': (e) ->
     e.preventDefault()
+
+    # Track signouts in Mixpanel
+    username = Meteor.user()?.username
+    mixpanel.track('logout', username: username)
+
     User.logout()
 
   'click .button-post': (e) ->
