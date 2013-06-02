@@ -265,6 +265,9 @@ class @Timeline
     path = @getPathByTarget(e.currentTarget)
     if path is @getCurrentPath()
       path = @getDefaultPath()
+    else
+      # Track each opening of timeline entries in Mixpanel
+      mixpanel.track('timeline entry', path: path)
     App.router.navigate(path, trigger: true)
 
   @getPathByTarget: (target) ->
