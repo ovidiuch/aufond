@@ -25,6 +25,13 @@ class @RegisterForm extends Form
     else if not options.password
       error = 'Come on, you need a password for _any_ account'
 
+    # Track signups in Mixpanel
+    mixpanel.track 'register',
+      username: data.username
+      email: data.email
+      name: data.name
+      error: error
+
     if error
       @onError(error)
     else
