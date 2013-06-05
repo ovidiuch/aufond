@@ -1,6 +1,11 @@
 class @ProfileForm extends Form
   template: Template.profileForm
 
+  submit: ->
+    # Track profile updates in Mixpanel
+    mixpanel.track('update profile')
+    super(arguments...)
+
   onSuccess: ->
     @update(success: "Profile updated successfully", true)
 

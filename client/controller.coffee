@@ -8,6 +8,13 @@ class @Controller extends ReactiveTemplate
     Router.start(this)
 
   update: (data) ->
+    # Track when changing controller in Mixpanel
+    if data.name isnt @data.name
+      properties = {}
+      if data.name is 'timeline'
+        properties.username = data.username
+      mixpanel.track("#{data.name}", properties)
+
     # Load a new slug in a timeline if a new path was targeted within itself,
     # instead of re-rendering the entire template
     # XXX this breaks Controller's encapsulation

@@ -161,3 +161,12 @@ class @User extends MeteorModel
 
 User.publish()
 User.allow()
+
+
+# Generic callback for having the current user at hand
+if Meteor.isClient
+  Deps.autorun ->
+    user = User.current()
+    return unless user
+    # Track logged in users in Mixpanel with an unique handle
+    mixpanel.name_tag(user.getEmail() or user.get('username'))

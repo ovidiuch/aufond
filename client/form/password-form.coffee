@@ -12,6 +12,9 @@ class @PasswordForm extends Form
     else if not data.newPassword
       error = "New password can't be empty"
 
+    # Track password changes in Mixpanel
+    mixpanel.track('change password', error: error)
+
     if error
       @onError(error)
     else
