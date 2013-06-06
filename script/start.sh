@@ -13,24 +13,31 @@ fi
 already_running=$(ps aux | grep "node .bundle/main.js" | grep -v "grep")
 if [ "$already_running" ]
 then
-  # Extract process id from grepped process list
+  # Extract and output process id from grepped process list
   process_id=$(echo $already_running | cut -d " " -f 2)
-  # Carry on, but show an OK message
   echo "App already running [$process_id]"
 else
-  echo "Starting app..."
   # Check if this is ran from the project folder directly and go to it
   # otherwise
   in_app_folder=$(ls -a | grep ".bundle")
   if [ ! "$in_app_folder" ]
   then
     cd /var/www/aufond
-    # Assume the script is called by the cron job and log that app was crashed
-    # at that time
-    echo "$(date) App was not running and had to be started" >> .log/crash
   fi
 
+  # Make sure .log folder exists
+  if [ ! -d ".log" ]
+  then
+    echo "Creating .log folder..."
+    mkdir .log
+  fi
+
+  # Log whenever we start the app (useful for when it crashes and is started
+  # automatically from a cronjob)
+  echo "$(date) App was not running and had to be started" >> .log/crash
+
   # Start Aufond app with all required parameters
+  echo "Starting app..."
   PORT=$port \
   MONGO_URL=mongodb://aufond:aufond.mongodb@dharma.mongohq.com:10042/aufond \
   ROOT_URL=http://aufond.me:$port \
