@@ -29,9 +29,15 @@ class @Router extends Backbone.Router
       name: 'front'
 
   admin: (tab) ->
-    @changeController
-      name: 'admin'
-      tab: tab or 'entries'
+    # Make sure admin controller can't be accessed w/out being logged in.
+    # Prompt the login modal when trying to do so instead
+    unless Meteor.userId()
+      @navigate('', trigger: true)
+      @promptLoginModal()
+    else
+      @changeController
+        name: 'admin'
+        tab: tab or 'entries'
 
   changeController: (args) ->
     # Keep controller arguments in the router object, since it is globally
@@ -39,3 +45,16 @@ class @Router extends Backbone.Router
     @args = args
     # Update reactive controller with new args (including new controller name)
     @controller.update(args)
+
+  promptLoginModal: ->
+    ###
+      Open login modal manually, without being triggered by a button click
+    ###
+    # These attributes would normally come from the data attributes of a button
+    # that toggled the modal visible
+    App.loginModal.update
+      title: 'Good day!'
+      button: 'Let me in'
+    # The login modal is located in the global index.html template layout so
+    # it's accessible from anywhere within the app
+    $('#login-modal').modal()
