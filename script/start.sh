@@ -9,8 +9,8 @@ then
   echo "Setting app for port $port..."
 fi
 
-# Check if Meteor (node) app is still running
-already_running=$(ps aux | grep "node .bundle/main.js" | grep -v "grep")
+# Check if a process is already running on the requested port
+already_running=$(lsof -i :$port | grep LISTEN)
 if [ "$already_running" ]
 then
   # Extract and output process id from grepped process list
