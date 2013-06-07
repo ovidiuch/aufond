@@ -34,7 +34,7 @@ else
 
   # Log whenever we start the app (useful for when it crashes and is started
   # automatically from a cronjob)
-  echo "$(date) App was not running and had to be started" >> .log/crash
+  echo "$(date) App started on port $port" >> .log/start
 
   # Start Aufond app with all required parameters
   echo "Starting app..."
