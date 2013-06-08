@@ -36,7 +36,7 @@ else
   # automatically from a cronjob)
   echo "$(date) App started on port $port" >> .log/start
 
-  # Start Aufond app with all required parameters
+  # Start aufond app with all required parameters
   echo "Starting app..."
   PORT=$port \
   MONGO_URL=mongodb://aufond:aufond.mongodb@dharma.mongohq.com:10042/aufond \
