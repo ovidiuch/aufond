@@ -1,1 +1,47 @@
 @import "mixin.lessimport";
+
+#content.front {
+  .inner-wrapper {
+    min-width: 560px;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  .demo {
+    position: relative;
+    height: 500px;
+    background: @color-medium;
+
+    .action-bar {
+      position: absolute;
+      width: 100%;
+      bottom: 0;
+      left: 0;
+      padding: 20px 0;
+      background: rgba(255, 255, 255, 0.2);
+
+      .subtitle {
+        margin: 0;
+        color: @color-background;
+        font-size: 26px;
+        line-height: 52px;
+      }
+      .button-demo {
+        float: right;
+      }
+    }
+  }
+  .about {
+    .marketing-tagline {
+      // The top/bottom padding + line-height must sum up to 92px, the header's
+      // height. The line-height is only 40px in order to make the text look
+      // good on more than one line
+      padding: 26px 0;
+      font-family: @font-source-sans-pro;
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 40px;
+      text-align: center;
+    }
+  }
+}
