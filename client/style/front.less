@@ -43,5 +43,46 @@
       line-height: 40px;
       text-align: center;
     }
+    h2 {
+      margin-top: 50px;
+      color: @color-medium;
+      font-weight: 300;
+    }
+    ul {
+      margin: 0 0 50px 0;
+      padding: 0 0 0 20px;
+      list-style: none;
+
+      li {
+        margin: 0 0 4px 0;
+        padding: 4px;
+        font-family: @font-open-sans;
+        font-size: 20px;
+        // Same as the height of the up/down-vote buttons
+        line-height: 32px;
+      }
+    }
+    .hate-list li {
+      text-decoration: line-through;
+    }
+    .feedback-list {
+      padding-left: 10px;
+
+      li {
+        border-radius: 6px;
+        .transition(background, 0.1s);
+
+        &:before {
+          padding: 0 10px;
+          color: @color-medium;
+          font-family: FontAwesome;
+          -webkit-font-smoothing: antialiased;
+          content: '\f105';
+        }
+        &:hover {
+          background: @color-background;
+        }
+      }
+    }
   }
 }
