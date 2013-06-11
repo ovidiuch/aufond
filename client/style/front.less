@@ -6,6 +6,8 @@
     max-width: 960px;
     margin: 0 auto;
     padding: 0 20px;
+    // Prevent the inner margins to collapse outside container
+    overflow: hidden;
   }
   .demo {
     position: relative;
@@ -33,6 +35,7 @@
   }
   .about {
     .marketing-tagline {
+      margin: 0;
       // The top/bottom padding + line-height must sum up to 92px, the header's
       // height. The line-height is only 40px in order to make the text look
       // good on more than one line
@@ -43,13 +46,17 @@
       line-height: 40px;
       text-align: center;
     }
+    .inverse {
+      background: @color-dark;
+      color: @color-light;
+    }
     h2 {
-      margin-top: 50px;
+      margin: 50px 0 10px 0;
       color: @color-medium;
       font-weight: 300;
     }
     ul {
-      margin: 0 0 50px 0;
+      margin: 10px 0 50px 0;
       padding: 0 0 0 20px;
       list-style: none;
 
