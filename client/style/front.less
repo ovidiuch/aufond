@@ -1,1 +1,113 @@
 @import "mixin.lessimport";
+
+#content.front {
+  .inner-wrapper {
+    min-width: 560px;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+    // Prevent the inner margins to collapse outside container
+    overflow: hidden;
+  }
+  .demo {
+    position: relative;
+    height: 600px;
+    background: url('/image/sivers-contact.jpg') no-repeat center center;
+
+    .action-bar {
+      position: absolute;
+      width: 100%;
+      bottom: 0;
+      left: 0;
+      padding: 20px 0;
+      background: rgba(255, 255, 255, 0.2);
+
+      .subtitle {
+        margin: 0;
+        color: @color-background;
+        font-size: 26px;
+        line-height: 52px;
+      }
+      .button-demo {
+        float: right;
+      }
+    }
+  }
+  .about {
+    .marketing-tagline {
+      margin: 0;
+      // The top/bottom padding + line-height must sum up to 92px, the header's
+      // height. The line-height is only 40px in order to make the text look
+      // good on more than one line
+      padding: 26px 0;
+      font-family: @font-source-sans-pro;
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 40px;
+      text-align: center;
+    }
+    .inverse {
+      background: @color-dark;
+      color: @color-light;
+    }
+    h2 {
+      margin: 50px 0 10px 0;
+      color: @color-medium;
+      font-weight: 300;
+    }
+    ul {
+      margin: 10px 0 50px 0;
+      padding: 0 0 0 20px;
+      list-style: none;
+
+      li {
+        margin: 0 0 4px 0;
+        padding: 4px;
+        font-family: @font-open-sans;
+        font-size: 20px;
+        // Same as the height of the up/down-vote buttons
+        line-height: 32px;
+      }
+    }
+    .hate-list li {
+      text-decoration: line-through;
+    }
+    .feedback-list {
+      padding-left: 10px;
+
+      li {
+        border-radius: 6px;
+        .transition(background, 0.1s);
+
+        &:before {
+          padding: 0 10px;
+          color: @color-medium;
+          font-family: FontAwesome;
+          -webkit-font-smoothing: antialiased;
+          content: '\f105';
+        }
+        &:hover {
+          background: @color-background;
+        }
+      }
+    }
+    .disclaimer {
+      p {
+        margin: 20px 0;
+        font-family: @font-open-sans;
+        line-height: 22px;
+
+        &:last-child {
+          margin-bottom: 50px;
+        }
+      }
+      .contact {
+        color: @color-medium;
+      }
+      .thanks {
+        // Make this even darker than the contact line
+        color: #595960;
+      }
+    }
+  }
+}
