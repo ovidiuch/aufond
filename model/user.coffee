@@ -20,7 +20,7 @@ class @User extends MeteorModel
         'sendEmail'
         user.getEmail()
         'Ovidiu Cherecheș <hello@ovidiu.ch>'
-        "Thank you for using Aufond—here's your stuff"
+        "Thank you for using aufond—here's your stuff"
         JSON.stringify(cleanEntries))
 
     # Delete all entries belonging to removing user
