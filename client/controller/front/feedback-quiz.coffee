@@ -1,17 +1,15 @@
-getValuesFromVote = (e) ->
-  $button = $(e.currentTarget)
-  return {
-    question: $button.closest('li').find('.question').text()
-    vote: parseInt($button.data('vote'), 10)
-  }
-
 Template.feedbackQuiz.events
   'click .button-vote': (e) ->
     e.preventDefault()
-    vote = new QuizVote(getValuesFromVote(e))
+    vote = new QuizVote(QuizVote.getValuesFromButtonEvent(e))
     vote.save (error, model) ->
-      # Store vote in session and update template, account for errors
-      console.log(arguments...)
+      # TODO: Update template with voted values and show voting statuses in
+      # template as well
+      if error
+        console.log("Couldn't vote, sorry.")
+      else
+        QuizVote.storeVoteInSession(vote)
+        console.log("Voted, thanks!")
 
 Template.feedbackQuiz.questions = [
   "More types of media besides text and images"

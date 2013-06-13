@@ -2,6 +2,20 @@ class @QuizVote extends MeteorModel
   @collection: MeteorCollection
   @mongoCollection: new Meteor.Collection 'quizVotes'
 
+  @getValuesFromButtonEvent: (e) ->
+    $button = $(e.currentTarget)
+    # Return
+    question: $button.closest('li').find('.question').text()
+    vote: parseInt($button.data('vote'), 10)
+
+  @getVotesFromSession: ->
+    return Session.get('votedQuizQuestions') or {}
+
+  @storeVoteInSession: (vote) ->
+    votes = @getVotesFromSession()
+    votes[vote.get('question')] = vote.get('vote')
+    Session.set('votedQuizQuestions', votes)
+
   @publish: ->
     # Don't publish quiz votes at all, they are write-only
 
