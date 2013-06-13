@@ -3,13 +3,8 @@ Template.feedbackQuiz.events
     e.preventDefault()
     vote = new QuizVote(QuizVote.getValuesFromButtonEvent(e))
     vote.save (error, model) ->
-      # TODO: Update template with voted values and show voting statuses in
-      # template as well
-      if error
-        console.log("Couldn't vote, sorry.")
-      else
-        QuizVote.storeVoteInSession(vote)
-        console.log("Voted, thanks!")
+      # XXX users aren't clearly notified if this fails
+      QuizVote.storeVoteInSession(vote) unless error
 
 Template.feedbackQuiz.questions = [
   "More types of media besides text and images"
