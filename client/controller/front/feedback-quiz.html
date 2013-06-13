@@ -3,8 +3,16 @@
   <ul class="feedback-list">
     <li>
       <span class="pull-right">
-        <a href="#down" class="button button-inline button-danger button-vote" data-vote="-1"><i class="icon-thumbs-down"></i></a>
-        <a href="#up" class="button button-inline button-success button-vote" data-vote="+1"><i class="icon-thumbs-up"></i></a>
+        {{#if userVotedQuestion "Is this something you want?" -1}}
+          <span class="pressed-button button-inline"><i class="icon-thumbs-down"></i></span>
+        {{else}}
+          <a href="#down" class="button button-inline button-danger button-vote" data-vote="-1"><i class="icon-thumbs-down"></i></a>
+        {{/if}}
+        {{#if userVotedQuestion "Is this something you want?" 1}}
+          <span class="pressed-button button-inline"><i class="icon-thumbs-up"></i></span>
+        {{else}}
+          <a href="#up" class="button button-inline button-success button-vote" data-vote="+1"><i class="icon-thumbs-up"></i></a>
+        {{/if}}
       </span>
       <span class="question">Is this something you want?</span>
     </li>
@@ -14,8 +22,16 @@
     {{#each questions}}
       <li>
         <span class="pull-right">
-          <a href="#down" class="button button-inline button-danger button-vote" data-vote="-1"><i class="icon-thumbs-down"></i></a>
-          <a href="#up" class="button button-inline button-success button-vote" data-vote="+1"><i class="icon-thumbs-up"></i></a>
+          {{#if userVotedQuestion this -1}}
+            <span class="pressed-button button-inline"><i class="icon-thumbs-down"></i></span>
+          {{else}}
+            <a href="#down" class="button button-inline button-danger button-vote" data-vote="-1"><i class="icon-thumbs-down"></i></a>
+          {{/if}}
+          {{#if userVotedQuestion this 1}}
+            <span class="pressed-button button-inline"><i class="icon-thumbs-up"></i></span>
+          {{else}}
+            <a href="#up" class="button button-inline button-success button-vote" data-vote="+1"><i class="icon-thumbs-up"></i></a>
+          {{/if}}
         </span>
         <span class="question">{{this}}</span>
       </li>

@@ -14,3 +14,7 @@ Template.feedbackQuiz.questions = [
   "Offline exporting options"
   "Maintaining and refining the current simplicity"
 ]
+
+Template.feedbackQuiz.userVotedQuestion = (question, vote) ->
+  votedQuestions = QuizVote.getVotesFromSession()
+  return votedQuestions[question] is vote
