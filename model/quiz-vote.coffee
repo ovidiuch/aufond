@@ -6,7 +6,8 @@ class @QuizVote extends MeteorModel
     $button = $(e.currentTarget)
     # Return
     question: $button.closest('li').find('.question').text()
-    vote: parseInt($button.data('vote'), 10)
+    # jQuery automatically converts "true/false" strings into Boolean
+    vote: $button.data('vote')
 
   @getVotesFromSession: ->
     return Session.get('votedQuizQuestions') or {}
