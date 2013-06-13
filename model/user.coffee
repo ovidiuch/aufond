@@ -2,6 +2,18 @@ class @User extends MeteorModel
   @collection: MeteorCollection
   @mongoCollection: Meteor.users
 
+  @initGuestId: ->
+    ###
+      Plant a unique id inside a cookie for each visitor, in order to create a
+      virtual identity that persists between sessions of guest users. Useful
+      for tracking actions of not logged-in users
+    ###
+    unless $.cookie('guestId')
+      $.cookie('guestId', Random.id(), expires: 365)
+
+  @getGuestId: ->
+    return $.cookie('guestId')
+
   @remove: (id, exportToEmail = true) ->
     user = User.find(id)
     return unless user?
@@ -162,9 +174,11 @@ class @User extends MeteorModel
 User.publish()
 User.allow()
 
-
-# Generic callback for having the current user at hand
 if Meteor.isClient
+  Meteor.startup ->
+    User.initGuestId()
+
+  # Generic callback for having the current user at hand
   Deps.autorun ->
     user = User.current()
     return unless user
