@@ -53,6 +53,7 @@ class @QuizVote extends MeteorModel
       # Most users will not be logged in when they vote, but if some do it
       # would be very interesting to put a face to their votes
       createdBy: Meteor.userId()
+      createdByGuestId: User.getGuestId()
       createdByUserAgent: navigator?.userAgent
     super(arguments...)
 
