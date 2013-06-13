@@ -10,12 +10,12 @@ class @QuizVote extends MeteorModel
     vote: $button.data('vote')
 
   @getVotesFromSession: ->
-    return Session.get('votedQuizQuestions') or {}
+    return Session.get('quizVotes') or {}
 
   @storeVoteInSession: (vote) ->
     votes = @getVotesFromSession()
     votes[vote.get('question')] = vote.get('vote')
-    Session.set('votedQuizQuestions', votes)
+    Session.set('quizVotes', votes)
 
   @publish: ->
     # Don't publish quiz votes at all, they are write-only
