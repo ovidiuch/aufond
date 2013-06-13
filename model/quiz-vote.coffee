@@ -16,6 +16,16 @@ class @QuizVote extends MeteorModel
     votes = @getVotesFromSession()
     votes[vote.get('question')] = vote.get('vote')
     Session.set('quizVotes', votes)
+    # Store session votes to cookie as well, to persist beyond the current
+    # session
+    @storeVotesInCookie(votes)
+
+  @getVotesFromCookie: ->
+    cookieVotes = $.cookie('quizVotes')
+    return if cookieVotes then JSON.parse(cookieVotes) else {}
+
+  @storeVotesInCookie: (votes) ->
+    $.cookie('quizVotes', JSON.stringify(votes), expires: 365)
 
   @publish: ->
     # Don't publish quiz votes at all, they are write-only
@@ -49,3 +59,8 @@ class @QuizVote extends MeteorModel
 
 QuizVote.publish('quizVotes')
 QuizVote.allow()
+
+if Meteor.isClient
+  Meteor.startup ->
+    # Load votes from cookie to current session when starting app
+    Session.set('quizVotes', QuizVote.getVotesFromCookie())
