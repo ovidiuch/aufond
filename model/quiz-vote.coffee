@@ -12,6 +12,7 @@ class @QuizVote extends MeteorModel
       insert: (userId, doc) ->
         # Allow anybody to vote on quiz questions
         # XXX is there anything to do here to prevent spammers?
+        # Check out https://github.com/tmeasday/meteor-accounts-anonymous
         return true
       update: (userId, doc, fields, modifier) ->
         # For now quiz votes should remain unaltered
