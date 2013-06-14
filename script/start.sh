@@ -1,6 +1,6 @@
 #/bin/bash
 
-port=3000
+port=80
 
 # The port can be specified as the first parameter
 if [ "$1" ]
