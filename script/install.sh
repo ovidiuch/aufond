@@ -14,6 +14,7 @@ aptitude install -y vim curl build-essential
 echo "Installing Node..."
 git clone https://github.com/joyent/node.git /var/www/node
 cd /var/www/node
+git checkout v0.10.11
 ./configure && make && make install
 cd -
 
