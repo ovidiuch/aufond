@@ -14,7 +14,7 @@ aptitude install -y vim curl build-essential
 echo "Installing Node..."
 git clone https://github.com/joyent/node.git /var/www/node
 cd /var/www/node
-./configure && make && sudo make install
+./configure && make && make install
 cd -
 
 echo "Installing Meteor..."
