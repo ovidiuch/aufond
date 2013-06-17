@@ -33,7 +33,7 @@ class @User extends MeteorModel
       Meteor.call(
         'sendEmail'
         user.getEmail()
-        'Ovidiu Cherecheș <hello@ovidiu.ch>'
+        'Ovidiu Cherecheș <contact@aufond.me>'
         "Thank you for using aufond.me—here's your stuff"
         JSON.stringify(cleanData))
 
