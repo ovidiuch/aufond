@@ -118,7 +118,8 @@ class @MeteorModel
     ###
       No extra decorations should be added when "raw" is set to true
     ###
-    return _.clone @data
+    # Make deep copy to make sure no data is passed through reference
+    return $.extend(true, {}, @data)
 
   validate: ->
     # XXX make this return a list of errors instead of a string
