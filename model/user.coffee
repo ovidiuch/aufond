@@ -21,19 +21,21 @@ class @User extends MeteorModel
     # Gather all entries posted by user
     entries = Entry.get(createdBy: id)
 
-    # Dump entries to email if user has one
+    # Dump user profile and entries to email, if user has one
     if exportToEmail and user.hasEmail()
-      cleanEntries = _.map entries.toJSON(true), (entry) ->
-        # Remove db ids from entry dump
-        _.omit(entry, '_id', 'createdBy')
+      cleanData =
+        profile: user.toJSON(true).profile
+        entries: _.map(entries.toJSON(true), (entry) ->
+          # Remove db ids from entry dump
+          _.omit(entry, '_id', 'createdBy'))
 
       # Call server method for sending email
       Meteor.call(
         'sendEmail'
         user.getEmail()
         'Ovidiu Cherecheș <hello@ovidiu.ch>'
-        "Thank you for using aufond—here's your stuff"
-        JSON.stringify(cleanEntries))
+        "Thank you for using aufond.me—here's your stuff"
+        JSON.stringify(cleanData))
 
     # Delete all entries belonging to removing user
     # XXX due to this being an untrusted client context, more than one
