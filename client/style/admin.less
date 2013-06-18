@@ -1,11 +1,15 @@
 @import "mixin.lessimport";
 
 #content.admin {
-  .entries td {
-    padding: 10px;
+  .table {
+    td {
+      padding: 10px;
+    }
   }
-  .entries tr:hover > td {
-    background: #fafafa;
+  .table-striped {
+    tr:nth-child(odd) td {
+      background: @color-background;
+    }
   }
   .filepicker {
     .image {
