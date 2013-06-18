@@ -152,6 +152,8 @@ class @User extends MeteorModel
       if data.profile.links?.length
         for link, i in data.profile.links
           link.index = i
+      # Export a count to quickly identify how many entries a user has
+      data.entryCount = Entry.count(createdBy: data._id)
     return data
 
   validate: ->
