@@ -1,16 +1,32 @@
 @import "mixin.lessimport";
 
 #content.admin {
-  /* Keep the same size padding on any resolution */
-  .container-fluid {
-    padding-left: 20px;
-    padding-right: 20px;
+  .table {
+    margin: 0 0 20px 0;
+
+    td {
+      padding: 10px;
+    }
+    .date {
+      white-space: nowrap;
+    }
+    h4 {
+      margin: 0 0 10px 0;
+      font-size: 18px;
+      line-height: 22px;
+      font-weight: normal;
+    }
+    .excerpt {
+      color: @color-medium;
+    }
   }
-  .entries td {
-    padding: 10px;
+  .table-striped {
+    tr:nth-child(odd) td {
+      background: @color-background;
+    }
   }
-  .entries tr:hover > td {
-    background: #fafafa;
+  .entries {
+    margin-top: 20px;
   }
   .filepicker {
     .image {
