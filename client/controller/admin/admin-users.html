@@ -1,13 +1,6 @@
 <template name="adminUsers">
   {{#if isRootUser}}
     <table class="users table table-striped">
-      <thead>
-        <tr>
-          <th>Username</th>
-          <th>Email</th>
-          <th>Name</th>
-        </tr>
-      </thead>
       <tbody>
         {{#each users}}
           <tr>
@@ -16,14 +9,17 @@
                 {{username}}
               </a>
             </td>
-            <td>{{email}}</td>
             <td>
               {{#unless isRoot}}
                 <div class="pull-right">
                   <a href="#remove" class="button button-inline button-danger button-delete" data-id="{{_id}}"><i class="icon-trash"></i> Remove</a>
                 </div>
               {{/unless}}
-              {{{markdown profile.name}}}
+              {{email}}
+              {{#if profile.name}}
+                <br>
+                {{{markdown profile.name root="span"}}}
+              {{/if}}
             </td>
           </tr>
         {{/each}}

@@ -2,18 +2,11 @@
 
 #content.admin {
   .table {
+    margin: 0 0 20px 0;
+
     td {
       padding: 10px;
     }
-  }
-  .table-striped {
-    tr:nth-child(odd) td {
-      background: @color-background;
-    }
-  }
-  .entries {
-    margin: 20px 0;
-
     .date {
       white-space: nowrap;
     }
@@ -26,6 +19,14 @@
     .excerpt {
       color: @color-medium;
     }
+  }
+  .table-striped {
+    tr:nth-child(odd) td {
+      background: @color-background;
+    }
+  }
+  .entries {
+    margin-top: 20px;
   }
   .filepicker {
     .image {
