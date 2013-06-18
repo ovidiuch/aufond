@@ -11,4 +11,5 @@ Template.adminUsers.events
     User.remove(data.id)
 
 Template.adminUsers.users = ->
-  return User.get().toJSON()
+  # Show users with more entries first
+  return _.sortBy(User.get().toJSON(), (user) -> -user.entryCount)

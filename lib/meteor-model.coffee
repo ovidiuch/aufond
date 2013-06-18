@@ -29,6 +29,9 @@ class @MeteorModel
     return null unless _.isObject(data)
     return new this(data, false)
 
+  @count: ->
+    return @mongoCollection.find(arguments...).count()
+
   @remove: (id) ->
     @mongoCollection.remove(_id: id)
 
