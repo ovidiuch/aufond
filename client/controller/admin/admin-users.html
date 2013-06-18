@@ -9,17 +9,14 @@
                 {{username}}
               </a>
             </td>
+            <td>{{email}}</td>
             <td>
               {{#unless isRoot}}
                 <div class="pull-right">
                   <a href="#remove" class="button button-inline button-danger button-delete" data-id="{{_id}}"><i class="icon-trash"></i> Remove</a>
                 </div>
               {{/unless}}
-              {{email}}
-              {{#if profile.name}}
-                <br>
-                {{{markdown profile.name root="span"}}}
-              {{/if}}
+              {{{markdown profile.name}}}
             </td>
             <td>{{entryCount}}</td>
           </tr>
