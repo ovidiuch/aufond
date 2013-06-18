@@ -1,14 +1,6 @@
 <template name="adminEntries">
   {{#if entries.length}}
     <table class="entries table table-striped">
-      <thead>
-        <tr>
-          <th>&nbsp;</th>
-          <th>From</th>
-          <th>Headline</th>
-          <th>Excerpt</th>
-        </tr>
-      </thead>
       <tbody>
         {{#each entries}}
           <tr>
@@ -21,9 +13,12 @@
                 {{/if}}
               </a>
             </td>
-            <td>{{timeago time}}</td>
-            <td>{{{markdown headline}}}</td>
-            <td class="excerpt">
+            <td class="date">
+              {{formatDate time "MMM"}} <strong>{{formatDate time "YYYY"}}</strong><br>
+              ({{timeago time}})
+            </td>
+            <td>
+              {{{markdown headline root="h4"}}}
               {{#if images.length}}
                 <ul class="entry-image-list clearfix">
                   {{#each images}}
@@ -37,7 +32,9 @@
                   {{/each}}
                 </ul>
               {{/if}}
-              {{{markdown excerpt}}}
+              <div class="excerpt">
+                {{{markdown excerpt}}}
+              </div>
               <div class="clearfix">
                 <a href="#edit" class="button button-inline button-edit" data-toggle="modal" data-target="#post-modal" data-title="What have you been up to?" data-button="Update" data-id="{{_id}}"><i class="icon-edit"></i> Edit</a>
                 <a href="#attach-image" class="button button-inline button-image-attach" data-id="{{_id}}"><i class="icon-picture"></i> Attach image</a>
