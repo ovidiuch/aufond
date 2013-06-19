@@ -1,0 +1,21 @@
+<template name="header">
+  <div class="header">
+    <div class="inner-wrapper">
+      <div class="pull-right">
+        {{#if loggedIn}}
+          <a href="#timeline" class="button button-inline button-xlarge button-timeline">{{loggedIn}}</a>
+          {{#if inController "admin"}}
+            <a href="#front" class="button button-inline button-xlarge button-front"><i class="icon-reply"></i></a>
+          {{else}}
+            <a href="#admin" class="button button-inline button-xlarge button-admin"><i class="icon-cog"></i></a>
+          {{/if}}
+          <a href="#logout" class="button button-inline button-inverse button-xlarge button-logout"><i class="icon-off"></i></a>
+        {{else}}
+          <a href="#register" class="button button-inline button-success button-xlarge button-register" data-toggle="modal" data-target="#register-modal" data-title="Why hi there!" data-button="Count me in"><strong>Instant Beta</strong></a>
+          <a href="#login" class="button button-inline button-xlarge button-login" data-toggle="modal" data-target="#login-modal" data-title="Good day!" data-button="Let me in">Login</a>
+        {{/if}}
+      </div>
+      <h1><strong>aufond</strong>.me</h1>
+    </div>
+  </div>
+</template>
