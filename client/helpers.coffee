@@ -26,5 +26,11 @@ Handlebars.registerHelper 'timeago', (time) ->
 Handlebars.registerHelper 'formatDate', (time, format) ->
   return moment(time).format(format)
 
+Handlebars.registerHelper 'loggedIn', ->
+  return Meteor.user()?.username
+
 Handlebars.registerHelper 'isRootUser', ->
   return User.current()?.isRoot()
+
+Handlebars.registerHelper 'inController', (name) ->
+  return App.router.args.name is name
