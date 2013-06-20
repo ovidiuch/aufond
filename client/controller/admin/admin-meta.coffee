@@ -11,5 +11,7 @@ Template.adminMeta.emailForm = ->
 Template.adminMeta.passwordForm = ->
   module: PasswordForm
 
-Template.adminMeta.deleteForm = ->
-  module: DeleteForm
+Template.adminMeta.deleteUserForm = ->
+  module: DeleteUserForm
+  model: 'User'
+  modelId: Meteor.userId()
