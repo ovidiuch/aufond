@@ -4,12 +4,12 @@
     <li>
       <span class="pull-right">
         {{#if userVotedQuestion "Is this something you want?" false}}
-          <span class="pressed-button button-inline"><i class="icon-thumbs-down"></i></span>
+          <span class="pressed-button button-inline"><i class="icon-thumbs-down-alt"></i></span>
         {{else}}
           <a href="#down" class="button button-inline button-danger button-vote" data-vote="false"><i class="icon-thumbs-down"></i></a>
         {{/if}}
         {{#if userVotedQuestion "Is this something you want?" true}}
-          <span class="pressed-button button-inline"><i class="icon-thumbs-up"></i></span>
+          <span class="pressed-button button-inline"><i class="icon-thumbs-up-alt"></i></span>
         {{else}}
           <a href="#up" class="button button-inline button-success button-vote" data-vote="true"><i class="icon-thumbs-up"></i></a>
         {{/if}}
@@ -23,12 +23,12 @@
       <li>
         <span class="pull-right">
           {{#if userVotedQuestion this false}}
-            <span class="pressed-button button-inline"><i class="icon-thumbs-down"></i></span>
+            <span class="pressed-button button-inline"><i class="icon-thumbs-down-alt"></i></span>
           {{else}}
             <a href="#down" class="button button-inline button-danger button-vote" data-vote="false"><i class="icon-thumbs-down"></i></a>
           {{/if}}
           {{#if userVotedQuestion this true}}
-            <span class="pressed-button button-inline"><i class="icon-thumbs-up"></i></span>
+            <span class="pressed-button button-inline"><i class="icon-thumbs-up-alt"></i></span>
           {{else}}
             <a href="#up" class="button button-inline button-success button-vote" data-vote="true"><i class="icon-thumbs-up"></i></a>
           {{/if}}
