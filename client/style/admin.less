@@ -6,23 +6,42 @@
 
     td {
       padding: 10px;
+      border-top: 0;
     }
-    .date {
+    .single-line {
       white-space: nowrap;
+      line-height: 32px;
     }
     h4 {
-      margin: 0 0 10px 0;
+      margin: 0;
+      font-family: @font-open-sans;
       font-size: 18px;
-      line-height: 22px;
       font-weight: normal;
+      line-height: 32px;
     }
     .excerpt {
+      margin: 10px 0 0 0;
       color: @color-medium;
+
+      p:last-child {
+        margin-bottom: 0;
+      }
     }
   }
   .table-striped {
-    tr:nth-child(odd) td {
-      background: @color-background;
+    tr:nth-child(odd) {
+      td {
+        background: @color-background;
+
+        &:first-child {
+          border-top-left-radius: 6px;
+          border-bottom-left-radius: 6px;
+        }
+        &:last-child {
+          border-top-right-radius: 6px;
+          border-bottom-right-radius: 6px;
+        }
+      }
     }
   }
   .entries {
@@ -68,7 +87,7 @@
     li {
       float: left;
       position: relative;
-      margin: 0 10px 10px 0;
+      margin: 10px 10px 0 0;
       padding: 0;
 
       img {
@@ -93,9 +112,6 @@
           opacity: 1;
         }
       }
-    }
-    li:last-child .controls {
-      margin-bottom: 0;
     }
   }
   // XXX not styled for mobile

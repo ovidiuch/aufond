@@ -4,7 +4,7 @@
       <tbody>
         {{#each entries}}
           <tr>
-            <td>
+            <td class="single-line">
               <a href="#timeline" class="button button-inline button-view" data-id="{{_id}}">
                 {{#if icon}}
                   <i class="{{icon}}"></i>
@@ -13,9 +13,8 @@
                 {{/if}}
               </a>
             </td>
-            <td class="date">
-              {{formatDate time "MMM"}} <strong>{{formatDate time "YYYY"}}</strong><br>
-              ({{timeago time}})
+            <td class="single-line">
+              {{formatDate time "MMM"}} <strong>{{formatDate time "YYYY"}}</strong>
             </td>
             <td>
               {{{markdown headline root="h4"}}}
@@ -32,14 +31,16 @@
                   {{/each}}
                 </ul>
               {{/if}}
-              <div class="excerpt">
-                {{{markdown excerpt}}}
-              </div>
-              <div class="clearfix">
-                <a href="#edit" class="button button-inline button-edit" data-toggle="modal" data-target="#post-modal" data-title="What have you been up to?" data-button="Update" data-id="{{_id}}"><i class="icon-edit"></i> Edit</a>
-                <a href="#attach-image" class="button button-inline button-image-attach" data-id="{{_id}}"><i class="icon-picture"></i> Attach image</a>
-                <a href="#remove" class="button button-inline button-danger button-delete" data-id="{{_id}}"><i class="icon-trash"></i> Remove</a>
-              </div>
+              {{#if excerpt}}
+                <div class="excerpt">
+                  {{{markdown excerpt}}}
+                </div>
+              {{/if}}
+            </td>
+            <td class="single-line">
+              <a href="#edit" class="button button-inline button-edit" data-toggle="modal" data-target="#post-modal" data-title="What have you been up to?" data-button="Update" data-id="{{_id}}"><i class="icon-edit"></i></a>
+              <a href="#attach-image" class="button button-inline button-image-attach" data-id="{{_id}}"><i class="icon-picture"></i></a>
+              <a href="#remove" class="button button-inline button-danger button-delete" data-id="{{_id}}"><i class="icon-trash"></i></a>
             </td>
           </tr>
         {{/each}}

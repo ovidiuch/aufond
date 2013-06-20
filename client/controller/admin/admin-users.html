@@ -4,14 +4,14 @@
       <tbody>
         {{#each users}}
           <tr>
-            <td>
+            <td class="single-line">
               <a href="#timeline" class="button button-inline button-user-timeline" data-username="{{username}}">
                 {{username}}
               </a>
             </td>
-            <td>{{email}}</td>
-            <td>{{{markdown profile.name}}}</td>
-            <td>{{entryCount}}</td>
+            <td class="single-line">{{email}}</td>
+            <td class="single-line">{{{markdown profile.name root="span"}}}</td>
+            <td class="single-line">{{entryCount}}</td>
           </tr>
         {{/each}}
       </tbody>
