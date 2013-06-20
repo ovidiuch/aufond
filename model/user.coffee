@@ -14,7 +14,7 @@ class @User extends MeteorModel
   @getGuestId: ->
     return $.cookie('guestId')
 
-  @remove: (id, exportToEmail = true) ->
+  @remove: (id, callback, exportToEmail = true) ->
     user = User.find(id)
     return unless user?
 
@@ -44,12 +44,15 @@ class @User extends MeteorModel
     entry.destroy() for entry in entries
 
     # Delete user from database completely
-    super(id)
+    super id, (error) =>
+      callback(arguments...) if _.isFunction(callback)
 
-    # Current session has been invalidated at this point if currently logged-in
-    # user has removed itself (this is the normal case because only admins can
-    # remove other users)
-    @logout() if id is Meteor.userId()
+      # Only continue with logging out if user has been removed successfully
+      unless error
+        # Current session has been invalidated at this point if currently
+        # logged-in user has removed itself (this is the normal case because
+        # only admins can remove other users)
+        @logout() if id is Meteor.userId()
 
   @current: ->
     ###

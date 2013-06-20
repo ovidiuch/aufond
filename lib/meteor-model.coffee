@@ -32,8 +32,8 @@ class @MeteorModel
   @count: ->
     return @mongoCollection.find(arguments...).count()
 
-  @remove: (id) ->
-    @mongoCollection.remove(_id: id)
+  @remove: (id, callback) ->
+    @mongoCollection.remove(_id: id, callback)
 
   @publish: (name) ->
     ###
@@ -147,8 +147,8 @@ class @MeteorModel
     else
       @mongoInsert(callback)
 
-  destroy: ->
-    @constructor.remove(@get('_id'))
+  destroy: (callback) ->
+    @constructor.remove(@get('_id'), callback)
 
   mongoInsert: (callback) ->
     ###
