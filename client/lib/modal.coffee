@@ -2,7 +2,7 @@ class @Modal extends ReactiveTemplate
   template: Template.modal
 
   events:
-    'click .button-primary': 'onSubmit'
+    'click .button-submit': 'onSubmit'
 
   constructor: ->
     super(arguments...)
@@ -36,7 +36,7 @@ class @Modal extends ReactiveTemplate
 
   onSubmit: (e) =>
     ###
-      Called when the primary modal button is pressed. Extend in subclasses
+      Called when the submit modal button is pressed. Extend in subclasses
       or send as a constructor parameter
     ###
     e.preventDefault()
