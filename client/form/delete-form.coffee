@@ -1,4 +1,5 @@
 class @DeleteForm extends Form
+  template: Template.deleteForm
   # The submit button for a delete form is usually a red, ".danger" one
   submitButton: '.button-danger'
 
