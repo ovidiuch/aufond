@@ -5,7 +5,11 @@ Template.admin.events
     App.postModal.update(data)
 
 Template.admin.postModal = ->
-  module: PostModal
+  module: FormModal
+  formModel: 'Entry'
+  formTemplate: Template.postForm
+  globalReference: 'postModal'
 
 Template.admin.postImageModal = ->
   module: PostImageModal
+  globalReference: 'postImageModal'
