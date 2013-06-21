@@ -14,8 +14,7 @@ Template.adminEntries.events
   'click .button-delete': (e) ->
     e.preventDefault()
     data = $(e.currentTarget).data()
-    # XXX delete without warning
-    Entry.remove(data.id)
+    App.deletePostModal.update(data)
 
   'click .button-image-attach': (e) ->
     e.preventDefault()
