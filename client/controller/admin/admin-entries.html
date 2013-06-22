@@ -25,7 +25,7 @@
                       <img src="{{getResizedImageUrl url 120 60 'crop'}}">
                       <span class="buttons">
                         <a href="#change-image-caption" class="button button-inline button-image-edit" data-toggle="modal" data-target="#post-image-modal" data-title="What is this image about?" data-button="Update" data-id="{{../_id}}" data-image="{{url}}"><i class="icon-edit"></i></a>
-                        <a href="#remove-image" class="button button-inline button-danger button-image-delete" data-id="{{../_id}}" data-image="{{url}}"><i class="icon-trash"></i></a>
+                        <a href="#remove-image" class="button button-inline button-danger button-image-delete" data-toggle="modal" data-target="#delete-post-image-modal" data-title="Delete image {{caption}}?" data-id="{{../_id}}" data-image="{{url}}"><i class="icon-trash"></i></a>
                       </span>
                     </li>
                   {{/each}}

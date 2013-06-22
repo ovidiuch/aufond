@@ -32,8 +32,7 @@ Template.adminEntries.events
   'click .button-image-delete': (e) ->
     e.preventDefault()
     data = $(e.currentTarget).data()
-    # XXX delete without warning
-    Entry.find(data.id)?.removeImage(data.image)
+    App.deletePostImageModal.update(data)
 
 Template.adminEntries.entries = ->
   # Get own entries only
