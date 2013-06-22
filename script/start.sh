@@ -32,9 +32,13 @@ else
     mkdir .log
   fi
 
+  # Get property formatted UTC time (in a way that an alphabetical sort results
+  # in a chronological order)
+  utc_time="$(env TZ=UTC date +%Y-%m-%d-%H:%M:%S)"
+
   # Log whenever we start the app (useful for when it crashes and is started
   # automatically from a cronjob)
-  echo "$(date) App started on port $port" >> .log/start
+  echo "$utc_time App started on port $port" >> .log/start
 
   # Start aufond app with all required parameters
   echo "Starting app..."
