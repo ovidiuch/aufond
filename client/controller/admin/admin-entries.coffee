@@ -8,13 +8,11 @@ Template.adminEntries.events
 
   'click .button-edit': (e) ->
     e.preventDefault()
-    data = $(e.currentTarget).data()
-    App.postModal.update(data)
+    App.postModal.update($(e.currentTarget).data())
 
   'click .button-delete': (e) ->
     e.preventDefault()
-    data = $(e.currentTarget).data()
-    App.deletePostModal.update(data)
+    App.deletePostModal.update($(e.currentTarget).data())
 
   'click .button-image-attach': (e) ->
     e.preventDefault()
@@ -26,13 +24,11 @@ Template.adminEntries.events
 
   'click .button-image-edit': (e) ->
     e.preventDefault()
-    data = $(e.currentTarget).data()
-    App.postImageModal.update(data)
+    App.postImageModal.update($(e.currentTarget).data())
 
   'click .button-image-delete': (e) ->
     e.preventDefault()
-    data = $(e.currentTarget).data()
-    App.deletePostImageModal.update(data)
+    App.deletePostImageModal.update($(e.currentTarget).data())
 
 Template.adminEntries.entries = ->
   # Get own entries only

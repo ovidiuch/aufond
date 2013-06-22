@@ -1,8 +1,7 @@
 Template.admin.events
   'click .button-post': (e) ->
     e.preventDefault()
-    data = $(e.currentTarget).data()
-    App.postModal.update(data)
+    App.postModal.update($(e.currentTarget).data())
 
 Template.admin.postModal = ->
   module: FormModal
