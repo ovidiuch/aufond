@@ -1,5 +1,9 @@
 #/bin/bash
 
+# Create bundle
+echo "Creating Meteor bundle file..."
+meteor bundle aufond.tgz
+
 # Clear previous bundle (if any)
 if [ -d ".bundle" ]
 then
@@ -9,10 +13,6 @@ else
   echo "Creating .bundle folder..."
   mkdir .bundle
 fi
-
-# Create bundle
-echo "Creating Meteor bundle file..."
-meteor bundle aufond.tgz
 
 # Unzip bundle in .bundle/ folder
 # --strip-components removes root "bundle" folder from archive
