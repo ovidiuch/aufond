@@ -32,6 +32,4 @@ Template.adminEntries.events
 
 Template.adminEntries.entries = ->
   # Get own entries only
-  filter =
-    createdBy: Meteor.userId()
-  return Entry.get(filter, sort: {time: -1}).toJSON()
+  return User.current()?.getEntries({}, sort: {time: -1}).toJSON()

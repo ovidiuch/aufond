@@ -177,6 +177,14 @@ class @User extends MeteorModel
   getEmail: ->
     return @get('emails')?[0].address
 
+  getEntries: (selector = {}, options) ->
+    ###
+      Proxy for fetching Entry documents, sets the user id selector implicitly,
+      but passes any other selector or option through
+    ###
+    selector = _.extend(createdBy: @get('_id'), selector)
+    return Entry.get(selector, options)
+
 
 User.publish()
 User.allow()
