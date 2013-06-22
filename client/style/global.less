@@ -35,8 +35,16 @@ a:focus {
   max-width: 960px;
   margin: 0 auto;
   padding: 0 20px;
+}
+.inverse {
+  background: @color-dark;
+  color: @color-light;
   // Prevent the inner margins to collapse outside container
   overflow: hidden;
+
+  .inner-wrapper {
+    margin: 50px auto;
+  }
 }
 .header {
   padding: 20px 0;
