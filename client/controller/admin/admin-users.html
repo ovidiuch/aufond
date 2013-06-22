@@ -12,6 +12,13 @@
             <td class="single-line">{{email}}</td>
             <td class="single-line">{{{markdown profile.name root="span"}}}</td>
             <td class="single-line">{{entryCount}}</td>
+            <td class="single-line">
+              {{#unless isRoot}}
+                <div class="pull-right">
+                  <a href="#remove" class="button button-danger button-delete" data-toggle="modal" data-target="#delete-user-modal" data-title="Delete user {{username}}?" data-id="{{_id}}"><i class="icon-trash"></i></a>
+                </div>
+              {{/unless}}
+            </td>
           </tr>
         {{/each}}
       </tbody>

@@ -14,42 +14,31 @@ class @User extends MeteorModel
   @getGuestId: ->
     return $.cookie('guestId')
 
-  @remove: (id, exportToEmail = true) ->
+  @remove: (id, callback, exportToEmail = true) ->
     user = User.find(id)
     return unless user?
 
-    # Gather all entries posted by user
-    entries = Entry.get(createdBy: id)
-
-    # Dump user profile and entries to email, if user has one
-    if exportToEmail and user.hasEmail()
-      cleanData =
-        profile: user.toJSON(true).profile
-        entries: _.map(entries.toJSON(true), (entry) ->
-          # Remove db ids from entry dump
-          _.omit(entry, '_id', 'createdBy'))
-
-      # Call server method for sending email
-      Meteor.call(
-        'sendEmail'
-        user.getEmail()
-        'Ovidiu Cherecheș <contact@aufond.me>'
-        "Thank you for using aufond.me—here's your stuff"
-        JSON.stringify(cleanData))
-
-    # Delete all entries belonging to removing user
-    # XXX due to this being an untrusted client context, more than one
-    # document can not be removed at a time. Move this to a server method to
-    # improve its performance
-    entry.destroy() for entry in entries
+    # Track user deletes in Mixpanel
+    mixpanel.track('user delete', username: user.get('username'))
 
     # Delete user from database completely
-    super(id)
+    super id, (error) =>
+      callback(arguments...) if _.isFunction(callback)
 
-    # Current session has been invalidated at this point if currently logged-in
-    # user has removed itself (this is the normal case because only admins can
-    # remove other users)
-    @logout() if id is Meteor.userId()
+      # Only continue with logging out if user has been removed successfully
+      unless error
+        user.exportDataToEmail() if exportToEmail
+
+        # Delete all entries belonging to removing user
+        # XXX due to this being an untrusted client context, more than one
+        # document can not be removed at a time. Move this to a server method to
+        # improve its performance
+        entry.destroy() for entry in user.getEntries()
+
+        # Current session has been invalidated at this point if currently
+        # logged-in user has removed itself (this is the normal case because
+        # only admins can remove other users)
+        @logout() if id is Meteor.userId()
 
   @current: ->
     ###
@@ -173,6 +162,32 @@ class @User extends MeteorModel
 
   getEmail: ->
     return @get('emails')?[0].address
+
+  getEntries: (selector = {}, options) ->
+    ###
+      Proxy for fetching Entry documents, sets the user id selector implicitly,
+      but passes any other selector or option through
+    ###
+    selector = _.extend(createdBy: @get('_id'), selector)
+    return Entry.get(selector, options)
+
+  exportDataToEmail: ->
+    # No point in exporting the user data if they have no email to send it to
+    return unless @hasEmail()
+
+    cleanData =
+      profile: @toJSON(true).profile
+      entries: _.map(@getEntries().toJSON(true), (entry) ->
+        # Remove db ids from entry dump
+        _.omit(entry, '_id', 'createdBy'))
+
+    # Call server method for sending email
+    Meteor.call(
+      'sendEmail'
+      @getEmail()
+      'Ovidiu Cherecheș <contact@aufond.me>'
+      "Thank you for using aufond.me—here's your stuff"
+      JSON.stringify(cleanData))
 
 
 User.publish()

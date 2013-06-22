@@ -1,3 +1,9 @@
+Template.adminDeleteAccount.events
+  'click .button-delete': (e) ->
+    e.preventDefault()
+    data = _.extend {id: Meteor.userId()}, $(e.currentTarget).data()
+    App.deleteUserModal.update(data)
+
 Template.adminMeta.profileForm = ->
   module: ProfileForm
   model: 'User'
@@ -10,6 +16,3 @@ Template.adminMeta.emailForm = ->
 
 Template.adminMeta.passwordForm = ->
   module: PasswordForm
-
-Template.adminMeta.deleteForm = ->
-  module: DeleteForm

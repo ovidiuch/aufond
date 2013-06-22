@@ -27,7 +27,7 @@ class @Entry extends MeteorModel
     items.push(_.extend(type: 'header', profile))
 
     year = null
-    for entry in @get({createdBy: user.get('_id')}, sort: {time: -1}).toJSON()
+    for entry in user.getEntries({}, sort: {time: -1}).toJSON()
       # Push the year entry before the first entry from that year
       if entry.year isnt year
         year = entry.year
