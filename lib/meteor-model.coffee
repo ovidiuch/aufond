@@ -78,6 +78,8 @@ class @MeteorModel
       remove: (userId, doc) ->
         # Don't allow guests to remove anything
         return false unless userId?
+        # The root user can delete any document of any user
+        return true if User.find(userId)?.isRoot()
         # Don't allow users to remove other users' documents
         return userId is doc.createdBy
 
