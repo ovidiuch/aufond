@@ -48,5 +48,5 @@ else
   PORT=$port \
   MONGO_URL=mongodb://aufond:aufond.mongodb@dharma.mongohq.com:10042/aufond \
   ROOT_URL=http://aufond.me:$port \
-  nohup /usr/local/bin/node .bundle/main.js > $output_log 2> $output_log &
+  nohup /usr/local/bin/node .bundle/main.js >> $output_log 2>> $output_log &
 fi
