@@ -8,14 +8,11 @@ Template.adminEntries.events
 
   'click .button-edit': (e) ->
     e.preventDefault()
-    data = $(e.currentTarget).data()
-    App.postModal.update(data)
+    App.postModal.update($(e.currentTarget).data())
 
   'click .button-delete': (e) ->
     e.preventDefault()
-    data = $(e.currentTarget).data()
-    # XXX delete without warning
-    Entry.remove(data.id)
+    App.deletePostModal.update($(e.currentTarget).data())
 
   'click .button-image-attach': (e) ->
     e.preventDefault()
@@ -27,17 +24,12 @@ Template.adminEntries.events
 
   'click .button-image-edit': (e) ->
     e.preventDefault()
-    data = $(e.currentTarget).data()
-    App.postImageModal.update(data)
+    App.postImageModal.update($(e.currentTarget).data())
 
   'click .button-image-delete': (e) ->
     e.preventDefault()
-    data = $(e.currentTarget).data()
-    # XXX delete without warning
-    Entry.find(data.id)?.removeImage(data.image)
+    App.deletePostImageModal.update($(e.currentTarget).data())
 
 Template.adminEntries.entries = ->
   # Get own entries only
-  filter =
-    createdBy: Meteor.userId()
-  return Entry.get(filter, sort: {time: -1}).toJSON()
+  return User.current()?.getEntries({}, sort: {time: -1}).toJSON()

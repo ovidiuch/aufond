@@ -1,13 +1,13 @@
-<template name="modal">
+<template name="deleteModal">
   <div class="modal-header">
     <a href="#close" class="close" data-dismiss="modal">&times;</a>
-    <h3>{{title}}</h3>
+    {{{markdown title root="h3"}}}
   </div>
-  <div class="modal-body"></div>
+  <div class="modal-body empty-modal-body"></div>
   <div class="modal-footer clearfix">
     <div class="pull-right">
       <a href="#cancel" class="button button-inline button-large" data-dismiss="modal">Never mind</a>
-      <a href="#submit" class="button button-inline button-large button-primary button-submit">{{button}}</a>
+      <a href="#submit" class="button button-inline button-large button-danger button-submit">Delete</a>
     </div>
   </div>
 </template>

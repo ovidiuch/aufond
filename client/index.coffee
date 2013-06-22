@@ -6,6 +6,8 @@ Handlebars.registerHelper 'controller', ->
 
 Handlebars.registerHelper 'registerModal', ->
   module: RegisterModal
+  globalReference: 'registerModal'
 
 Handlebars.registerHelper 'loginModal', ->
   module: LoginModal
+  globalReference: 'loginModal'

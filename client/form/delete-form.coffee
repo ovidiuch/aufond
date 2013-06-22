@@ -1,11 +1,18 @@
 class @DeleteForm extends Form
   template: Template.deleteForm
+  # The submit button for a delete form is usually a red, ".danger" one
   submitButton: '.button-danger'
 
   submit: ->
-    # Track user deletes in Mixpanel
-    mixpanel.track('user delete')
+    unless @params.model?
+      throw new Error "Delete form has no model attached"
+    unless @model?
+      throw new Error "Delete form has no id for #{@params.model} model"
 
-    # Delete account permanently
-    # XXX A warning step might be needed
-    User.remove(Meteor.userId(), true)
+    @model.destroy (error) =>
+      if error
+        # XXX send custom error to users
+        # XXX sometimes Meteor uses "message" instead of "reason"
+        @onError(error.reason or error.message)
+      else if _.isFunction(@onSuccess)
+        @onSuccess()

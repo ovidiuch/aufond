@@ -2,13 +2,22 @@
   {{> header}}
   <div class="inner-wrapper">
     {{> adminTabs}}
+    <div id="delete-user-modal" class="modal hide fade">
+      {{> reactive deleteUserModal}}
+    </div>
     <div class="tab-content">
       <div class="tab-pane" id="entries">
         <div id="post-modal" class="modal hide fade">
           {{> reactive postModal}}
         </div>
+        <div id="delete-post-modal" class="modal hide fade">
+          {{> reactive deletePostModal}}
+        </div>
         <div id="post-image-modal" class="modal hide fade">
           {{> reactive postImageModal}}
+        </div>
+        <div id="delete-post-image-modal" class="modal hide fade">
+          {{> reactive deletePostImageModal}}
         </div>
         <p class="clearfix">
           <a href="#post" class="button button-inline button-primary button-xlarge button-post" data-toggle="modal" data-target="#post-modal" data-title="What have you been up to?" data-button="Create">Post a new story about yourself</a>
