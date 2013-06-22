@@ -53,25 +53,34 @@ legend {
   line-height: 40px;
 }
 form,
-legend,
-.form-horizontal .control-group,
-.alert {
+.form-horizontal .control-group {
   margin-bottom: 10px;
+}
+legend,
+.alert {
+  margin-bottom: 15px;
 }
 // Add explicit prefix to force priority
 #content .form-horizontal .help-block {
   margin-top: 5px;
   color: @color-medium;
 }
+#content .form-horizontal .profile-links-control-group .help-block {
+  margin-top: 0;
+}
+.profile-links .link-row input {
+  margin-bottom: 5px;
+}
 .form-actions {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin: 15px 0 20px 0;
   padding: 10px;
   border: none;
   border-radius: 6px;
   background: #fafafa;
 }
 .modal-header {
+  padding: 10px 15px;
+
   h3 {
     line-height: 40px;
   }
@@ -83,11 +92,6 @@ legend,
     font-size: 26px;
     font-weight: normal;
     line-height: 40px;
-  }
-}
-.modal-body {
-  .alert {
-    margin-bottom: 15px;
   }
 }
 .empty-modal-body {

@@ -24,19 +24,19 @@
           <span class="help-block"><small>* Support <a href="http://daringfireball.net/projects/markdown/">Markup</a> formatting</small></span>
         </div>
       </div>
-      <div class="control-group">
+      <div class="control-group profile-links-control-group">
         <label class="control-label" for="form-profile-link-address-{{profile.links.length}}">Links</label>
         <div class="controls">
           <div class="profile-links">
             {{#each profile.links}}
               <div class="link-row">
                 <input type="text" name="profile.links.address" value="{{address}}" id="form-profile-link-address-{{index}}" class="input-xlarge" placeholder="https://twitter.com/louisck">
-                <input type="text" name="profile.links.icon" value="{{icon}}" id="form-profile-link-icon-{{index}}" class="input-medium" placeholder="icon-twitter">
+                <input type="text" name="profile.links.icon" value="{{icon}}" id="form-profile-link-icon-{{index}}" class="input-large" placeholder="icon-twitter">
              </div>
             {{/each}}
             <div class="link-row">
               <input type="text" name="profile.links.address" id="form-profile-link-address-{{profile.links.length}}" class="input-xlarge" placeholder="https://twitter.com/louisck">
-              <input type="text" name="profile.links.icon" id="form-profile-icon-icon-{{profile.links.length}}" class="input-medium" placeholder="icon-twitter">
+              <input type="text" name="profile.links.icon" id="form-profile-icon-icon-{{profile.links.length}}" class="input-large" placeholder="icon-twitter">
             </div>
           </div>
           <span class="help-block"><small>Links are saved in address-icon pairs (icons from the <a href="http://fortawesome.github.io/Font-Awesome/icons/">Font Awesome v3.2.1</a> selection)</small></span>
