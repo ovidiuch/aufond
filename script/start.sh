@@ -16,6 +16,9 @@ then
   # Extract and output process id from grepped process list
   process_id=$(echo $already_running | cut -d " " -f 2)
   echo "App already running [$process_id]"
+
+  # Prepare a restart command and put it in the user's clipboard
+  printf "kill $process_id && script/start.sh $port" | pbcopy
 else
   # Check if this is ran from the project folder directly and go to it
   # otherwise
@@ -32,14 +35,21 @@ else
     mkdir .log
   fi
 
+  # Get property formatted UTC time (in a way that an alphabetical sort results
+  # in a chronological order)
+  utc_time="$(env TZ=UTC date +%Y-%m-%d-%H:%M:%S)"
+
   # Log whenever we start the app (useful for when it crashes and is started
   # automatically from a cronjob)
-  echo "$(date) App started on port $port" >> .log/start
+  echo "$utc_time App started on port $port" >> .log/start
+
+  # Create an unique output log for each process, helps post-crash debugging
+  output_log=".log/output-$utc_time"
 
   # Start aufond app with all required parameters
   echo "Starting app..."
   PORT=$port \
   MONGO_URL=mongodb://aufond:aufond.mongodb@dharma.mongohq.com:10042/aufond \
   ROOT_URL=http://aufond.me:$port \
-  nohup /usr/local/bin/node .bundle/main.js > .log/output 2> .log/output &
+  nohup /usr/local/bin/node .bundle/main.js >> $output_log 2>> $output_log &
 fi
