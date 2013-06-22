@@ -40,10 +40,13 @@ else
   # automatically from a cronjob)
   echo "$utc_time App started on port $port" >> .log/start
 
+  # Create an unique output log for each process, helps post-crash debugging
+  output_log=".log/output-$utc_time"
+
   # Start aufond app with all required parameters
   echo "Starting app..."
   PORT=$port \
   MONGO_URL=mongodb://aufond:aufond.mongodb@dharma.mongohq.com:10042/aufond \
   ROOT_URL=http://aufond.me:$port \
-  nohup /usr/local/bin/node .bundle/main.js > .log/output 2> .log/output &
+  nohup /usr/local/bin/node .bundle/main.js > $output_log 2> $output_log &
 fi
