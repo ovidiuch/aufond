@@ -25,6 +25,9 @@
         {{> adminMeta}}
       </div>
       <div class="tab-pane" id="users">
+        <div id="delete-user-modal" class="modal hide fade">
+          {{> reactive deleteUserModal}}
+        </div>
         {{> adminUsers}}
       </div>
     </div>

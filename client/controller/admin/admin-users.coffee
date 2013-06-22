@@ -7,8 +7,7 @@ Template.adminUsers.events
   'click .button-delete': (e) ->
     e.preventDefault()
     data = $(e.currentTarget).data()
-    # XXX delete without warning
-    User.remove(data.id)
+    App.deleteUserModal.update(data)
 
 Template.adminUsers.users = ->
   # Show users with more entries first

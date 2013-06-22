@@ -26,3 +26,10 @@ Template.admin.deletePostImageModal = ->
   template: Template.deleteModal
   formClass: 'DeletePostImageForm'
   globalReference: 'deletePostImageModal'
+
+Template.admin.deleteUserModal = ->
+  module: FormModal
+  template: Template.deleteModal
+  formClass: 'DeleteForm'
+  formModel: 'User'
+  globalReference: 'deleteUserModal'
