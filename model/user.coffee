@@ -103,7 +103,6 @@ class @User extends MeteorModel
       remove: (userId, doc) =>
         # Don't allow guests to remove anything
         return false unless userId?
-        # Get current users
         currentUser = @find(userId)
         if userId is doc._id
           # Never let the root user get deleted, otherwise allow regular users
