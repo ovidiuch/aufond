@@ -33,14 +33,14 @@ input[type='color'],
 .uneditable-input {
   padding: 6px;
   border: 1px solid @color-light;
-  .boxShadow(inset 0px 2px 0 0 rgba(0, 0, 0, 0.04));
+  .boxShadow(none);
   color: lighten(#222226, 20%);
   .placeholderColor(@color-light);
   .transition(~"background, box-shadow", 0.2s);
 
   &:focus {
     border: 1px solid @color-light;
-    .boxShadow(inset 0px 2px 0 0 rgba(0, 0, 0, 0.04));
+    .boxShadow(none);
     background: @color-background;
   }
 }
