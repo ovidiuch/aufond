@@ -16,9 +16,6 @@ then
   # Extract and output process id from grepped process list
   process_id=$(echo $already_running | cut -d " " -f 2)
   echo "App already running [$process_id]"
-
-  # Prepare a restart command and put it in the user's clipboard
-  printf "kill $process_id && script/start.sh $port" | pbcopy
 else
   # Check if this is ran from the project folder directly and go to it
   # otherwise
