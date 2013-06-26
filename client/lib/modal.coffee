@@ -10,11 +10,6 @@ class @Modal extends ReactiveTemplate
       @reactiveBody = @params.reactiveBody
     if @params.onSubmit?
       @onSubmit = @params.onSubmit
-    # Allow modals to have a reference in the global namespace
-    # XXX this breaks the principles of encapsulation, but allows modals to be
-    # reusable for more documents of the same model type
-    if @params.globalReference?
-      App[@params.globalReference] = this
 
   rendered: (templateInstance) ->
     super(arguments...)
