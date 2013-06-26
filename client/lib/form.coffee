@@ -149,5 +149,8 @@ class @Form extends ReactiveTemplate
       $submitButton.css
         position: 'absolute'
         visibility: 'hidden'
+        top: -9999
         left: -9999
-      @view.$el.find('form').append($submitButton)
+      # XXX we prepend because input classes might have :last-child styling and
+      # having this as the last child would disable it
+      @view.$el.find('form').prepend($submitButton)
