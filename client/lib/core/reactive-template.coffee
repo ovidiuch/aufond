@@ -64,6 +64,10 @@ class @ReactiveTemplate extends ReactiveObject
     @template = @params.template if @params.template?
     # Init the template data
     @data = {}
+    # Allow reactive templates to have a reference in the global namespace
+    # XXX this breaks the principles of encapsulation
+    if @params.globalReference?
+      App[@params.globalReference] = this
 
     # Create and append reactive template container in the presence of a DOM
     # element container

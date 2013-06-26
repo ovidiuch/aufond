@@ -3,6 +3,10 @@ Template.admin.events
     e.preventDefault()
     App.postModal.update($(e.currentTarget).data())
 
+Template.admin.adminTabs = ->
+  module: AdminTabs
+  globalReference: 'adminTabs'
+
 Template.admin.postModal = ->
   module: FormModal
   formModel: 'Entry'
