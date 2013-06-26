@@ -27,7 +27,7 @@ class @Modal extends ReactiveTemplate
     # Focus on first input when modal opens. Make sure to remove any previously
     # set events in case the template renders multiple times
     @$modal.closest('.modal').off('shown').on 'shown', ->
-      $(this).find('input:not([type=hidden])').first().focus()
+      $(this).find('input:not([type=hidden],[type=submit])').first().focus()
 
   onSubmit: (e) =>
     ###
