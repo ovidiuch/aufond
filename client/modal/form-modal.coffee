@@ -23,9 +23,6 @@ class @FormModal extends Modal
     # The reactive body in this modal is a Form instance and thus has all of
     # its interface methods available (such as loading a model via "load")
     @reactiveBody = new window[@params.formClass or @formClass](params)
-    # HACK disable the submit event on child forms (since it will be triggered
-    # from the model class on key up instead)
-    @reactiveBody.onSubmit = (e) -> e.preventDefault()
 
   update: (data) ->
     # Extract id attribute from data and load model data inside the form
