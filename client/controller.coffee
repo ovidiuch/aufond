@@ -22,11 +22,10 @@ class @Controller extends ReactiveTemplate
        data.name is @data.name and
        data.username is @data.username
       Timeline.goTo(data.slug)
-    # Don't re-render entire admin section when changing tabs, they will be
-    # revealed by themselves so there's nothing to do here
+    # Don't re-render entire admin section when changing tabs, just toggle them
     # XXX this breaks Controller's encapsulation
     else if data.name is 'admin' and @data.name is 'admin'
-      return
+      App.adminTabs.select(App.router.args.tab)
     else
       # Revert page title to its default value whenever switching between
       # controllers
