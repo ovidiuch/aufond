@@ -4,11 +4,7 @@ class @Form extends ReactiveTemplate
 
   events:
     'focus input, select, textarea': 'onFocus'
-    # XXX forms are being submitted inconsistently on RETURN key when not
-    # having a submit button inside them, so we need to disable the native
-    # behavior and rely solely on custom keyboard and mouse event handlers
-    'submit form': (e) -> e.preventDefault()
-    'keyup input': 'onKeyUp'
+    'submit form': 'onSubmit'
     'click .button': 'onButtonClick'
 
   constructor: ->
@@ -76,12 +72,13 @@ class @Form extends ReactiveTemplate
 
   rendered: ->
     super(arguments...)
+    @ensureSubmitButton()
     # Only restore previous focus when errors occur
     @restoreFocus() if @data.error
 
-  onKeyUp: (e) =>
-    # Submit form on RETURN key
-    @submit() if e.keyCode is 13
+  onSubmit: (e) =>
+     e.preventDefault()
+     @submit()
 
   onButtonClick: (e) =>
     # Ignore buttons that aren't submit-eligible
@@ -136,3 +133,21 @@ class @Form extends ReactiveTemplate
     ###
     if @focusedInput
       @view.$el.find("##{@focusedInput}").focus()
+
+  ensureSubmitButton: ->
+    ###
+      HACK a <form> only get submitted by the RETURN key if a submit button is
+      present. Since a form can be inside a modal w/ the submit button outside
+      itself, or can use a styled anchor to trigger the submit, we need to
+      plant an invisible submit button in any form template in order to make
+      sure we still trigger the native behavior
+    ###
+    unless @view.$el.find('input[type=submit]').length
+      $submitButton = $('<input type="submit">').attr('tabindex', -1)
+      # XXX make sure submit button isn't visible and doesn't affect the layout
+      # in any way
+      $submitButton.css
+        position: 'absolute'
+        visibility: 'hidden'
+        left: -9999
+      @view.$el.find('form').append($submitButton)
