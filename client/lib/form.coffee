@@ -148,7 +148,6 @@ class @Form extends ReactiveTemplate
       # in any way
       $submitButton.css
         position: 'absolute'
-        visibility: 'hidden'
         top: -9999
         left: -9999
       # XXX we prepend because input classes might have :last-child styling and
