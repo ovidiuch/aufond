@@ -142,8 +142,8 @@ class @Form extends ReactiveTemplate
       plant an invisible submit button in any form template in order to make
       sure we still trigger the native behavior
     ###
-    unless @view.$el.find('input[type=submit]').length
-      $submitButton = $('<input type="submit">').attr('tabindex', -1)
+    unless @view.$el.find('[type=submit]').length
+      $submitButton = $('<button type="submit"></button>').attr('tabindex', -1)
       # XXX make sure submit button isn't visible and doesn't affect the layout
       # in any way
       $submitButton.css
