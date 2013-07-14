@@ -24,6 +24,8 @@ class @Entry extends MeteorModel
 
     # Add user data as the first item of list
     profile = user.toJSON().profile
+    # Ensure a profile name by defaulting to the username
+    profile.name = username if not profile.name
     items.push(_.extend(type: 'header', profile))
 
     year = null
