@@ -4,6 +4,7 @@ class @Controller extends ReactiveTemplate
   constructor: ->
     super(arguments...)
     @defaultPageTitle = document.title
+    @defaultPageDescription = $('meta[name=description]').prop('content')
     # Init application router
     Router.start(this)
 
@@ -25,9 +26,10 @@ class @Controller extends ReactiveTemplate
     else if data.name is 'admin' and @data.name is 'admin'
       App.adminTabs.select(App.router.args.tab)
     else
-      # Revert page title to its default value whenever switching between
-      # controllers
+      # Revert page title and description to their default values whenever
+      # switching between controllers
       document.title = @defaultPageTitle
+      $('meta[name=description]').prop('content', @defaultPageDescription);
       super(arguments...)
 
   rendered: (templateInstance) ->
