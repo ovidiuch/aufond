@@ -11,6 +11,7 @@ class @Timeline
     # Go to opened path directly (no animation)
     # XXX should wait until DOM is completely ready (fonts, etc.)
     @goTo(App.router.args.slug, false)
+    @setPageDescription()
     # XXX run with the next event loop to make sure all the CSS properties are
     # set w/out transitions at init (removing .loading class enables them)
     setTimeout(=> @$container.removeClass('loading'))
@@ -254,6 +255,15 @@ class @Timeline
     else if $entry.hasClass('header')
       title = "Contact — #{title}"
     document.title = title
+
+  @setPageDescription: ->
+    # Set the page description to the profile bio, but default to the tagline
+    # is bio text is left empty
+    description = $.trim(@$container.find('.entry.header .text').text()) or
+                  $.trim(@$container.find('.entry.header .head p').text())
+    # No point in updating the page description with an empty value
+    if description
+      $('meta[name=description]').prop('content', description)
 
   @openLink: (e) =>
     e.preventDefault()
