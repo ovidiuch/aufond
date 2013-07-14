@@ -201,4 +201,7 @@ if Meteor.isClient
     user = User.current()
     return unless user
     # Track logged in users in Mixpanel with an unique handle
-    mixpanel.name_tag(user.getEmail() or user.get('username'))
+    # XXX sometimes mixpanel is not loaded at this point, we should find a
+    # better fix than the sanity check, because this way a user might not be
+    # tagged at all
+    mixpanel?.name_tag(user.getEmail() or user.get('username'))
