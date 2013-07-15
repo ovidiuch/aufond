@@ -59,7 +59,9 @@ class @Timeline
     # Only take content height into consideration if visible (when the header
     # is active)
     if $header.hasClass('active')
-      headerHeight += @getHeaderContentHeight($header)
+      # XXX subtract 60px of the content height because the avatar bubble
+      # overlaps with 60px over it
+      headerHeight += @getPostContentHeight($header) - 60
 
     # Make sure things don't overlap when the window is smaller than the header.
     # Also keep 50px for the bottom margin and 50 for the peeking year bubble
@@ -356,17 +358,6 @@ class @Timeline
     if $entry.find('.content').length
       height += $entry.find('.head').outerHeight()
     return height
-
-  @getHeaderContentHeight: ($entry) ->
-    ###
-      Calculate the exact height of the header's content section. Unless it is
-      missing, in which case it will be zero.
-
-      Don't use outerHeight() in order not to include the bottom margin, which
-      overlaps with the height of the .head
-    ###
-    return 0 unless $entry.find('.content').length
-    return $entry.find('.content .inner-wrap').height()
 
   @getPostContentHeight: ($entry) ->
     ###
