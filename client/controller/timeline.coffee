@@ -56,11 +56,9 @@ class @Timeline
 
     # Detect the height of the header in its current state
     headerHeight = $header.find('.head').outerHeight()
-    # Set a minimum top and bottom margin of 100px
-    minTop = 100
-    # XXX add extra 50px to the bottom margin, in order for the most current
-    # year bubble to be peeking from below
-    minBottom = 150
+    # Set a minimum top and bottom margin of 150px. 50px from the bottom will
+    # go to the peeking year bubble
+    minTop = minBottom = 150
     # Only take content height into consideration if visible (when the header
     # is active)
     if $header.hasClass('active')
