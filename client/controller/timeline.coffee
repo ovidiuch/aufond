@@ -56,20 +56,26 @@ class @Timeline
 
     # Detect the height of the header in its current state
     headerHeight = $header.find('.head').outerHeight()
+    # Set a minimum top and bottom margin of 100px
+    minTop = 100
+    # XXX add extra 50px to the bottom margin, in order for the most current
+    # year bubble to be peeking from below
+    minBottom = 150
     # Only take content height into consideration if visible (when the header
     # is active)
     if $header.hasClass('active')
       # XXX subtract 60px of the content height because the avatar bubble
       # overlaps with 60px over it
       headerHeight += @getPostContentHeight($header) - 60
+      # No need for a min top margin when the header content is open
+      minTop = 0
 
-    # Make sure things don't overlap when the window is smaller than the header.
-    # Also keep 50px for the bottom margin and 50 for the peeking year bubble
-    windowHeight = Math.max($(window).height(), headerHeight + 100)
-
-    # Align vertically to center, while preserving the bottom padding of 100px
+    # Make sure things don't overlap when the window is smaller than the
+    # header, by enforcing the min top & bottom margins
+    windowHeight =
+      Math.max($(window).height(), headerHeight + minTop + minBottom)
     availableHeight = windowHeight - headerHeight
-    top = Math.min(availableHeight / 2, availableHeight - 100)
+    top = Math.min(availableHeight / 2, availableHeight - minBottom)
 
     # Height and padding of header entry use CSS transitions and will change
     # gracefully and in sync
