@@ -56,18 +56,24 @@ class @Timeline
 
     # Detect the height of the header in its current state
     headerHeight = $header.find('.head').outerHeight()
+    # Set a minimum top and bottom margin of 150px. 50px from the bottom will
+    # go to the peeking year bubble
+    minTop = minBottom = 150
     # Only take content height into consideration if visible (when the header
     # is active)
     if $header.hasClass('active')
-      headerHeight += @getHeaderContentHeight($header)
+      # XXX subtract 60px of the content height because the avatar bubble
+      # overlaps with 60px over it
+      headerHeight += @getPostContentHeight($header) - 60
+      # No need for a min top margin when the header content is open
+      minTop = 0
 
-    # Make sure things don't overlap when the window is smaller than the header.
-    # Also keep 50px for the bottom margin and 50 for the peeking year bubble
-    windowHeight = Math.max($(window).height(), headerHeight + 100)
-
-    # Align vertically to center, while preserving the bottom padding of 100px
+    # Make sure things don't overlap when the window is smaller than the
+    # header, by enforcing the min top & bottom margins
+    windowHeight =
+      Math.max($(window).height(), headerHeight + minTop + minBottom)
     availableHeight = windowHeight - headerHeight
-    top = Math.min(availableHeight / 2, availableHeight - 100)
+    top = Math.min(availableHeight / 2, availableHeight - minBottom)
 
     # Height and padding of header entry use CSS transitions and will change
     # gracefully and in sync
@@ -356,17 +362,6 @@ class @Timeline
     if $entry.find('.content').length
       height += $entry.find('.head').outerHeight()
     return height
-
-  @getHeaderContentHeight: ($entry) ->
-    ###
-      Calculate the exact height of the header's content section. Unless it is
-      missing, in which case it will be zero.
-
-      Don't use outerHeight() in order not to include the bottom margin, which
-      overlaps with the height of the .head
-    ###
-    return 0 unless $entry.find('.content').length
-    return $entry.find('.content .inner-wrap').height()
 
   @getPostContentHeight: ($entry) ->
     ###
