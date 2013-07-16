@@ -22,24 +22,24 @@
               </div>
             </div>
           {{/if}}
-          <div class="head link" data-slug="contact">
+          <a href="{{entryUrl 'contact'}}" class="head link" data-slug="contact">
             <span class="bullet" style="background-image: url('{{getResizedImageUrl avatar 120 120 'crop'}}');"></span>
             <div class="inner-wrap">
               {{{markdown name root="h1"}}}
               {{{markdown title root="p"}}}
             </div>
-          </div>
+          </a>
         </li>
       {{/match}}
       {{#match type="post"}}
         <li id="timeline-{{urlSlug}}" class="entry post {{parity index}}">
-          <div class="head link" data-slug="{{urlSlug}}">
+          <a href="{{entryUrl urlSlug}}" class="head link" data-slug="{{urlSlug}}">
             <span class="bullet {{iconClass icon}}"></span>
             <div class="inner-wrap">
               {{{markdown headline root="h2"}}}
               {{{markdown excerpt}}}
             </div>
-          </div>
+          </a>
           {{#if hasExtendedContent}}
             <div class="content">
               <div class="inner-wrap">
@@ -71,7 +71,7 @@
       {{/match}}
       {{#match type="year"}}
         <li id="timeline-{{year}}" class="entry year">
-          <span class="bullet link" data-slug="{{year}}">{{year}}</span>
+          <a href="{{entryUrl year}}" class="bullet link" data-slug="{{year}}">{{year}}</a>
         </li>
       {{/match}}
     {{/each}}
