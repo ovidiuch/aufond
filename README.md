@@ -14,5 +14,7 @@ cd /var/www/aufond && script/install.sh
 
 # Add cronjob to start project in case it crashes
 crontab -e
+
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 */1 * * * * /var/www/aufond/script/start.sh
 ```
