@@ -34,3 +34,13 @@ Handlebars.registerHelper 'isRootUser', ->
 
 Handlebars.registerHelper 'inController', (name) ->
   return App.router.args.name is name
+
+Handlebars.registerHelper 'entryUrl', (slug) ->
+  ###
+    Create a relative (no domain) url path to a certain timeline entry.
+    The challange is knowing whether or not to add the username prefix,
+    assuming that we support user domains. XXX we don't, improve this logic
+    and make the username optional once we do
+  ###
+  username = App.router.args.username
+  return "/#{username}/#{slug}"

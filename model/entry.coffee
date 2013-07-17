@@ -68,6 +68,12 @@ class @Entry extends MeteorModel
     @set('images', []) unless @get('images')?
     super(arguments...)
 
+  getUser: ->
+    ###
+      Proxy for fetching the User document of the Entry author
+    ###
+    return User.find(@get('createdBy'))
+
   addImage: (imageAttributes, callback) ->
     ###
       Attach a new image to an Entry

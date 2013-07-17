@@ -181,7 +181,7 @@ class @Timeline
     ###
       Simulate a click on an entry
     ###
-    $entry.find('.link:first').click()
+    $entry.find('.link:first').each(-> Timeline.toggleLink(this))
 
   @goTo: (slug, animate = true) ->
     ###
@@ -271,14 +271,9 @@ class @Timeline
     if description
       $('meta[name=description]').prop('content', description)
 
-  @openLink: (e) =>
-    e.preventDefault()
-    # Stop events from bubbling up so they don't reach the timeline element,
-    # which already listens to click events and will untoggle any active entry
-    # when receiving one
-    e.stopPropagation()
+  @toggleLink: (anchor) =>
     # Toggle link path if currently on it
-    path = @getPathByTarget(e.currentTarget)
+    path = @getPathByTarget(anchor)
     if path is @getCurrentPath()
       path = @getDefaultPath()
     else
@@ -408,7 +403,13 @@ $.fn.contractEntry = ->
 
 
 Template.timeline.events
-  'click .link': Timeline.openLink
+  'click .link': (e) ->
+    e.preventDefault()
+    # Stop events from bubbling up so they don't reach the timeline element,
+    # which already listens to click events and will untoggle any active entry
+    # when receiving one
+    e.stopPropagation()
+    Timeline.toggleLink(e.currentTarget)
   # Untoggle any active entry when clicking on the timeline background,
   # outside any entry link
   'click .entries': Timeline.untoggleActiveEntry
