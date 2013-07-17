@@ -141,6 +141,13 @@ class @Timeline
       if carouselWidth < availableWidth
         availableWidth -= availableWidth - carouselWidth
 
+    # Let the carousel flow naturally (using CSS rules) until there is at least
+    # one image loaded. When loading static pages using ?_escaped_fragment_=
+    # the spiderable plugin doesn't wait for the images to load, so we need to
+    # preserve the default carousel width of 100%, so that the images at least
+    # be partially visible when loading ulteriorly in a static html export
+    return unless carouselWidth > 0
+
     # Apply detected sizes to DOM nodes
     $wrapper.find('.viewport').width(availableWidth)
     $wrapper.find('ul').width(carouselWidth)
