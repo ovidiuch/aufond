@@ -9,7 +9,7 @@ echo "export EDITOR=vim" >> ~/.bashrc
 echo "cd /var/www/aufond" >> ~/.bashrc
 
 echo "Installing required packages..."
-aptitude install -y vim curl build-essential
+aptitude install -y vim curl build-essential libfontconfig1
 
 echo "Installing Node..."
 git clone https://github.com/joyent/node.git /var/www/node
