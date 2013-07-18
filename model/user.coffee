@@ -72,7 +72,11 @@ class @User extends MeteorModel
 
       Meteor.publish 'userEmails', ->
         # Only make all user emails public to the root user
-        return null unless @userId and User.find(@userId).isRoot()
+        # XXX returning a null value instead of a Mongo cursor does not trigger
+        # _allSubscriptionsReady and the spiderable plugin remains hanging.
+        # Publish supports returning a list of cursors and returning an empty
+        # list seems to hit the spot
+        return [] unless @userId and User.find(@userId).isRoot()
         return User.mongoCollection.find({}, {fields: {emails: 1}})
 
     if Meteor.isClient
@@ -201,4 +205,7 @@ if Meteor.isClient
     user = User.current()
     return unless user
     # Track logged in users in Mixpanel with an unique handle
-    mixpanel.name_tag(user.getEmail() or user.get('username'))
+    # XXX sometimes mixpanel is not loaded at this point, we should find a
+    # better fix than the sanity check, because this way a user might not be
+    # tagged at all
+    mixpanel?.name_tag(user.getEmail() or user.get('username'))

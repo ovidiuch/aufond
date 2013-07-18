@@ -11,6 +11,7 @@ class @Timeline
     # Go to opened path directly (no animation)
     # XXX should wait until DOM is completely ready (fonts, etc.)
     @goTo(App.router.args.slug, false)
+    @setPageDescription()
     # XXX run with the next event loop to make sure all the CSS properties are
     # set w/out transitions at init (removing .loading class enables them)
     setTimeout(=> @$container.removeClass('loading'))
@@ -55,18 +56,24 @@ class @Timeline
 
     # Detect the height of the header in its current state
     headerHeight = $header.find('.head').outerHeight()
+    # Set a minimum top and bottom margin of 150px. 50px from the bottom will
+    # go to the peeking year bubble
+    minTop = minBottom = 150
     # Only take content height into consideration if visible (when the header
     # is active)
     if $header.hasClass('active')
-      headerHeight += @getHeaderContentHeight($header)
+      # XXX subtract 60px of the content height because the avatar bubble
+      # overlaps with 60px over it
+      headerHeight += @getPostContentHeight($header) - 60
+      # No need for a min top margin when the header content is open
+      minTop = 0
 
-    # Make sure things don't overlap when the window is smaller than the header.
-    # Also keep 50px for the bottom margin and 50 for the peeking year bubble
-    windowHeight = Math.max($(window).height(), headerHeight + 100)
-
-    # Align vertically to center, while preserving the bottom padding of 100px
+    # Make sure things don't overlap when the window is smaller than the
+    # header, by enforcing the min top & bottom margins
+    windowHeight =
+      Math.max($(window).height(), headerHeight + minTop + minBottom)
     availableHeight = windowHeight - headerHeight
-    top = Math.min(availableHeight / 2, availableHeight - 100)
+    top = Math.min(availableHeight / 2, availableHeight - minBottom)
 
     # Height and padding of header entry use CSS transitions and will change
     # gracefully and in sync
@@ -134,6 +141,13 @@ class @Timeline
       if carouselWidth < availableWidth
         availableWidth -= availableWidth - carouselWidth
 
+    # Let the carousel flow naturally (using CSS rules) until there is at least
+    # one image loaded. When loading static pages using ?_escaped_fragment_=
+    # the spiderable plugin doesn't wait for the images to load, so we need to
+    # preserve the default carousel width of 100%, so that the images at least
+    # be partially visible when loading ulteriorly in a static html export
+    return unless carouselWidth > 0
+
     # Apply detected sizes to DOM nodes
     $wrapper.find('.viewport').width(availableWidth)
     $wrapper.find('ul').width(carouselWidth)
@@ -174,7 +188,7 @@ class @Timeline
     ###
       Simulate a click on an entry
     ###
-    $entry.find('.link:first').click()
+    $entry.find('.link:first').each(-> Timeline.toggleLink(this))
 
   @goTo: (slug, animate = true) ->
     ###
@@ -255,14 +269,18 @@ class @Timeline
       title = "Contact — #{title}"
     document.title = title
 
-  @openLink: (e) =>
-    e.preventDefault()
-    # Stop events from bubbling up so they don't reach the timeline element,
-    # which already listens to click events and will untoggle any active entry
-    # when receiving one
-    e.stopPropagation()
+  @setPageDescription: ->
+    # Set the page description to the profile bio, but default to the tagline
+    # is bio text is left empty
+    description = $.trim(@$container.find('.entry.header .text').text()) or
+                  $.trim(@$container.find('.entry.header .head p').text())
+    # No point in updating the page description with an empty value
+    if description
+      $('meta[name=description]').prop('content', description)
+
+  @toggleLink: (anchor) =>
     # Toggle link path if currently on it
-    path = @getPathByTarget(e.currentTarget)
+    path = @getPathByTarget(anchor)
     if path is @getCurrentPath()
       path = @getDefaultPath()
     else
@@ -347,17 +365,6 @@ class @Timeline
       height += $entry.find('.head').outerHeight()
     return height
 
-  @getHeaderContentHeight: ($entry) ->
-    ###
-      Calculate the exact height of the header's content section. Unless it is
-      missing, in which case it will be zero.
-
-      Don't use outerHeight() in order not to include the bottom margin, which
-      overlaps with the height of the .head
-    ###
-    return 0 unless $entry.find('.content').length
-    return $entry.find('.content .inner-wrap').height()
-
   @getPostContentHeight: ($entry) ->
     ###
       Calculate the exact height of an entry's content section. Unless it is
@@ -403,7 +410,13 @@ $.fn.contractEntry = ->
 
 
 Template.timeline.events
-  'click .link': Timeline.openLink
+  'click .link': (e) ->
+    e.preventDefault()
+    # Stop events from bubbling up so they don't reach the timeline element,
+    # which already listens to click events and will untoggle any active entry
+    # when receiving one
+    e.stopPropagation()
+    Timeline.toggleLink(e.currentTarget)
   # Untoggle any active entry when clicking on the timeline background,
   # outside any entry link
   'click .entries': Timeline.untoggleActiveEntry

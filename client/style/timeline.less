@@ -69,6 +69,13 @@
     padding: 0 0 (@entry-margin - 20) 0;
     .transition(opacity, 0.2s);
 
+    // Anchor tags are used for head sections and clickable bubble, so block
+    // display and a style reset need to be enfored on them
+    .link {
+      display: block;
+      text-decoration: none;
+      color: @color-dark;
+    }
     .bullet {
       position: absolute;
       .bullet(@bullet-size-post);
