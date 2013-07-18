@@ -9,7 +9,7 @@ echo "export EDITOR=vim" >> ~/.bashrc
 echo "cd /var/www/aufond" >> ~/.bashrc
 
 echo "Installing required packages..."
-aptitude install -y vim curl build-essential
+aptitude install -y vim curl build-essential libfontconfig1
 
 echo "Installing Node..."
 git clone https://github.com/joyent/node.git /var/www/node
@@ -20,6 +20,13 @@ cd -
 
 echo "Installing Meteor..."
 curl https://install.meteor.com | /bin/sh
+
+echo "Installing PhantomJS..."
+mkdir /var/www/phantomjs && cd /var/www/phantomjs
+wget https://phantomjs.googlecode.com/files/phantomjs-1.9.1-linux-x86_64.tar.bz2
+tar xf phantomjs-1.9.1-linux-x86_64.tar.bz2 --strip-components=1 -C .
+cp bin/phantomjs /usr/local/bin/phantomjs
+cd -
 
 echo "Creating initial bundle..."
 script/bundle.sh
