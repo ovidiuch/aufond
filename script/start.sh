@@ -1,5 +1,6 @@
 #/bin/bash
 
+hostname="aufond.me"
 port=80
 
 # The port can be specified as the first parameter
@@ -43,10 +44,22 @@ else
   # Create an unique output log for each process, helps post-crash debugging
   output_log=".log/output-$utc_time"
 
+  # Use localhost hostname in development
+  in_development="$(hostname | grep -i "ovidiu")"
+  if [ "$in_development" ]
+  then
+    hostname="localhost"
+  fi
+  # Only append port to hostname if different than 80
+  if [ $port != 80 ]
+  then
+    hostname+=":$port"
+  fi
+
   # Start aufond app with all required parameters
   echo "Starting app..."
   PORT=$port \
   MONGO_URL=mongodb://aufond:aufond.mongodb@dharma.mongohq.com:10042/aufond \
-  ROOT_URL=http://aufond.me:$port \
+  ROOT_URL=http://$hostname \
   nohup /usr/local/bin/node .bundle/main.js >> $output_log 2>> $output_log &
 fi
