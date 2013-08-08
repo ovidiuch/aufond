@@ -40,6 +40,12 @@ parseGeneratedExport = (model, content) ->
   ###
   model.save(status: 'Processing...')
 
+  # Make all links absolute, in order to link back to the online profile in
+  # case they are clicked
+  content = content.replace /href="\/([^\/].+?)"/g, (match, url) ->
+    url = Meteor.absoluteUrl(url)
+    return "href=\"#{url}\""
+
   # Store all stylesheets found inside a list and remove then invidividually
   # as they are fetched asynchronously, thus knowing all stylesheets have been
   # loaded when the list is empty
@@ -56,9 +62,8 @@ parseGeneratedExport = (model, content) ->
     # Create a closure for each stylesheet name, in order to bind it to its
     # asynchronously loaded contents
     do (stylesheet) ->
-      # We need to remove leading / when using Meteor.absoluteUrl
-      url = Meteor.absoluteUrl(stylesheet.replace(/^\//, ''))
-      child = child_process.exec "curl #{url}",
+      # Stylesheet URL was already made absolute (see above)
+      child = child_process.exec "curl #{stylesheet}",
         # Bind async callback into a Meteor Fibers environment
         Meteor.bindEnvironment (err, stdout, erderr) ->
           throw err if err?
