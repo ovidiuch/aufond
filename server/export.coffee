@@ -36,7 +36,9 @@ parseGeneratedExport = (model, content) ->
 
     TODO make URLs absolute
     TODO handle FontAwesome somehow...
+      http://www.fontspring.com/blog/the-new-bulletproof-font-face-syntax
     TODO embed images (using data:image/jpg?)
+    TODO remove content areas, they will never be opened
   ###
   model.save(status: 'Processing...')
 
