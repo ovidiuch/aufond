@@ -1,0 +1,22 @@
+@import "mixin.lessimport";
+
+.modal {
+  // Modals are hidden by default
+  display: none;
+}
+
+// From before
+#post-modal {
+  width: 754px;
+  margin-left: -377px;
+
+  .modal-body {
+    max-height: 450px;
+  }
+}
+@media (max-width: 767px) {
+  #post-modal {
+    width: auto;
+    margin: 0;
+  }
+}

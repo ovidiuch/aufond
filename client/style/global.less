@@ -1,9 +1,21 @@
 @import "mixin.lessimport";
 
+// Clearfix :(
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: " ";
+}
+.clearfix:after {
+  clear: both;
+}
+
 body {
-  /* Reset Bootstrap's paddings on mobile resolutions */
-  padding: 0;
   color: @color-dark;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  text-align: left;
+  line-height: 20px;
 }
 h1 {
   font-family: @font-source-sans-pro;
@@ -22,14 +34,27 @@ h3 {
   font-size: 26px;
   font-weight: 400;
 }
-a, a:hover {
+a {
   color: #0088cc;
+  text-decoration: none;
+}
+a:hover {
+  color: #0088cc;
+  text-decoration: underline;
 }
 a:focus {
   color: #0088cc;
   text-decoration: underline;
   outline: none;
 }
+p {
+  margin: 0 0 10px 0;
+}
+ul {
+  margin: 0;
+  padding: 0;
+}
+
 .inner-wrapper {
   min-width: 560px;
   max-width: 960px;
