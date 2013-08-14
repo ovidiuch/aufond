@@ -1,5 +1,40 @@
 @import "mixin.lessimport";
 
+.nav-tabs {
+  margin: 0 0 20px 0;
+  border-bottom: 1px solid @color-light;
+  list-style: none;
+  height: 41px;
+
+  li {
+    float: left;
+    padding: 0 4px 0 0;
+
+    a {
+      display: block;
+      padding: 0 15px;
+      border: 1px solid rgba(0, 0, 0, 0);
+      border-bottom: none;
+      border-radius: 4px 4px 0 0;
+      background: @color-background;
+      line-height: 40px;
+
+      &:hover {
+        background: @color-bright;
+        text-decoration: none;
+      }
+    }
+    &.active {
+      a {
+        border: 1px solid @color-light;
+        border-bottom: 1px solid @color-background;
+        background: @color-background;
+        color: @color-dark;
+      }
+    }
+  }
+}
+
 .tab-pane {
   display: none;
 
