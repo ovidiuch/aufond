@@ -5,7 +5,6 @@
 
 backbone
 coffeescript
-bootstrap
 jquery
 less
 accounts-password
