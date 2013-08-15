@@ -1,22 +1,40 @@
 @import "mixin.lessimport";
 
-.modal {
-  // Modals are hidden by default
-  display: none;
+.modal-content {
+  .boxShadow(0 2px 0 0 rgba(0, 0, 0, 0.2));
 }
+.modal-header {
+  padding: 10px 15px;
+  border-bottom: 1px solid @color-light;
 
-// From before
-#post-modal {
-  width: 754px;
-  margin-left: -377px;
-
-  .modal-body {
-    max-height: 450px;
-  }
-}
-@media (max-width: 767px) {
-  #post-modal {
-    width: auto;
+  h3 {
     margin: 0;
+    line-height: 40px;
   }
+  .close {
+    float: right;
+    margin: 0;
+    padding: 0;
+    color: @color-light;
+    font-family: @font-source-sans-pro;
+    font-size: 26px;
+    font-weight: normal;
+    line-height: 40px;
+
+    &:hover {
+      color: @color-medium;
+      text-decoration: none;
+    }
+  }
+}
+.modal-body {
+  padding: 15px;
+}
+.empty-modal-body {
+  padding-bottom: 0;
+}
+.modal-footer {
+  margin: 0;
+  border: 0;
+  padding: 0 15px 15px 15px;
 }
