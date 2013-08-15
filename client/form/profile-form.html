@@ -8,19 +8,19 @@
       <div class="control-group">
         <label class="control-label" for="form-profile-name">Name*</label>
         <div class="controls">
-          <input type="text" name="profile.name" value="{{profile.name}}" id="form-profile-name" class="input-xlarge">
+          <input type="text" name="profile.name" value="{{profile.name}}" id="form-profile-name">
         </div>
       </div>
       <div class="control-group">
         <label class="control-label" for="form-profile-title">Title / tagline*</label>
         <div class="controls">
-          <input type="text" name="profile.title" value="{{profile.title}}" id="form-profile-title" class="input-xlarge">
+          <input type="text" name="profile.title" value="{{profile.title}}" id="form-profile-title" class="large">
         </div>
       </div>
       <div class="control-group">
         <label class="control-label" for="form-profile-bio">Short bio*</label>
         <div class="controls">
-          <textarea name="profile.bio" id="form-profile-bio" rows="3" class="input-xxlarge">{{profile.bio}}</textarea>
+          <textarea name="profile.bio" id="form-profile-bio" rows="3" class="large">{{profile.bio}}</textarea>
           <span class="help-block"><small>* Support <a href="http://daringfireball.net/projects/markdown/" tabindex="-1">Markup</a> formatting</small></span>
         </div>
       </div>
@@ -29,14 +29,14 @@
         <div class="controls">
           <div class="profile-links">
             {{#each profile.links}}
-              <div class="link-row">
-                <input type="text" name="profile.links.address" value="{{address}}" id="form-profile-link-address-{{index}}" class="input-xlarge" placeholder="https://twitter.com/louisck">
-                <input type="text" name="profile.links.icon" value="{{icon}}" id="form-profile-link-icon-{{index}}" class="input-large" placeholder="icon-twitter">
+              <div class="link-row clearfix">
+                <input type="text" name="profile.links.address" value="{{address}}" id="form-profile-link-address-{{index}}" placeholder="https://twitter.com/louisck">
+                <input type="text" name="profile.links.icon" value="{{icon}}" id="form-profile-link-icon-{{index}}" class="small" placeholder="icon-twitter">
              </div>
             {{/each}}
-            <div class="link-row">
-              <input type="text" name="profile.links.address" id="form-profile-link-address-{{profile.links.length}}" class="input-xlarge" placeholder="https://twitter.com/louisck">
-              <input type="text" name="profile.links.icon" id="form-profile-icon-icon-{{profile.links.length}}" class="input-large" placeholder="icon-twitter">
+            <div class="link-row clearfix">
+              <input type="text" name="profile.links.address" id="form-profile-link-address-{{profile.links.length}}" placeholder="https://twitter.com/louisck">
+              <input type="text" name="profile.links.icon" id="form-profile-icon-icon-{{profile.links.length}}" class="small" placeholder="icon-twitter">
             </div>
           </div>
           <span class="help-block"><small>Links are saved in address-icon pairs (icons from the <a href="http://fortawesome.github.io/Font-Awesome/icons/" tabindex="-1">Font Awesome v3.2.1</a> selection)</small></span>
