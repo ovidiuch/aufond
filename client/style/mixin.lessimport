@@ -1,4 +1,5 @@
-@color-background: #fafafa;
+@color-background: #fff;
+@color-bright: #fafafa;
 @color-light: #d1d1d6;
 @color-medium: #898990;
 @color-dark: #222226;
