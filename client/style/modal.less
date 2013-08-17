@@ -39,14 +39,36 @@
   padding: 0 15px 15px 15px;
 }
 
-#post-modal {
-  .modal-dialog {
-    width: 618px;
+// Hack to make the .reactive-template element from inside each model shape
+// up after the .modal-dialog, in order not to prevent click events for the
+// .modal container (for hiding it). The .modal click event is set specifically
+// itself, and will not accept a bubbled event
+@media screen and (min-width: 768px) {
+  .modal {
+    .reactive-template {
+      width: 620px;
+      margin: auto;
+    }
   }
+}
+
+// Create a custom size for the post modal, maximizing its width while
+// remaining usable in mobile view (640px width)
+#post-modal {
   .controls {
     margin-left: 157px;
   }
   .control-label {
     width: 142px;
+  }
+}
+@media screen and (min-width: 768px) {
+  #post-modal {
+    .reactive-template {
+      width: 638px;
+    }
+    .modal-dialog {
+      width: 618px;
+    }
   }
 }
