@@ -15,104 +15,100 @@
   }
 }
 
-textarea,
-input[type='text'],
-input[type='password'],
-input[type='datetime'],
-input[type='datetime-local'],
-input[type='date'],
-input[type='month'],
-input[type='time'],
-input[type='week'],
-input[type='number'],
-input[type='email'],
-input[type='url'],
-input[type='search'],
-input[type='tel'],
-input[type='color'],
-.uneditable-input {
-  padding: 6px;
-  border: 1px solid @color-light;
-  .boxShadow(none);
-  color: lighten(#222226, 20%);
-  .placeholderColor(@color-light);
-  .transition(~"background, box-shadow", 0.2s);
-
-  &:focus {
-    border: 1px solid @color-light;
-    .boxShadow(none);
-    background: @color-background;
-  }
+fieldset {
+  margin: 0 0 20px 0;
+  padding: 0;
+  border: 0;
 }
-
-// Make form legends look like h3 headings
 legend {
+  display: block;
+  width: 100%;
+  margin: 0 0 15px 0;
+  border-bottom: 1px solid @color-light;
+  // Make form legends look like h3 headings
   font-family: @font-source-sans-pro;
   font-size: 26px;
   font-weight: 400;
   line-height: 40px;
 }
-form,
-.form-horizontal .control-group {
-  margin-bottom: 10px;
-}
-legend,
-.alert {
-  margin-bottom: 15px;
-}
-// Add explicit prefix to force priority
-#content .form-horizontal .help-block {
-  margin-top: 5px;
-  color: @color-medium;
-}
-#content .form-horizontal .profile-links-control-group .help-block {
-  margin-top: 0;
-}
-.profile-links .link-row input {
-  margin-bottom: 5px;
-}
-.form-actions {
-  margin: 15px 0 20px 0;
-  padding: 10px;
-  border: none;
-  border-radius: 6px;
-  background: #fafafa;
-}
-.modal-header {
-  padding: 10px 15px;
+input[type='text'],
+input[type='password'],
+input[type='email'],
+textarea {
+  width: 226px;
+  height: 20px;
+  padding: 6px;
+  border: 1px solid @color-light;
+  border-radius: 4px;
+  color: lighten(#222226, 20%);
+  .placeholderColor(@color-light);
+  outline: none;
+  .transition(~"background, box-shadow", 0.2s);
 
-  h3 {
-    line-height: 40px;
+  &.small {
+    width: 166px;
   }
-  .close {
-    margin: 0;
-    padding: 0;
-    color: @color-dark;
-    font-family: @font-source-sans-pro;
-    font-size: 26px;
-    font-weight: normal;
-    line-height: 40px;
+  &.large {
+    width: 415px;
+  }
+  &:focus {
+    background: @color-bright;
   }
 }
-.empty-modal-body {
-  padding-bottom: 0;
+textarea {
+  height: auto;
 }
-.modal-footer {
-  border: 0;
-  background: none;
-  padding: 0 15px 15px 15px;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-}
-.modal {
-  .boxShadow(0 2px 0 0 rgba(0, 0, 0, 0.3));
+form {
+  .control-group {
+    min-height: 30px;
+    margin-bottom: 10px;
 
-  form {
-    margin-bottom: 0;
+    .control-label {
+      float: left;
+      width: 185px;
+      line-height: 30px;
+      text-align: right;
+      cursor: pointer;
+    }
+    .controls {
+      margin-left: 200px;
+    }
+    .help-block {
+      display: block;
+      margin-top: 10px;
+      color: @color-medium;
+    }
+    .profile-links .link-row {
+      input {
+        float: left;
+        margin-bottom: 10px;
 
-    .control-group:last-child {
+        &:first-child {
+          margin-right: 10px;
+        }
+      }
+    }
+    &:last-child {
       margin-bottom: 0;
     }
   }
+  .profile-links-control-group .help-block {
+    margin-top: 0;
+  }
+}
+
+.alert {
+  margin: 0 0 15px 0;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+.alert-success {
+  border: 1px solid #5bb75b;
+  background: lighten(#5bb75b, 42%);
+  color: #5bb75b;
+}
+.alert-error {
+  border: 1px solid #da4f49;
+  background: lighten(#da4f49, 40%);
+  color: #da4f49;
 }

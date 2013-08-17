@@ -1,0 +1,64 @@
+@import "mixin.lessimport";
+
+.modal-content {
+  .boxShadow(0 2px 0 0 rgba(0, 0, 0, 0.2));
+}
+.modal-header {
+  padding: 10px 15px;
+  border-bottom: 1px solid @color-light;
+
+  h3 {
+    margin: 0;
+    line-height: 40px;
+  }
+  .close {
+    float: right;
+    margin: 0;
+    padding: 0;
+    color: @color-light;
+    font-family: @font-source-sans-pro;
+    font-size: 26px;
+    font-weight: normal;
+    line-height: 40px;
+
+    &:hover {
+      color: @color-medium;
+      text-decoration: none;
+    }
+  }
+}
+.modal-body {
+  padding: 15px;
+}
+.empty-modal-body {
+  padding-bottom: 0;
+}
+.modal-footer {
+  margin: 0;
+  border: 0;
+  padding: 0 15px 15px 15px;
+}
+
+// Hack to make the .reactive-template element from inside each model shape
+// up after the .modal-dialog, in order not to prevent click events for the
+// .modal container (for hiding it). The .modal click event is set specifically
+// itself, and will not accept a bubbled event
+@media screen and (min-width: 768px) {
+  .modal {
+    .reactive-template {
+      width: 620px;
+      margin: auto;
+    }
+  }
+}
+
+// Create a custom size for the post modal, maximizing its width while
+// remaining usable in mobile view (600px width)
+#post-modal {
+  .controls {
+    margin-left: 117px;
+  }
+  .control-label {
+    width: 102px;
+  }
+}
