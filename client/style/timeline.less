@@ -82,7 +82,11 @@
     .bullet {
       position: absolute;
       .bullet(@bullet-size-post);
-      border-radius: 50%;
+      // We can't use border-radius: 50% because the version of wkhtmltopdf
+      // used for expoting .pdfs uses a version of QtWebKit that has a bug with
+      // percentage values for border-radius
+      // See https://code.google.com/p/wkhtmltopdf/issues/detail?id=540
+      border-radius: 100px;
       .boxShadow(0 1px 2px rgba(0, 0, 0, 0.1));
       background: #fff;
       color: @color-light;
@@ -279,7 +283,7 @@
           display: block;
           width: @bullet-size-post;
           height: @bullet-size-post;
-          border-radius: 50%;
+          border-radius: 100px;
           background: rgba(250, 250, 250, 0.1);
           font-size: 22px;
           line-height: @bullet-size-post;
