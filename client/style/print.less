@@ -1,0 +1,21 @@
+@import "mixin.lessimport";
+
+@media print {
+  body.timeline {
+    .entry.post .head,
+    .entry.year {
+      // Because images are inline-block, and images have inline-block display,
+      // WebKit prevents images from breaking between pages by applying this
+      // rule to all inline-block elements. This is more effective than
+      // page-break-inside: avoid
+      // https://github.com/ariya/phantomjs/issues/10638#issuecomment-20186253
+      display: inline-block !important;
+    }
+    .entry.post .content {
+      // Entry contents have nothing to do in .pdf exports. They are hidden by
+      // default, but for some reason the images interfered with the page
+      // breaking in phantomjs
+      display: none;
+    }
+  }
+}
