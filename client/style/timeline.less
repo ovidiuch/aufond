@@ -23,7 +23,7 @@
 }
 
 /* Default timeline, for mobile display */
-#content.timeline {
+body.timeline {
   min-width: @entry-width-content-outer;
   background: @color-bright;
   color: @color-dark;
@@ -71,6 +71,7 @@
     // The head bottom padding will compensate with the rest of the margin
     padding: 0 0 (@entry-margin - 20) 0;
     .transition(opacity, 0.2s);
+    page-break-inside: avoid;
 
     // Anchor tags are used for head sections and clickable bubble, so block
     // display and a style reset need to be enfored on them
@@ -340,7 +341,7 @@
 
 /* Timeline on larger, desktop devices */
 @media (min-width: 1206px) {
-  #content.timeline {
+  body.timeline {
     /* Odd posts stay on the right */
     .post {
       text-align: left;

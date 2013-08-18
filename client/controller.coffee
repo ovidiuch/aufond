@@ -26,6 +26,8 @@ class @Controller extends ReactiveTemplate
     else if data.name is 'admin' and @data.name is 'admin'
       App.adminTabs.select(App.router.args.tab)
     else
+      # Add the controller name as a class on the <body> tag
+      $('body').attr('class', data.name)
       # Revert page title and description to their default values whenever
       # switching between controllers
       document.title = @defaultPageTitle
