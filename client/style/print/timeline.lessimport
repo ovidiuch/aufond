@@ -1,7 +1,49 @@
-@import "mixin.lessimport";
-
 @media print {
   body.timeline {
+    // Show values for links in print mode, because phantomjs is not able to
+    // export links in .pdfs
+    .entry.header .content .links {
+      width: 500px;
+      margin: 0 auto 20px auto;
+      // Works as .clearfix
+      overflow: hidden;
+
+      li {
+        float: left;
+        width: auto;
+        height: auto;
+        margin: 0;
+      }
+      a {
+        width: 250px;
+        height: 30px;
+        border-radius: 0;
+        background: none;
+        color: #c52352;
+
+        i {
+          float: left;
+          display: block;
+          width: 40px;
+          height: 30px;
+          font-size: 18px;
+          line-height: 30px;
+          text-align: center;
+        }
+        .value {
+          float: left;
+          display: block;
+          width: 210px;
+          height: 30px;
+          overflow: hidden;
+          font-size: 14px;
+          line-height: 30px;
+          text-align: left;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
+    }
     .entry.post .head,
     .entry.year {
       // Because images are inline-block, and images have inline-block display,
@@ -9,7 +51,7 @@
       // rule to all inline-block elements. This is more effective than
       // page-break-inside: avoid
       // https://github.com/ariya/phantomjs/issues/10638#issuecomment-20186253
-      display: inline-block !important;
+      display: inline-block;
     }
     .entry.post .content {
       // Entry contents have nothing to do in .pdf exports. They are hidden by
@@ -24,15 +66,15 @@
     // Ideally it should be consistent in the live app as well, but it's hard
     // to size the 100% header when the next year bubble will have top padding
     .entry.post {
-      padding: 20px 0 10px 0 !important;
+      padding: 20px 0 10px 0;
     }
     .entry.year {
-      padding: 20px 0 30px 0 !important;
+      padding: 20px 0 30px 0;
 
       .bullet {
         // The bullet has absolute position, so it doesn't take padding into
         // consideration when applying its positioning
-        top: 70px !important;
+        top: 70px;
       }
     }
   }
