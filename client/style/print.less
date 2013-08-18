@@ -17,5 +17,23 @@
       // breaking in phantomjs
       display: none;
     }
+    // Ugly HACK to improve the timeline look through .pdf pages. Normally
+    // entries only have bottom padding, but we'd like to see a bit of the
+    // timeline bg line before the first item after a page break, so we add a
+    // bit of top padding, while removing the same amount from the bottom.
+    // Ideally it should be consistent in the live app as well, but it's hard
+    // to size the 100% header when the next year bubble will have top padding
+    .entry.post {
+      padding: 20px 0 10px 0 !important;
+    }
+    .entry.year {
+      padding: 20px 0 30px 0 !important;
+
+      .bullet {
+        // The bullet has absolute position, so it doesn't take padding into
+        // consideration when applying its positioning
+        top: 70px !important;
+      }
+    }
   }
 }
