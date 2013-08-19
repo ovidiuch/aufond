@@ -10,10 +10,12 @@ getBasePath = ->
   ###
     XXX because the path we get is the one from where the process is running,
     the current way of extracting the base path is to strip it from after (and
-    including) the .meteor folder, which we know is in a root folder in the
-    project. The process runs from .meteor/local/build/programs/server
+    including) the .meteor folder (or .bundle in production), which we know is
+    in a root folder in the project. The process runs from:
+    - .meteor/local/build/programs/server in development
+    - .bundle/programs/server in production
   ###
-  return Npm.require('path').resolve('.').split('/.meteor')[0]
+  return Npm.require('path').resolve('.').replace(/\/\.(meteor|bundle).*$/, '')
 
 getExportName = (username) ->
   ###
