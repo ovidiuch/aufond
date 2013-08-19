@@ -6,110 +6,32 @@ fs = Npm.require('fs')
 # side backup location. Timelines should never be served from here, though
 exportPath = '.export~'
 
-RegExp.escape = (str) ->
+getBasePath = ->
   ###
-    Escape string for creating a RegExp object around it
-
-    Example:
-      pattern = new RegExp(RegExp.escape('url.html?var=val'))
-
-    TODO move this somewhere global when needed again
+    XXX because the path we get is the one from where the process is running,
+    the current way of extracting the base path is to strip it from after (and
+    including) the .meteor folder, which we know is in a root folder in the
+    project. The process runs from .meteor/local/build/programs/server
   ###
-  return str.replace /[-\/\\^$*+?.()|[\]{}]/g, '\\$&'
+  return Npm.require('path').resolve('.').split('/.meteor')[0]
 
 getExportName = (username) ->
   ###
     Unique user-based name for a static export
   ###
-  return "#{username}-#{Date.now()}.html"
+  return "#{username}-#{Date.now()}.pdf"
 
 getExportPath = (name) ->
   ###
     Local, intermediary path for dumping exports after generating them
   ###
-  # XXX the path we get is the one from where the process is running, the
-  # current way of extracting the base path is to strip it from after (and
-  # including) the .meteor folder, which we know is in a root folder in the
-  # project. The process runs from .meteor/local/build/programs/server
-  basePath = Npm.require('path').resolve('.').split('/.meteor')[0]
-  return "#{basePath}/#{exportPath}/#{name}"
-
-parseGeneratedExport = (model, content) ->
-  ###
-    Parse and process the rendered export of a user timeline into a static file
-    with no external dependencies
-
-    TODO make URLs absolute
-    TODO handle FontAwesome somehow...
-      http://www.fontspring.com/blog/the-new-bulletproof-font-face-syntax
-    TODO embed images (using data:image/jpg?)
-    TODO remove content areas, they will never be opened
-  ###
-  model.save(status: 'Processing...')
-
-  # Make all links absolute, in order to link back to the online profile in
-  # case they are clicked
-  content = content.replace /href="\/([^\/].+?)"/g, (match, url) ->
-    url = Meteor.absoluteUrl(url)
-    return "href=\"#{url}\""
-
-  # Store all stylesheets found inside a list and remove then invidividually
-  # as they are fetched asynchronously, thus knowing all stylesheets have been
-  # loaded when the list is empty
-  STYLESHEET_PATTERN = /<link rel="stylesheet" href="(.+?)">/g
-  stylesheetsToParse = []
-
-  content = content.replace STYLESHEET_PATTERN, (match, href) ->
-    stylesheetsToParse.push(href)
-    return "<style>#{href}</style>"
-
-  # Fetch contents of each stylesheet individually, asynchronously, using Node
-  # method of running a shell command
-  for stylesheet in stylesheetsToParse
-    # Create a closure for each stylesheet name, in order to bind it to its
-    # asynchronously loaded contents
-    do (stylesheet) ->
-      # Stylesheet URL was already made absolute (see above)
-      child = child_process.exec "curl #{stylesheet}",
-        # Bind async callback into a Meteor Fibers environment
-        Meteor.bindEnvironment (err, stdout, erderr) ->
-          throw err if err?
-          console.log("Fetched stylesheet for export: #{stylesheet}")
-
-          # Track back initial stylesheet placeholder and inject its contents
-          pattern = new RegExp(RegExp.escape "<style>#{stylesheet}</style>")
-          content = content.replace(pattern, "<style>#{stdout}</style>")
-
-          # Continue with the exporting process when all stylesheets have been
-          # loaded and embedded into the static page
-          stylesheetsToParse = _.without(stylesheetsToParse, stylesheet)
-          storeStaticExport(model, content) unless stylesheetsToParse.length
-
-        , (err) ->
-          model.save(status: "#{err}")
-
-storeStaticExport = (model, content) ->
-  ###
-    Store exported timeline to drive
-  ###
-  model.save(status: 'Saving...')
-
-  fileName = getExportName(model.getUsername())
-  filePath = getExportPath(fileName)
-
-  fs.writeFile filePath, content,
-    # Bind async callback into a Meteor Fibers environment
-    Meteor.bindEnvironment (err) ->
-      throw err if err?
-      console.log("Successful timeline export: #{filePath}")
-      uploadStaticExport(model, fileName, filePath)
-    , (err) ->
-      model.save(status: "#{err}")
+  return "#{getBasePath()}/#{exportPath}/#{name}"
 
 uploadStaticExport = (model, fileName, filePath) ->
   ###
     Upload static export online, to CDN (Rackspace Files)
   ###
+  console.log("Uploading export #{fileName} to static CDN...")
   model.save(status: 'Uploading...')
 
   uploadRackspaceFile fileName, filePath,
@@ -141,14 +63,22 @@ Meteor.methods
     # Generate crawlable (courtecy of spiderable plugin) url for the requested
     # user timeline (with contact section opened by default)
     url = Meteor.absoluteUrl("#{username}/contact?_escaped_fragment_=")
-    console.log("Fetching timeline for export: #{url}")
 
-    # Fetch url using Node method of running a shell command
-    child = child_process.exec "curl #{url}",
+    # Store export locally before uploading into a static CDN
+    fileName = getExportName(model.getUsername())
+    filePath = getExportPath(fileName)
+
+    # We have a custom phantomjs script for exporting .pdf, with hardcoded
+    # parameters and tweaks
+    exportScript = "#{getBasePath()}/server/.phantomjs-scripts/export-pdf.js"
+
+    console.log("Exporting timeline #{url} to #{filePath}")
+    # Use Node method for running a shell command
+    child = child_process.exec "phantomjs #{exportScript} #{url} #{filePath}",
       # Bind async callback into a Meteor Fibers environment
-      Meteor.bindEnvironment (err, stdout, erderr) ->
+      Meteor.bindEnvironment (err) ->
         throw err if err?
-        parseGeneratedExport(model, stdout)
+        uploadStaticExport(model, fileName, filePath)
       , (err) ->
         model.save(status: "#{err}")
 
