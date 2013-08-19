@@ -27,7 +27,12 @@ getExportPath = (name) ->
   ###
     Local, intermediary path for dumping exports after generating them
   ###
-  return "#{process.cwd()}/#{exportPath}/#{name}"
+  # XXX the path we get is the one from where the process is running, the
+  # current way of extracting the base path is to strip it from after (and
+  # including) the .meteor folder, which we know is in a root folder in the
+  # project. The process runs from .meteor/local/build/programs/server
+  basePath = Npm.require('path').resolve('.').split('/.meteor')[0]
+  return "#{basePath}/#{exportPath}/#{name}"
 
 parseGeneratedExport = (model, content) ->
   ###
