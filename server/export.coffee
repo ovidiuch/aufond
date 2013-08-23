@@ -80,6 +80,9 @@ Meteor.methods
       # Bind async callback into a Meteor Fibers environment
       Meteor.bindEnvironment (err) ->
         throw err if err?
+        # Store the file name inside the export model as soon as the file is
+        # created
+        model.save(fileName: fileName)
         uploadStaticExport(model, fileName, filePath)
       , (err) ->
         model.save(status: "#{err}")
