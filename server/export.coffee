@@ -73,10 +73,11 @@ Meteor.methods
     # We have a custom phantomjs script for exporting .pdf, with hardcoded
     # parameters and tweaks
     exportScript = "#{getBasePath()}/server/.phantomjs-scripts/export-pdf.js"
+    phantomjsCommand = "phantomjs #{exportScript} #{url} #{filePath}"
 
-    console.log("Exporting timeline #{url} to #{filePath}")
+    console.log("Exporting timeline: #{phantomjsCommand}")
     # Use Node method for running a shell command
-    child = child_process.exec "phantomjs #{exportScript} #{url} #{filePath}",
+    child = child_process.exec phantomjsCommand,
       # Bind async callback into a Meteor Fibers environment
       Meteor.bindEnvironment (err) ->
         throw err if err?
