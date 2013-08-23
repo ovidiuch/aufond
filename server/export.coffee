@@ -90,4 +90,47 @@ Meteor.methods
 
     # Make sure not to return the ChildProcess object, because the method will
     # attempt to convert it into EJSON and an infinite loop will occur
-    return null
+    return
+
+  removeExport: (exportId) ->
+    ###
+      Export removal is handled on the server side in order to remove all of
+      its file before removing it from the database. It's easier to do it like
+      this in a safe matter.
+    ###
+    model = Export.find(exportId)
+    return if not model?
+
+    # First rule of removal, it has to belong to you :)
+    userId = Meteor.userId()
+    if model.get('createdBy') isnt userId
+      console.log("User #{userId} is trying to remove an export that doesn't" +
+                  "belong to them: #{exportId}")
+
+    console.log("Removing export: #{exportId}")
+    model.save(status: 'Removing...')
+
+    fileName = model.get('fileName')
+    filePath = getExportPath(fileName)
+
+    console.log("Removing local export file: #{filePath}")
+    # XXX use async unlink method is this proves inefficient
+    try
+      fs.unlinkSync(filePath)
+    catch err
+      model.save(status: "#{err}")
+      return
+
+    console.log("Removing Rackspace file: #{fileName}")
+    removeRackspaceFile fileName,
+      # Bind async callback into a Meteor Fibers environment
+      Meteor.bindEnvironment (err) ->
+        throw err if err?
+        # Remove export from database completely
+        Export.mongoCollection.remove(_id: exportId)
+        console.log("Successfully removed export: #{exportId}")
+      , (err) ->
+        model.save(status: "#{err}")
+
+    # Make sure to return an empty value
+    return
