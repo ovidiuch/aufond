@@ -4,7 +4,7 @@ Package.describe({
 
 Package.on_use(function (api) {
   api.use('coffeescript');
-  api.add_files('upload.coffee', 'server');
+  api.add_files('methods.coffee', 'server');
 });
 
 Npm.depends({cloudfiles: '0.3.4'});
