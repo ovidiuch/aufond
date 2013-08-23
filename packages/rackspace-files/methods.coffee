@@ -26,6 +26,16 @@ containerPath = 'http://a0ed08a7436682c32d8c-18919fda58f4c818d06f8d1b1da79260.r5
         else
           callback(null, "#{containerPath}/#{name}")
 
+@removeRackspaceFile = (name, callback) ->
+  # The Rackspace client needs to authenticate before doing any transaction
+  client.setAuth (err) ->
+    if err
+      callback(err)
+    else
+      client.destroyFile containerName, name, (err) ->
+        # No argument marks a successful remove
+        callback(err)
+
 # Init Rackspace client using cloudfiles Npm package
 # TODO investigate ServiceNet transfering if uploading files to Rackspaces
 # becomes a drag
