@@ -72,7 +72,7 @@ Meteor.methods
 
     # We have a custom phantomjs script for exporting .pdf, with hardcoded
     # parameters and tweaks
-    exportScript = "#{getBasePath()}/server/.phantomjs-scripts/export-pdf.js"
+    exportScript = "#{getBasePath()}/server/.phantomjs/export-pdf.js"
     phantomjsCommand = "phantomjs #{exportScript} #{url} #{filePath}"
 
     console.log("Exporting timeline: #{phantomjsCommand}")
