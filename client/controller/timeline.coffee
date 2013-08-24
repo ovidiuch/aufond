@@ -117,9 +117,9 @@ class @Timeline
       - adjust the mask of a carousel as half the timeline's width
       - sets the width of a carousel's list based on its child images
     ###
-    $timeline = @$container.parent('.timeline')
+    windowWidth = $(window).width()
     # XXX determine whether we are on mobile or desktop view
-    onExpandedLayout = $(window).width() >= 1208
+    onExpandedLayout = windowWidth >= 1208
 
     # Determine the width of the entire carousel by summing up the widths of
     # all its images
@@ -129,13 +129,13 @@ class @Timeline
     if onExpandedLayout
       # XXX set it to half the timeline width and retract the width of the
       # timeline bar
-      availableWidth = ($timeline.width() - 6) / 2
+      availableWidth = (windowWidth - 6) / 2
       # XXX the carousel width must not be smaller then the available one in
       # expanded view, in order for left-sided carousels to have their images
       # reach the timeline bar on their side
       carouselWidth = Math.max(carouselWidth, availableWidth)
     else
-      availableWidth = $timeline.width()
+      availableWidth = windowWidth
       # Center the carousel horizontally when its entire image list doesn't
       # cover the available width
       if carouselWidth < availableWidth
