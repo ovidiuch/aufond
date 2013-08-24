@@ -44,3 +44,10 @@ Handlebars.registerHelper 'entryUrl', (slug) ->
   ###
   username = App.router.args.username
   return "/#{username}/#{slug}"
+
+Handlebars.registerHelper 'profileLinkValue', (address) ->
+  ###
+    Extract the protocol from a user link. E.g. mailto: from email, http://
+    from a link, etc.
+  ###
+  return address.replace(/^.+?:(\/\/)?/, '')
