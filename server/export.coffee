@@ -106,6 +106,7 @@ Meteor.methods
     if model.get('createdBy') isnt userId
       console.log("User #{userId} is trying to remove an export that doesn't" +
                   "belong to them: #{exportId}")
+      return
 
     console.log("Removing export: #{exportId}")
     model.save(status: 'Removing...')
