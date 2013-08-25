@@ -1,0 +1,31 @@
+<template name="adminExports">
+  <div class="create-button-wrapper clearfix">
+    <a href="#create" class="button button-inline button-primary button-xlarge button-create">Create an export of your timeline</a>
+  </div>
+  {{#if exports.length}}
+    <table class="exports table table-striped">
+      <tbody>
+        {{#each exports}}
+          <tr>
+            <td class="single-line">
+              {{#if isReadyExport this}}
+                <a href="{{url}}" class="button button-inline">
+                  <i class="icon-external-link"></i> {{fileName}}
+                </a>
+              {{else}}
+                <i class="icon-spinner"></i> <em>{{status}}</em>
+              {{/if}}
+            </td>
+            <td class="single-line export-controls">
+              {{#if isReadyExport this}}
+                <div class="pull-right">
+                  <a href="#remove" class="button button-inline button-danger button-delete" data-toggle="modal" data-target="#delete-export-modal" data-title="Delete export {{fileName}}?" data-id="{{_id}}"><i class="icon-trash"></i></a>
+                </div>
+              {{/if}}
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{/if}}
+</template>

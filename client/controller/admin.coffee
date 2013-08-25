@@ -31,3 +31,10 @@ Template.admin.deleteUserModal = ->
   formClass: 'DeleteForm'
   formModel: 'User'
   globalReference: 'deleteUserModal'
+
+Template.admin.deleteExportModal = ->
+  module: FormModal
+  template: Template.deleteModal
+  formClass: 'DeleteForm'
+  formModel: 'Export'
+  globalReference: 'deleteExportModal'

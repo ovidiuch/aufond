@@ -24,6 +24,12 @@
       <div class="tab-pane" id="meta">
         {{> adminMeta}}
       </div>
+      <div class="tab-pane" id="exports">
+        <div id="delete-export-modal" class="modal fade">
+          {{> reactive deleteExportModal}}
+        </div>
+        {{> adminExports}}
+      </div>
       <div class="tab-pane" id="users">
         {{> adminUsers}}
       </div>
