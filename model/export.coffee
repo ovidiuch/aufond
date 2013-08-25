@@ -16,10 +16,12 @@ class @Export extends MeteorModel
   ###
   @mongoCollection: new Meteor.Collection 'exports'
 
-  @remove: (id) ->
+  @remove: (id, callback) ->
     # Export removal is handled on the server side because files need to be
-    # cleaned up and it's safer this way. XXX this means no callback...
+    # cleaned up and it's safer this way
     Meteor.call('removeExport', id)
+    # XXX this means the callback always returns success
+    callback() if _.isFunction(callback)
 
   @allow: ->
     return unless Meteor.isServer
