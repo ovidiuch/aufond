@@ -96,6 +96,31 @@ class @Export extends MeteorModel
         # Start generating timeline export if the model was saved successfully
         Meteor.call('generateExport', model.get('_id'))
 
+  mongoUpdate: (callback) ->
+    statusChange = @changed.status
+    super(arguments...)
+    # Notify webmaster with every Export created, for both successful or
+    # failed ones
+    # XXX this will change if the app will scale
+    if statusChange?
+      to = 'Ovidiu Cherecheș <contact@aufond.me>'
+      # Try to use the User's email as the From field in order to be able to
+      # reply to them instantly in case something went wrong with their Export
+      user = User.find(@get('createdBy'))
+      from = user.get('email') or to
+      # Take a look at all created Exports to see if they were generated OK
+      if statusChange is 'Done.'
+        status = "Export created successfully!"
+        text = "Export url: #{@get('url')}"
+      # Make sure to notify all errors
+      else if @hasError()
+        status = "Export ERROR: #{statusChange}"
+        text = "Export id: #{@get('_id')}"
+      # Ignore any other transitory status change
+      else
+        return
+      Meteor.call('sendEmail', to, from, status, text)
+
   hasError: ->
     ###
       Test if this Export has an error status
