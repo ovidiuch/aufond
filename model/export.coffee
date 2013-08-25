@@ -81,6 +81,9 @@ class @Export extends MeteorModel
     unless @get('_id')
       # Provide this validation in client side as well in order to have instant
       # feedback and a custom message
+      # XXX server and client date might differ so the 1 minute validation
+      # might last more minutes if the client time is lagging behind
+      # See https://github.com/skidding/aufond/issues/78
       userId = Meteor.userId()
       if not Export.isUserAllowed(userId)
         secondsAgo = Export.secondsSinceLastExport(userId)
