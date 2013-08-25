@@ -35,6 +35,9 @@ class @QuizVote extends MeteorModel
 
     @mongoCollection.allow
       insert: (userId, doc) ->
+        # Ensure author and timestamp of creation in every document
+        doc.createdAt = Date.now()
+        doc.createdBy = userId
         # Allow anybody to vote on quiz questions
         # XXX is there anything to do here to prevent spammers?
         # Check out https://github.com/tmeasday/meteor-accounts-anonymous

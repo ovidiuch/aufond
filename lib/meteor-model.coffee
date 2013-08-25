@@ -68,8 +68,10 @@ class @MeteorModel
       insert: (userId, doc) ->
         # Only allow logged in users to create documents
         return false unless userId?
-        # Don't allow users to create documents on behalf of other users
-        return userId is doc.createdBy
+        # Ensure author and timestamp of creation in every document
+        doc.createdAt = Date.now()
+        doc.createdBy = userId
+        return true
       update: (userId, doc, fields, modifier) ->
         # Don't allow guests to update anything
         return false unless userId?
@@ -156,10 +158,6 @@ class @MeteorModel
     ###
       Called whenever saving a new mongo document
     ###
-    # Ensure author and timestamp of creation in every model
-    @update
-      createdAt: Date.now()
-      createdBy: Meteor.userId()
     @mongoCollection.insert(@changed, @saveCallback callback)
 
   mongoUpdate: (callback) ->
