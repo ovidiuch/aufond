@@ -16,6 +16,25 @@ class @Export extends MeteorModel
   ###
   @mongoCollection: new Meteor.Collection 'exports'
 
+  @isUserAllowed: (userId) ->
+    ###
+      Check if a user is allowed to create another export or they just created
+      another one too recently
+      XXX a way to bypass this would be to keep removing and creating exports
+    ###
+    # Allow users to create another Export after one minute
+    return @secondsSinceLastExport(userId) > 60
+
+  @secondsSinceLastExport: (userId) ->
+    ###
+      Get the number of seconds that passed since the newest created export
+      of a user. The number of seconds since 1970 will be returned if the user
+      has no export
+    ###
+    lastEntry = Export.find({createdBy: userId}, {sort: {createdAt: -1}})
+    timeOfLastEntry = lastEntry?.get('createdAt') or 0
+    return Math.round((Date.now() - timeOfLastEntry) / 1000)
+
   @remove: (id, callback) ->
     # Export removal is handled on the server side because files need to be
     # cleaned up and it's safer this way
@@ -30,7 +49,10 @@ class @Export extends MeteorModel
         # Only allow logged in users to create documents
         return false unless userId?
         # Don't allow users to create documents on behalf of other users
-        return userId is doc.createdBy
+        return false unless userId is doc.createdBy
+        # Prevent users from creating exports too often in order to improve the
+        # server's global performance
+        return Export.isUserAllowed(userId)
       update: (userId, doc, fields, modifier) ->
         # Don't allow users to alter exports (they can only be altered through
         # server methods)
@@ -49,6 +71,17 @@ class @Export extends MeteorModel
       @update
         # Provide a default status message
         status: 'Pending...'
+
+  validate: ->
+    # Make sure to only apply this on create
+    unless @get('_id')
+      # Provide this validation in client side as well in order to have instant
+      # feedback and a custom message
+      userId = Meteor.userId()
+      if not Export.isUserAllowed(userId)
+        secondsAgo = Export.secondsSinceLastExport(userId)
+        return "Give it a minute... literally, you just created an export " +
+               "#{secondsAgo} seconds ago"
 
   mongoInsert: (callback) ->
     super (error, model) ->
