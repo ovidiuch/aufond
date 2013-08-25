@@ -1,4 +1,8 @@
 Template.adminEntries.events
+  'click .button-create': (e) ->
+    e.preventDefault()
+    App.postModal.update($(e.currentTarget).data())
+
   'click .button-view': (e) ->
     e.preventDefault()
     id = $(e.currentTarget).data('id')

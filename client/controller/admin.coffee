@@ -1,8 +1,3 @@
-Template.admin.events
-  'click .button-post': (e) ->
-    e.preventDefault()
-    App.postModal.update($(e.currentTarget).data())
-
 Template.admin.adminTabs = ->
   module: AdminTabs
   globalReference: 'adminTabs'
