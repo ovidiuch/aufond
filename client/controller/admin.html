@@ -19,13 +19,16 @@
         <div id="delete-post-image-modal" class="modal fade">
           {{> reactive deletePostImageModal}}
         </div>
-        <div class="post-button-wrapper clearfix">
-          <a href="#post" class="button button-inline button-primary button-xlarge button-post" data-toggle="modal" data-target="#post-modal" data-title="What have you been up to?" data-button="Create">Post a new story about yourself</a>
-        </div>
         {{> adminEntries}}
       </div>
       <div class="tab-pane" id="meta">
         {{> adminMeta}}
+      </div>
+      <div class="tab-pane" id="exports">
+        <div id="delete-export-modal" class="modal fade">
+          {{> reactive deleteExportModal}}
+        </div>
+        {{> adminExports}}
       </div>
       <div class="tab-pane" id="users">
         {{> adminUsers}}
