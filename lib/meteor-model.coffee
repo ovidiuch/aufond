@@ -156,6 +156,10 @@ class @MeteorModel
     ###
       Called whenever saving a new mongo document
     ###
+    # Ensure author and timestamp of creation in every model
+    @update
+      createdAt: Date.now()
+      createdBy: Meteor.userId()
     @mongoCollection.insert(@changed, @saveCallback callback)
 
   mongoUpdate: (callback) ->

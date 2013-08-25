@@ -49,10 +49,6 @@ class @QuizVote extends MeteorModel
   save: ->
     # Attach the creating time and user info for betters stats
     @update
-      createdAt: Date.now()
-      # Most users will not be logged in when they vote, but if some do it
-      # would be very interesting to put a face to their votes
-      createdBy: Meteor.userId()
       createdByGuestId: User.getGuestId()
       createdByUserAgent: navigator?.userAgent
     super(arguments...)
