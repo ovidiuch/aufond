@@ -1,8 +1,11 @@
 Template.adminExports.events
   'click .button-create': (e) ->
     e.preventDefault()
-    new Export().save()
     # Exports don't have any options for now
+    new Export().save (err) ->
+      # Store the error in the Session object to render it reactively in the
+      # template
+      Session.set('exportError', err)
 
   'click .button-delete': (e) ->
     e.preventDefault()
@@ -13,3 +16,8 @@ Template.adminExports.exports = ->
   return Export.get(
     createdBy: Meteor.userId(), {sort: {createdAt: -1}}
   ).toJSON()
+
+Template.adminExports.exportError = ->
+  # Since creating export has no actual form, we use the Session object for
+  # reactive template updates on possible export errors
+  return Session.get('exportError')

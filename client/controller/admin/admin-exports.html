@@ -1,4 +1,9 @@
 <template name="adminExports">
+  {{#if exportError}}
+    <div class="alert alert-error">
+      {{{markdown exportError root="span"}}}
+    </div>
+  {{/if}}
   <div class="create-button-wrapper clearfix">
     <a href="#create" class="button button-inline button-primary button-xlarge button-create">Create an export of your timeline</a>
   </div>
