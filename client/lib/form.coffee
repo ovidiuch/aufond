@@ -56,8 +56,6 @@ class @Form extends ReactiveTemplate
     # Create an empty model instance on create
     unless @model?
       @model = new (@getModelClass())()
-      # Add the user id to any model saved inside a form
-      @model.set('createdBy', Meteor.userId())
 
     # Fetch data from form inputs and update the form instance with it (this
     # updates the model attributes as well)

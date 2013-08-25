@@ -94,6 +94,9 @@ class @User extends MeteorModel
       # XXX should remove Filepicker images that became unlinked, in update/
       # remove methods https://github.com/skidding/aufond/issues/16
       insert: (userId, doc) ->
+        # Ensure author and timestamp of creation in every document
+        doc.createdAt = Date.now()
+        doc.createdBy = userId
         # Allow anybody to create users
         # XXX is there anything to do here to prevent spammers?
         return true

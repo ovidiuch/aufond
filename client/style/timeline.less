@@ -23,7 +23,7 @@
 }
 
 /* Default timeline, for mobile display */
-#content.timeline {
+body.timeline {
   min-width: @entry-width-content-outer;
   background: @color-bright;
   color: @color-dark;
@@ -288,6 +288,10 @@
           i {
             width: 100%;
           }
+          .value {
+            // This is for print view only
+            display: none;
+          }
         }
         a:hover {
           text-decoration: none;
@@ -336,7 +340,7 @@
 
 /* Timeline on larger, desktop devices */
 @media (min-width: 1206px) {
-  #content.timeline {
+  body.timeline {
     /* Odd posts stay on the right */
     .post {
       text-align: left;
@@ -415,3 +419,5 @@
     }
   }
 }
+
+@import "print/timeline.lessimport";

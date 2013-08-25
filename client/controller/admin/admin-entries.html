@@ -1,4 +1,7 @@
 <template name="adminEntries">
+  <div class="create-button-wrapper clearfix">
+    <a href="#create" class="button button-inline button-primary button-xlarge button-create" data-toggle="modal" data-target="#post-modal" data-title="What have you been up to?" data-button="Create">Post a new story about yourself</a>
+  </div>
   {{#if entries.length}}
     <table class="entries table table-striped">
       <tbody>
