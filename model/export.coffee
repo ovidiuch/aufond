@@ -10,9 +10,6 @@ class @Export extends MeteorModel
     implement frequency limits and avoid other exploits
     - An export is generated asynchronously and this model reflects its
     reference and progress status
-
-    TODO remove all static assets (both local and from CDN) when destroying an
-    export document
   ###
   @mongoCollection: new Meteor.Collection 'exports'
 
