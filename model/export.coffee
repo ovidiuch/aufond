@@ -80,8 +80,8 @@ class @Export extends MeteorModel
       userId = Meteor.userId()
       if not Export.isUserAllowed(userId)
         secondsAgo = Export.secondsSinceLastExport(userId)
-        return "Give it a minute... literally, you just created an export " +
-               "#{secondsAgo} seconds ago"
+        return "__Give it a minute...__ literally, you just created an " +
+               "export #{secondsAgo} seconds ago"
 
   mongoInsert: (callback) ->
     super (error, model) ->
