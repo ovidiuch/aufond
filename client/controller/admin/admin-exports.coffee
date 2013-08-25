@@ -9,4 +9,4 @@ Template.adminExports.events
     App.deleteExportModal.update($(e.currentTarget).data())
 
 Template.adminExports.exports = ->
-  return Export.get().toJSON()
+  return Export.get(createdBy: Meteor.userId()).toJSON()
