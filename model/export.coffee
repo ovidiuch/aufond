@@ -72,6 +72,12 @@ class @Export extends MeteorModel
         # Provide a default status message
         status: 'Pending...'
 
+  toJSON: (raw = false) ->
+    data = super(arguments...)
+    unless raw
+      data.hasError = @hasError()
+    return data
+
   validate: ->
     # Make sure to only apply this on create
     unless @get('_id')
@@ -89,6 +95,12 @@ class @Export extends MeteorModel
       unless error?
         # Start generating timeline export if the model was saved successfully
         Meteor.call('generateExport', model.get('_id'))
+
+  hasError: ->
+    ###
+      Test if this Export has an error status
+    ###
+    return Boolean(@get('status').match(/^Error/))
 
   getUser: ->
     ###

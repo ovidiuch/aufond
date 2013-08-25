@@ -18,7 +18,11 @@
                   <i class="icon-external-link"></i> {{fileName}}
                 </a>
               {{else}}
-                <i class="icon-spinner"></i> <em>{{status}}</em>
+                {{#if hasError}}
+                  <span class="error-status"><i class="icon-exclamation-sign"></i> {{status}}</span>
+                {{else}}
+                  <i class="icon-spinner"></i> <em>{{status}}</em>
+                {{/if}}
               {{/if}}
             </td>
             <td class="single-line export-controls">
