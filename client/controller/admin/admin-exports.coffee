@@ -1,8 +1,8 @@
 Template.adminExports.events
   'click .button-create': (e) ->
     e.preventDefault()
-    # Export don't have any options for now
     new Export().save()
+    # Exports don't have any options for now
 
   'click .button-delete': (e) ->
     e.preventDefault()
