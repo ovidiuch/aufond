@@ -107,7 +107,7 @@ class @Export extends MeteorModel
       # Try to use the User's email as the From field in order to be able to
       # reply to them instantly in case something went wrong with their Export
       user = User.find(@get('createdBy'))
-      from = user.get('email') or to
+      from = user.getEmail() or to
       # Take a look at all created Exports to see if they were generated OK
       if statusChange is 'Done.'
         status = "Export created successfully!"
