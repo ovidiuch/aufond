@@ -9,4 +9,7 @@ Template.adminExports.events
     App.deleteExportModal.update($(e.currentTarget).data())
 
 Template.adminExports.exports = ->
-  return Export.get(createdBy: Meteor.userId()).toJSON()
+  # Fetch export of the current user in descending order of creation time
+  return Export.get(
+    createdBy: Meteor.userId(), {sort: {createdAt: -1}}
+  ).toJSON()
