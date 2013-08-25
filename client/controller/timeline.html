@@ -15,7 +15,11 @@
                 {{#if links}}
                   <ul class="links">
                     {{#each links}}
-                      <li><a href="{{address}}"><i class="{{icon}}"></i></a></li>
+                      <li>
+                        <a href="{{address}}">
+                          <i class="{{icon}}"></i><span class="value">{{profileLinkValue address}}</span>
+                        </a>
+                      </li>
                     {{/each}}
                   </ul>
                 {{/if}}

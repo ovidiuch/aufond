@@ -44,3 +44,18 @@ Handlebars.registerHelper 'entryUrl', (slug) ->
   ###
   username = App.router.args.username
   return "/#{username}/#{slug}"
+
+Handlebars.registerHelper 'profileLinkValue', (address) ->
+  ###
+    Extract the protocol from a user link. E.g. mailto: from email, http://
+    from a link, etc.
+  ###
+  return address.replace(/^.+?:(\/\/)?/, '')
+
+Handlebars.registerHelper 'isReadyExport', (model) ->
+  ###
+    XXX this is not extendable but we'll cross any other bridge when we need
+    to, so far we need to remove the ready state when it starts getting removed
+    (i.e. when it changes its status from "Done." to "Removing...")
+  ###
+  return model.url and model.status is "Done."

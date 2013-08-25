@@ -28,6 +28,12 @@ tar xf phantomjs-1.9.1-linux-x86_64.tar.bz2 --strip-components=1 -C .
 cp bin/phantomjs /usr/local/bin/phantomjs
 cd -
 
+echo "Installing fonts..."
+mkdir -p /usr/share/fonts/truetype/google-fonts
+install -m644 private/font/truetype/google-fonts/* /usr/share/fonts/truetype/google-fonts
+# Clear font cache
+fc-cache -f
+
 echo "Creating initial bundle..."
 script/bundle.sh
 
