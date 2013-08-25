@@ -46,9 +46,7 @@ class @Export extends MeteorModel
   constructor: (data = {}, isNew = true) ->
     super(arguments...)
     if isNew
-      @set
-        # Bind the current user to any created export implicitly
-        createdBy: Meteor.userId()
+      @update
         # Provide a default status message
         status: 'Pending...'
 
