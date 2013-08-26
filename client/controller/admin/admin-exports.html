@@ -17,6 +17,9 @@
                 <a href="{{url}}" class="button button-inline">
                   <i class="icon-external-link"></i> {{fileName}}
                 </a>
+                <span>
+                  Created <strong>{{timeago createdAt}}</strong>
+                </span>
               {{else}}
                 {{#if hasError}}
                   <span class="error-status"><i class="icon-exclamation-sign"></i> {{status}}</span>
