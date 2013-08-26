@@ -30,7 +30,10 @@ class @Export extends MeteorModel
     ###
     lastEntry = Export.find({createdBy: userId}, {sort: {createdAt: -1}})
     timeOfLastEntry = lastEntry?.get('createdAt') or 0
-    return Math.round((Date.now() - timeOfLastEntry) / 1000)
+    now = new Date().getTime()
+    # Account for the client-server date differences
+    now -= App.serverTimeOffset if Meteor.isClient
+    return Math.round((now - timeOfLastEntry) / 1000)
 
   @remove: (id, callback) ->
     # Export removal is handled on the server side because files need to be
