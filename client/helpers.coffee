@@ -21,6 +21,9 @@ Handlebars.registerHelper 'markdown', (text, options) ->
     return markdown.toHTML(text)
 
 Handlebars.registerHelper 'timeago', (time) ->
+  # Account for the client-server time differences and provide a relevant "time
+  # ago" for the current user
+  time += App.serverTimeOffset if App.serverTimeOffset?
   return moment(time).fromNow()
 
 Handlebars.registerHelper 'formatDate', (time, format) ->
