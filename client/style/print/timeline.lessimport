@@ -1,5 +1,5 @@
 @media print {
-  body.timeline {
+  #content.timeline {
     // Show values for links in print mode, because phantomjs is not able to
     // export links in .pdfs
     .entry.header .content .links {
