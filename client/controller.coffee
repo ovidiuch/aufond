@@ -5,8 +5,15 @@ class @Controller extends ReactiveTemplate
     super(arguments...)
     @defaultPageTitle = document.title
     @defaultPageDescription = $('meta[name=description]').prop('content')
-    # Init application router
-    Router.start(this)
+    # Store a time offset between the client and the server, in order to have
+    # correct "time ago" estimations relative to createdAt-like timestamps (which
+    # are set on the server)
+    Meteor.call 'serverTime', (err, serverTime) =>
+      if serverTime?
+        # This offset is in milliseconds
+        App.serverTimeOffset = (new Date().getTime()) - serverTime
+      # Init application router
+      Router.start(this)
 
   update: (data) ->
     # Track when changing controller in Mixpanel
