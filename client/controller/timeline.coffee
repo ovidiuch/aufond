@@ -11,7 +11,6 @@ class @Timeline
     # Go to opened path directly (no animation)
     # XXX should wait until DOM is completely ready (fonts, etc.)
     @goTo(App.router.args.slug, false)
-    @setPageDescription()
     # XXX run with the next event loop to make sure all the CSS properties are
     # set w/out transitions at init (removing .loading class enables them)
     setTimeout(=> @$container.removeClass('loading'))
@@ -216,6 +215,7 @@ class @Timeline
     @scrollTo(position, if animate then 0.2 else 0)
     @selectEntry($entry)
     @updatePageTitle($entry)
+    @updatePageDescription($entry)
 
   @selectEntry: ($entry) ->
     ###
@@ -269,11 +269,16 @@ class @Timeline
       title = "Contact — #{title}"
     document.title = title
 
-  @setPageDescription: ->
+  @updatePageDescription: ($entry) ->
     # Set the page description to the profile bio, but default to the tagline
     # is bio text is left empty
     description = $.trim(@$container.find('.entry.header .text').text()) or
                   $.trim(@$container.find('.entry.header .head p').text())
+    # Use the excerpt of a post as the meta description, when linking directly
+    # to it (if one exists for that post)
+    if $entry.hasClass('post')
+      excerpt = $.trim($entry.find('.head p:first').text())
+      description = excerpt if excerpt.length > 0
     # No point in updating the page description with an empty value
     if description
       $('meta[name=description]').prop('content', description)
