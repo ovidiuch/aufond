@@ -30,7 +30,10 @@ class @Export extends MeteorModel
     ###
     lastEntry = Export.find({createdBy: userId}, {sort: {createdAt: -1}})
     timeOfLastEntry = lastEntry?.get('createdAt') or 0
-    return Math.round((Time.now() - timeOfLastEntry) / 1000)
+    # Don't allow negative values. Normally this should never happen because of
+    # the server-client offset correction, but they will always be out of sync
+    # by the time it takes for a server connection to reply to the client
+    return Math.max(0, Math.round((Time.now() - timeOfLastEntry) / 1000))
 
   @remove: (id, callback) ->
     # Export removal is handled on the server side because files need to be
