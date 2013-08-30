@@ -77,5 +77,19 @@
         top: 70px;
       }
     }
+    // Since the background color of PhantomJS pdf pages is white and we can't
+    // split the webpage into an exact number of pages, we need to account for
+    // the remaining white space from the second part of the last page. We do
+    // that by adding a smooth fade out transition after the last entry
+    .entry:last-child {
+      padding-bottom: 0;
+
+      &:after {
+        content: '';
+        display: block;
+        height: 80px;
+        .backgroundGradient(~"rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%");
+      }
+    }
   }
 }
