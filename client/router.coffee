@@ -13,6 +13,7 @@ class @Router extends Backbone.Router
     'admin': 'admin'
     'admin/:tab': 'admin'
     '': 'front'
+    'thanks': 'thanks'
     '*path': 'timeline'
 
   timeline: (path) ->
@@ -27,6 +28,10 @@ class @Router extends Backbone.Router
   front: ->
     @changeController
       name: 'front'
+
+  thanks: ->
+    @changeController
+      name: 'thanks'
 
   admin: (tab) ->
     # Make sure admin controller can't be accessed w/out being logged in.
