@@ -25,78 +25,25 @@
       }
     }
   }
-  .about {
-    .marketing-tagline {
-      margin: 0;
-      // The top/bottom padding + line-height must sum up to 92px, the header's
-      // height. The line-height is only 40px in order to make the text look
-      // good on more than one line
-      padding: 26px 0;
-      font-family: @font-source-sans-pro;
-      font-size: 32px;
-      font-weight: 700;
-      line-height: 40px;
-      text-align: center;
-    }
-    h2 {
-      margin: 50px 0 10px 0;
+  .marketing-tagline {
+    margin: 0;
+    // The top/bottom padding + line-height must sum up to 92px, the header's
+    // height. The line-height is only 40px in order to make the text look
+    // good on more than one line
+    padding: 26px 0;
+    font-family: @font-source-sans-pro;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 40px;
+    text-align: center;
+  }
+  .disclaimer {
+    .contact {
       color: @color-medium;
-      font-weight: 300;
     }
-    ul {
-      margin: 10px 0 50px 0;
-      padding: 0 0 0 20px;
-      list-style: none;
-
-      li {
-        margin: 0 0 4px 0;
-        padding: 4px;
-        font-family: @font-open-sans;
-        font-size: 20px;
-        // Same as the height of the up/down-vote buttons
-        line-height: 32px;
-      }
-    }
-    .feedback-list {
-      padding-left: 10px;
-
-      li {
-        border-radius: 6px;
-        .transition(background, 0.1s);
-
-        &:before {
-          padding: 0 10px;
-          color: @color-medium;
-          font-family: FontAwesome;
-          -webkit-font-smoothing: antialiased;
-          content: '\f105';
-        }
-        &:hover {
-          background: #f1f1f1;
-        }
-      }
-      // Emulate the occupied space and font size of a small-sized button
-      .pressed-button {
-        width: 34px;
-        height: 32px;
-        font-size: 14px;
-        line-height: 32px;
-        text-align: center;
-      }
-    }
-    .disclaimer {
-      p {
-        margin: 20px 0;
-        font-family: @font-open-sans;
-        line-height: 22px;
-      }
-      .contact {
-        color: @color-medium;
-      }
-      .thanks {
-        // Make this even darker than the contact line
-        color: #595960;
-      }
+    .thanks {
+      // Make this even darker than the contact line
+      color: #595960;
     }
   }
 }

@@ -1,0 +1,55 @@
+@import "mixin.lessimport";
+
+.presentation {
+  font-family: @font-open-sans;
+
+  p {
+    margin: 20px 0;
+    line-height: 22px;
+  }
+  h2 {
+    margin: 50px 0 10px 0;
+    color: @color-medium;
+    font-weight: 300;
+  }
+  ul {
+    margin: 10px 0 50px 0;
+    padding: 0 0 0 20px;
+    list-style: none;
+
+    li {
+      margin: 0 0 4px 0;
+      padding: 4px;
+      font-size: 20px;
+      // Same as the height of the up/down-vote buttons
+      line-height: 32px;
+    }
+  }
+  .feedback-list {
+    padding-left: 10px;
+
+    li {
+      border-radius: 6px;
+      .transition(background, 0.1s);
+
+      &:before {
+        padding: 0 10px;
+        color: @color-medium;
+        font-family: FontAwesome;
+        -webkit-font-smoothing: antialiased;
+        content: '\f105';
+      }
+      &:hover {
+        background: #f1f1f1;
+      }
+    }
+    // Emulate the occupied space and font size of a small-sized button
+    .pressed-button {
+      width: 34px;
+      height: 32px;
+      font-size: 14px;
+      line-height: 32px;
+      text-align: center;
+    }
+  }
+}
