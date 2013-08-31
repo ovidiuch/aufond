@@ -10,7 +10,7 @@ quizQuestions =
     total: 224
     ratio: 0.6383928571428571
     percentage: "63.84"
-    relativeRati: 0
+    relativeRatio: 0
     relativePercentage: "0.00"
   "A more customizable layout or styling":
     yes: 157
@@ -50,7 +50,7 @@ quizQuestions =
     total: 204
     ratio: 0.9068627450980392
     percentage: "90.69"
-    relativeRati: 1
+    relativeRatio: 1
     relativePercentage: "100.00"
 
 # Turn questions into an array in order to be easily iterable in the template
