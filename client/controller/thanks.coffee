@@ -65,5 +65,14 @@ quizQuestions =
     relativeRatio: 1
     relativePercentage: "100.00"
 
+for k, v of quizQuestions
+  # XXX the reversed percentage is used to create a masking effect in progress
+  # bars, when the below and above layers share common labels
+  reversedRatio = if v.relativeRatio then 1 / v.relativeRatio else 0
+  v.reversedPercentage = (reversedRatio * 100).toFixed(2)
+
 # Turn questions into an array in order to be easily iterable in the template
 Template.thanks.questions = (_.extend(question: k, v) for k, v of quizQuestions)
+Template.thanks.sortedQuestions =
+  _.sortBy(Template.thanks.questions, (question) -> question.ratio)
+

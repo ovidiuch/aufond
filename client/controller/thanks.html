@@ -45,5 +45,29 @@
         </ul>
       </div>
     </div>
+    <div class="inner-wrapper">
+      <p>Since people mostly tend to want something when you offer it, let's try to zoom in between the least and the most wanted feature and make the results of this quiz even more obvious.</p>
+      <ul class="progress-bar-list">
+        {{#each sortedQuestions}}
+          <li>
+            <div class="progress-bar">
+              <div class="below layer">
+                <div class="left label">{{question}}</div>
+                <div class="right label">+<strong>{{abovePercentage}}</strong>%</div>
+              </div>
+              <div class="progress layer" style="width: {{relativePercentage}}%;">
+                <div class="label">{{question}}</div>
+              </div>
+              <div class="above layer" style="width: {{relativePercentage}}%;">
+                <div class="full-span" style="width: {{reversedPercentage}}%;">
+                  <div class="right label">+<strong>{{abovePercentage}}</strong>%</div>
+                </div>
+              </div>
+            </div>
+          </li>
+        {{/each}}
+      </ul>
+      <p>The outcome was a bit surprising, but in any case very pleasing. I expected most people to call bullshit on "Maintaining and refining the current simplicity," as an excuse for not having to add more features to the layout. And I never would've guessed exporting would exceed importing, or that customizable layouts or media diversity would not be that interesting.</p>
+    </div>
   </div>
 </template>
