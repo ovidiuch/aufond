@@ -10,6 +10,8 @@ quizQuestions =
     total: 224
     ratio: 0.6383928571428571
     percentage: "63.84"
+    aboveRatio: 0
+    abovePercentage: "0.00"
     relativeRatio: 0
     relativePercentage: "0.00"
   "A more customizable layout or styling":
@@ -18,6 +20,8 @@ quizQuestions =
     total: 223
     ratio: 0.7040358744394619
     percentage: "70.40"
+    aboveRatio: 0.06564301729660482
+    abovePercentage: "6.56"
     relativeRatio: 0.24450793270179763
     relativePercentage: "24.45"
   "Making the navigation more obvious":
@@ -26,6 +30,8 @@ quizQuestions =
     total: 196
     ratio: 0.7040816326530612
     percentage: "70.41"
+    aboveRatio: 0.06568877551020413
+    abovePercentage: "6.57"
     relativeRatio:  0.2446783734687225
     relativePercentage: "24.47"
   "Importing content from external platforms":
@@ -34,6 +40,8 @@ quizQuestions =
     total: 195
     ratio: 0.6820512820512821
     percentage: "68.21"
+    aboveRatio: 0.043658424908424975
+    abovePercentage: "4.37"
     relativeRatio:  0.16261944771889364
     relativePercentage: "16.26"
   "Offline exporting options":
@@ -42,6 +50,8 @@ quizQuestions =
     total: 205
     ratio: 0.848780487804878
     percentage: "84.88"
+    aboveRatio: 0.21038763066202093
+    abovePercentage: "21.04"
     relativeRatio:  0.783654480822604
     relativePercentage: "78.37"
   "Maintaining and refining the current simplicity":
@@ -50,6 +60,8 @@ quizQuestions =
     total: 204
     ratio: 0.9068627450980392
     percentage: "90.69"
+    aboveRatio: 0.2684698879551821
+    abovePercentage: "26.85"
     relativeRatio: 1
     relativePercentage: "100.00"
 

@@ -79,7 +79,10 @@ for (var i in quizResults) {
 }
 var difRatio = maxRatio - minRatio;
 for (var i in quizResults) {
-  quizResults[i].relativeRatio = (quizResults[i].ratio - minRatio) / difRatio;
+  quizResults[i].aboveRatio = quizResults[i].ratio - minRatio;
+  quizResults[i].abovePercentage =
+    (quizResults[i].aboveRatio * 100).toFixed(2);
+  quizResults[i].relativeRatio = quizResults[i].aboveRatio / difRatio;
   quizResults[i].relativePercentage =
     (quizResults[i].relativeRatio * 100).toFixed(2);
 }
