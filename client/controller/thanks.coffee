@@ -1,3 +1,8 @@
+Template.thanks.events
+  'click .link-home': (e) ->
+    e.preventDefault()
+    App.router.navigate('', trigger: true)
+
 quizQuestions =
   "More types of media besides text and images":
     yes: 143
