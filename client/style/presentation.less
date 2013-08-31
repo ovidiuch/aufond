@@ -75,32 +75,32 @@
     font-size: 20px;
     line-height: 40px;
 
-    .number {
+    .left {
+      float: left;
+    }
+    .right {
+      float: right;
+    }
+    .label {
       padding: 0 10px;
     }
-    .annotations {
+    .layer {
       position: absolute;
       width: 100%;
-
-      .yes {
-        float: left;
-        // This will be on top of the progress bar so it needs a light color
-        color: @color-background;
-      }
-      .no {
-        float: right;
-      }
+      height: 100%;
+    }
+    .below {
+      z-index: 1;
     }
     .progress {
-      // The width should be specified from the template
-      height: 100%;
+      z-index: 2;
+      // The width should be overriden from the template
       border-radius: 3px;
       background: #C52352;
       color: @color-background;
-
-      .number {
-        float: right;
-      }
+      white-space: nowrap;
+      overflow: hidden;
+    }
     }
     &.big {
       height: 60px;
@@ -109,7 +109,7 @@
       font-size: 26px;
       line-height: 60px;
 
-      .number {
+      .label {
         padding: 0 16px;
       }
       .progress {

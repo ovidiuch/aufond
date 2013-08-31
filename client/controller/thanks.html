@@ -13,12 +13,12 @@
       <h2><em>&ldquo;Is this something you want?&rdquo;</em></h2>
       <p>First thing's first, no need to invest in an idea that's not of any interest.</p>
       <div class="progress-bar big">
-        <div class="annotations">
-          <div class="yes number">328 <i class="icon-thumbs-up-alt"></i></div>
-          <div class="no number">111 <i class="icon-thumbs-down-alt"></i></div>
+        <div class="below layer">
+          <div class="right label">111 <i class="icon-thumbs-down-alt"></i></div>
         </div>
-        <div class="progress" style="width: 74.72%;">
-          <div class="number"><strong>74.72</strong>%</div>
+        <div class="progress layer" style="width: 74.72%;">
+          <div class="left label">328 <i class="icon-thumbs-up-alt"></i></div>
+          <div class="right label"><strong>74.72</strong>%</div>
         </div>
       </div>
       <p>Anything over 50% would've been considered a win, so this is quite nice. The percentage is not the best part, though, but the fact that <strong>328 real persons</strong>&mdash;as ridiculously insignificant of a number as it may seem for most&mdash;submit to wanting this.</p>
@@ -32,12 +32,12 @@
             <li>
               <p class="subtitle">{{question}}</p>
               <div class="progress-bar">
-                <div class="annotations">
-                  <div class="yes number">{{yes}} <i class="icon-thumbs-up-alt"></i></div>
-                  <div class="no number">{{no}} <i class="icon-thumbs-down-alt"></i></div>
+                <div class="below layer">
+                  <div class="right label">{{no}} <i class="icon-thumbs-down-alt"></i></div>
                 </div>
-                <div class="progress" style="width: {{percentage}}%;">
-                  <div class="number"><strong>{{percentage}}</strong>%</div>
+                <div class="progress layer" style="width: {{percentage}}%;">
+                  <div class="left label">{{yes}} <i class="icon-thumbs-up-alt"></i></div>
+                  <div class="right label"><strong>{{percentage}}</strong>%</div>
                 </div>
               </div>
             </li>
