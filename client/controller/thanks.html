@@ -53,16 +53,26 @@
             <div class="progress-bar">
               <div class="below layer">
                 <div class="left label">{{question}}</div>
-                <div class="right label">+<strong>{{abovePercentage}}</strong>%</div>
+                {{#if showAbovePercentage}}
+                  {{#if smallAbovePercentage}}
+                    <div class="right faded label">+<strong>{{abovePercentage}}</strong>%</div>
+                  {{else}}
+                    <div class="right label">+<strong>{{abovePercentage}}</strong>%</div>
+                  {{/if}}
+                {{else}}
+                  <div class="right faded label">least desired</div>
+                {{/if}}
               </div>
               <div class="progress layer" style="width: {{relativePercentage}}%;">
                 <div class="label">{{question}}</div>
               </div>
-              <div class="above layer" style="width: {{relativePercentage}}%;">
-                <div class="full-span" style="width: {{reversedPercentage}}%;">
-                  <div class="right label">+<strong>{{abovePercentage}}</strong>%</div>
+              {{#if showAbovePercentage}}
+                <div class="above layer" style="width: {{relativePercentage}}%;">
+                  <div class="full-span" style="width: {{reversedPercentage}}%;">
+                    <div class="right label">+<strong>{{abovePercentage}}</strong>%</div>
+                  </div>
                 </div>
-              </div>
+              {{/if}}
             </div>
           </li>
         {{/each}}

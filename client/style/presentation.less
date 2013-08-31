@@ -91,10 +91,15 @@
     }
     .below {
       z-index: 1;
+
+      .faded {
+        color: @color-medium;
+      }
     }
     .progress {
       z-index: 2;
       // The width should be overriden from the template
+      min-width: 1%;
       border-radius: 3px;
       background: #C52352;
       color: @color-background;

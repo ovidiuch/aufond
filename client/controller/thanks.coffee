@@ -66,6 +66,8 @@ quizQuestions =
     relativePercentage: "100.00"
 
 for k, v of quizQuestions
+  v.showAbovePercentage = v.relativeRatio > 0
+  v.smallAbovePercentage = v.relativeRatio < 0.5
   # XXX the reversed percentage is used to create a masking effect in progress
   # bars, when the below and above layers share common labels
   reversedRatio = if v.relativeRatio then 1 / v.relativeRatio else 0
