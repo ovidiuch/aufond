@@ -1,83 +1,86 @@
 <template name="timeline">
   <ul class="entries loading">
     {{#each entries}}
-      {{#match type="header"}}
-        <li id="timeline-contact" class="entry header">
-          {{#if hasExtendedContent}}
-            <div class="content-gap"></div>
-            <div class="content">
-              <div class="inner-wrap">
-                {{#if bio}}
-                  <div class="text">
-                    {{{markdown bio}}}
-                  </div>
-                {{/if}}
-                {{#if links}}
-                  <ul class="links">
-                    {{#each links}}
-                      <li>
-                        <a href="{{address}}">
-                          <i class="{{icon}}"></i><span class="value">{{profileLinkValue address}}</span>
-                        </a>
-                      </li>
-                    {{/each}}
-                  </ul>
-                {{/if}}
-              </div>
-            </div>
-          {{/if}}
-          <a href="{{entryUrl 'contact'}}" class="head link" data-slug="contact">
-            <span class="bullet" style="background-image: url('{{getResizedImageUrl avatar 120 120 'crop'}}');"></span>
-            <div class="inner-wrap">
-              {{{markdown name root="h1"}}}
-              {{{markdown title root="p"}}}
-            </div>
-          </a>
-        </li>
-      {{/match}}
-      {{#match type="post"}}
-        <li id="timeline-{{urlSlug}}" class="entry post {{parity index}}">
-          <a href="{{entryUrl urlSlug}}" class="head link" data-slug="{{urlSlug}}">
-            <span class="bullet {{iconClass icon}}"></span>
-            <div class="inner-wrap">
-              {{{markdown headline root="h2"}}}
-              {{{markdown excerpt}}}
-            </div>
-          </a>
-          {{#if hasExtendedContent}}
-            <div class="content">
-              <div class="inner-wrap">
-                {{#if images.length}}
-                  <div class="image-wrap">
-                    <div class="viewport">
-                      <ul>
-                        {{#each images}}
-                          <li>
-                            <img src="{{getResizedImageUrl url null 300 'clip'}}" alt="{{caption}}">
-                            {{#if caption}}
-                              <span class="caption">{{caption}}</span>
-                            {{/if}}
-                          </li>
-                        {{/each}}
-                      </ul>
+      {{#if isHeader}}
+        <li>
+          <div id="timeline-contact" class="entry header">
+            {{#if hasExtendedContent}}
+              <div class="content-gap"></div>
+              <div class="content">
+                <div class="inner-wrap">
+                  {{#if bio}}
+                    <div class="text">
+                      {{{markdown bio}}}
                     </div>
-                  </div>
-                {{/if}}
-                {{#if content}}
-                  <div class="text">
-                    {{{markdown content}}}
-                  </div>
-                {{/if}}
+                  {{/if}}
+                  {{#if links}}
+                    <ul class="links">
+                      {{#each links}}
+                        <li>
+                          <a href="{{address}}">
+                            <i class="{{icon}}"></i><span class="value">{{profileLinkValue address}}</span>
+                          </a>
+                        </li>
+                      {{/each}}
+                    </ul>
+                  {{/if}}
+                </div>
               </div>
+            {{/if}}
+            <a href="{{entryUrl 'contact'}}" class="head link" data-slug="contact">
+              <span class="bullet" style="background-image: url('{{getResizedImageUrl avatar 120 120 'crop'}}');"></span>
+              <div class="inner-wrap">
+                {{{markdown name root="h1"}}}
+                {{{markdown title root="p"}}}
+              </div>
+            </a>
+          </div>
+        </li>
+      {{else}}
+        <li>
+          {{#if firstInYear}}
+            <div id="timeline-{{year}}" class="entry year">
+              <a href="{{entryUrl year}}" class="bullet link" data-slug="{{year}}">{{year}}</a>
             </div>
           {{/if}}
+          <div id="timeline-{{urlSlug}}" class="entry post {{parity index}}">
+            <a href="{{entryUrl urlSlug}}" class="head link" data-slug="{{urlSlug}}">
+              <span class="bullet {{iconClass icon}}"></span>
+              <div class="inner-wrap">
+                {{{markdown headline root="h2"}}}
+                {{{markdown excerpt}}}
+              </div>
+            </a>
+            {{#if hasExtendedContent}}
+              <div class="content">
+                <div class="inner-wrap">
+                  {{#if images.length}}
+                    <div class="image-wrap">
+                      <div class="viewport">
+                        <ul>
+                          {{#each images}}
+                            <li>
+                              <img src="{{getResizedImageUrl url null 300 'clip'}}" alt="{{caption}}">
+                              {{#if caption}}
+                                <span class="caption">{{caption}}</span>
+                              {{/if}}
+                            </li>
+                          {{/each}}
+                        </ul>
+                      </div>
+                    </div>
+                  {{/if}}
+                  {{#if content}}
+                    <div class="text">
+                      {{{markdown content}}}
+                    </div>
+                  {{/if}}
+                </div>
+              </div>
+            {{/if}}
+          </div>
         </li>
-      {{/match}}
-      {{#match type="year"}}
-        <li id="timeline-{{year}}" class="entry year">
-          <a href="{{entryUrl year}}" class="bullet link" data-slug="{{year}}">{{year}}</a>
-        </li>
-      {{/match}}
+      {{/if}}
     {{/each}}
   </ul>
 </template>
