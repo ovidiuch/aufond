@@ -166,7 +166,7 @@ class @Timeline
     ###
     $active = @$container.find('.active')
     if $active.length
-      $entry = $active.nextAll('.entry:not(.year):first')
+      $entry = $active.closest('li').next().find('.entry:not(.year):first')
     else
       $entry = @getFrontmostEntry()
     @toggleEntry($entry)
@@ -178,7 +178,7 @@ class @Timeline
     ###
     $active = @$container.find('.active')
     if $active.length
-      $entry = $active.prevAll('.entry:not(.year):first')
+      $entry = $active.closest('li').prev().find('.entry:not(.year):first')
     else
       $entry = @getFrontmostEntry()
     @toggleEntry($entry)
@@ -341,7 +341,7 @@ class @Timeline
     # Subtract the height of a previously active post from the scroll
     # position (because it will be contracted), but only if the post precedes
     # the soon-to-be-active entry
-    $activeEntry = $entry.prevAll('.post.active')
+    $activeEntry = $entry.closest('li').prevAll().find('.entry.post.active')
     if $activeEntry.length
       position -= @getPostContentHeight($activeEntry)
 
