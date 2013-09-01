@@ -44,8 +44,7 @@
         }
       }
     }
-    .entry.post .head,
-    .entry.year {
+    .entries > li {
       // Because images are inline-block, and images have inline-block display,
       // WebKit prevents images from breaking between pages by applying this
       // rule to all inline-block elements. This is more effective than
