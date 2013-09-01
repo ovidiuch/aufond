@@ -77,4 +77,3 @@ for k, v of quizQuestions
 Template.thanks.questions = (_.extend(question: k, v) for k, v of quizQuestions)
 Template.thanks.sortedQuestions =
   _.sortBy(Template.thanks.questions, (question) -> question.ratio)
-
