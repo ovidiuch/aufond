@@ -51,6 +51,7 @@
       // page-break-inside: avoid
       // https://github.com/ariya/phantomjs/issues/10638#issuecomment-20186253
       display: inline-block;
+      width: 100%;
     }
     .entry.post .content {
       // Entry contents have nothing to do in .pdf exports. They are hidden by
@@ -80,7 +81,7 @@
     // split the webpage into an exact number of pages, we need to account for
     // the remaining white space from the second part of the last page. We do
     // that by adding a smooth fade out transition after the last entry
-    .entry:last-child {
+    .entries > li:last-child .entry:last-child {
       padding-bottom: 0;
 
       &:after {
