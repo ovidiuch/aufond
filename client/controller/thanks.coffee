@@ -1,7 +1,7 @@
 Template.thanks.events
   'click .link-home': (e) ->
     e.preventDefault()
-    App.router.navigate('', trigger: true)
+    App.router.navigate('', {trigger: true, resetScroll: true})
 
 quizQuestions =
   "More types of media besides text and images":

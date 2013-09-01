@@ -16,6 +16,12 @@ class @Router extends Backbone.Router
     'thanks': 'thanks'
     '*path': 'timeline'
 
+  navigate: (path, options) ->
+    super(arguments...)
+    if options.resetScroll
+      # Ensure scrolling will be on top of the page navigating to
+      $('html, body').scrollTop(0)
+
   timeline: (path) ->
     # Extract username and post slug (optional) from path
     [username, slug] = path.split('/')
