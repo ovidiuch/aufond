@@ -24,20 +24,19 @@ class @Entry extends MeteorModel
 
     # Add user data as the first item of list
     profile = user.toJSON().profile
+    profile.isHeader = true
     # Ensure a profile name by defaulting to the username
     profile.name = username if not profile.name
-    items.push(_.extend(type: 'header', profile))
+    items.push(profile)
 
     year = null
     for entry in user.getEntries({}, sort: {time: -1}).toJSON()
-      # Push the year entry before the first entry from that year
+      # Mark first entry of an year in order to display the respective year
+      # bubble above it
       if entry.year isnt year
+        entry.firstInYear = true
         year = entry.year
-        items.push
-          type: 'year'
-          year: year
-      # Add the type key to the entry data
-      items.push _.extend {type: 'post'}, entry
+      items.push(entry)
     return items
 
   update: (data) ->
