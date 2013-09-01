@@ -77,3 +77,32 @@ for k, v of quizQuestions
 Template.thanks.questions = (_.extend(question: k, v) for k, v of quizQuestions)
 Template.thanks.sortedQuestions =
   _.sortBy(Template.thanks.questions, (question) -> question.ratio)
+
+###
+  Export animation
+###
+exportAnimationInterval = null
+exportAnimationSlide = ($slides) ->
+  ###
+    Always pick up the first DOM element and move it to the end of the list, in
+    order to create a continuous animation
+  ###
+  $nextSlide = $slides.first()
+  $nextSlide.hide()
+  $nextSlide.parent().append($nextSlide)
+  $nextSlide.fadeIn(400)
+
+Template.thanks.rendered = ->
+  return if exportAnimationInterval?
+  goToNextSlide = =>
+    # Always query the slide children from the DOM, to get them in the current
+    # order they are positioned (since it changes with every interval loop)
+    exportAnimationSlide($(@find('.export-animation')).children())
+  # Make one initial instant call to start with the first slide
+  goToNextSlide()
+  exportAnimationInterval = setInterval(goToNextSlide, 2000)
+
+Template.thanks.destroyed = ->
+  if exportAnimationInterval?
+    clearInterval(exportAnimationInterval)
+    exportAnimationInterval = null
