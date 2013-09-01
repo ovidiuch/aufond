@@ -3,6 +3,11 @@ Template.thanks.events
     e.preventDefault()
     App.router.navigate('', {trigger: true, resetScroll: true})
 
+Template.thanks.events
+  'click .link-admin-exports': (e) ->
+    e.preventDefault()
+    App.router.navigate('admin/exports', {trigger: true, resetScroll: true})
+
 quizQuestions =
   "More types of media besides text and images":
     yes: 143
