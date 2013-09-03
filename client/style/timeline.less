@@ -247,6 +247,12 @@
       // Treat the only paragraph from the header entry's head as a tagline
       p {
         .subtitle;
+        // Make multi-line subtitles look OK
+        line-height: 24px;
+      }
+      h1, p {
+        max-width: 500px;
+        margin: 0 auto;
       }
     }
     .content {

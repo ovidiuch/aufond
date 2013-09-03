@@ -101,9 +101,10 @@ Meteor.methods
     model = Export.find(exportId)
     return if not model?
 
-    # First rule of removal, it has to belong to you :)
-    userId = Meteor.userId()
-    if model.get('createdBy') isnt userId
+    # First rule of removal, it has to belong to you (unless root) :)
+    user = User.current()
+    userId = user.get('_id')
+    if model.get('createdBy') isnt userId and not user.isRoot()
       console.log("User #{userId} is trying to remove an export that doesn't " +
                   "belong to them: #{exportId}")
       return

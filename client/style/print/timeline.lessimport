@@ -3,28 +3,30 @@
     // Show values for links in print mode, because phantomjs is not able to
     // export links in .pdfs
     .entry.header .content .links {
-      width: 500px;
+      // Use display: table to make the box model of the links wrapper take
+      // the min widths of its contents, rather than default to 100%
+      display: table;
       margin: 0 auto 20px auto;
-      // Works as .clearfix
-      overflow: hidden;
 
       li {
-        float: left;
+        // All these propreties are to reset ones set for screen mode
+        display: block;
         width: auto;
         height: auto;
         margin: 0;
       }
       a {
-        width: 250px;
+        width: auto;
         height: 30px;
         border-radius: 0;
         background: none;
         color: #c52352;
+        text-align: left;
 
         i {
           float: left;
           display: block;
-          width: 40px;
+          width: 20px;
           height: 30px;
           font-size: 18px;
           line-height: 30px;
@@ -32,9 +34,11 @@
         }
         .value {
           float: left;
+          // It defaults to display: none in screen mode
           display: block;
-          width: 210px;
+          max-width: 450px;
           height: 30px;
+          padding: 0 0 0 10px;
           overflow: hidden;
           font-size: 14px;
           line-height: 30px;
