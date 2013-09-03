@@ -3,7 +3,7 @@
     // Show values for links in print mode, because phantomjs is not able to
     // export links in .pdfs
     .entry.header .content .links {
-      width: 500px;
+      width: 520px;
       margin: 0 auto 20px auto;
       // Works as .clearfix
       overflow: hidden;
@@ -13,9 +13,11 @@
         width: auto;
         height: auto;
         margin: 0;
+        padding: 0 0 0 10px;
       }
       a {
-        width: 250px;
+        width: auto;
+        min-width: 250px;
         height: 30px;
         border-radius: 0;
         background: none;
@@ -24,7 +26,7 @@
         i {
           float: left;
           display: block;
-          width: 40px;
+          width: 20px;
           height: 30px;
           font-size: 18px;
           line-height: 30px;
@@ -33,8 +35,8 @@
         .value {
           float: left;
           display: block;
-          width: 210px;
           height: 30px;
+          padding: 0 0 0 10px;
           overflow: hidden;
           font-size: 14px;
           line-height: 30px;
