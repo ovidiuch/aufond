@@ -48,9 +48,12 @@ class @Export extends MeteorModel
       insert: (userId, doc) ->
         # Only allow logged in users to create documents
         return false unless userId?
+        user = User.find(userId)
         # Ensure author and timestamp of creation in every document
         doc.createdAt = Date.now()
-        doc.createdBy = userId
+        # Allow root user to create reports on behalf of other users
+        unless (doc.createdBy? and user.isRoot())
+          doc.createdBy = userId
         # Prevent users from creating exports too often in order to improve the
         # server's global performance
         return Export.isUserAllowed(userId)
