@@ -106,6 +106,10 @@ Template.thanks.rendered = ->
   # Make one initial instant call to start with the first slide
   goToNextSlide()
   exportAnimationInterval = setInterval(goToNextSlide, 2000)
+  # Setup bubble hover for exhibited users
+  $(@find('.happy-campers')).find('a').bubble
+    time: 0.1
+    offset: 8
 
 Template.thanks.destroyed = ->
   if exportAnimationInterval?
