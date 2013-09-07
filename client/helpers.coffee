@@ -53,7 +53,7 @@ Handlebars.registerHelper 'profileLinkAddress', (address) ->
     Ensure a default protocol for links without one. So far we only add http://
     to ones that start with "www."
   ###
-  return address.replace(/^www./, 'http://www.')
+  return address.replace(/^www\./, 'http://www.')
 
 Handlebars.registerHelper 'profileLinkValue', (address) ->
   ###
