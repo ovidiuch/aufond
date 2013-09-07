@@ -48,6 +48,13 @@ Handlebars.registerHelper 'entryUrl', (slug) ->
   username = App.router.args.username
   return "/#{username}/#{slug}"
 
+Handlebars.registerHelper 'profileLinkAddress', (address) ->
+  ###
+    Ensure a default protocol for links without one. So far we only add http://
+    to ones that start with "www."
+  ###
+  return address.replace(/^www\./, 'http://www.')
+
 Handlebars.registerHelper 'profileLinkValue', (address) ->
   ###
     Extract the protocol from a user link. E.g. mailto: from email, http://
