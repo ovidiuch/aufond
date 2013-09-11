@@ -61,4 +61,35 @@
       }
     }
   }
+  .idea-form {
+    position: relative;
+    padding: 0 100px 0 0;
+
+    textarea {
+      width: 100%;
+      // To include padding it the 100% width
+      box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+    }
+    .button-send {
+      position: absolute;
+      top: 0;
+      right: 0;
+      // Will sum up to a total of 80px width with padding and border
+      width: 42px;
+      // To match the 71px height of the textarea, after adding borders
+      height: 69px;
+      font-size: 30px;
+      line-height: 66px;
+
+      &:active {
+        line-height: 69px;
+      }
+    }
+    .form-disclaimer {
+      margin: 10px 0;
+      color: @color-medium;
+    }
+  }
 }
