@@ -37,7 +37,7 @@ class @SurveySuggestion extends MeteorModel
     previousSuggestionDate = @constructor.getSuggestionDateFromCookie()
     if Date.now() - previousSuggestionDate < 60 * 1000
       return "Already a new suggestion? You should just call me: " +
-             "+40 726 189 126"
+             "__+40 726 189 126__"
 
   save: ->
     # Attach the creating time and user info for betters stats
