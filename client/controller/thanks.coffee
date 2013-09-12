@@ -7,10 +7,6 @@ Template.thanks.events
     e.preventDefault()
     App.router.navigate('admin/exports', {trigger: true, resetScroll: true})
 
-  'click .button-send': (e) ->
-    e.preventDefault()
-    # TODO implement survey form
-
 quizQuestions =
   "More types of media besides text and images":
     yes: 143
