@@ -7,6 +7,10 @@ Template.thanks.events
     e.preventDefault()
     App.router.navigate('admin/exports', {trigger: true, resetScroll: true})
 
+Template.thanks.ideaForm = ->
+  module: IdeaForm
+  model: 'SurveySuggestion'
+
 quizQuestions =
   "More types of media besides text and images":
     yes: 143
