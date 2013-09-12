@@ -1,0 +1,147 @@
+@import "mixin.lessimport";
+
+.presentation {
+  font-family: @font-open-sans;
+
+  .space-above {
+    margin-top: 50px;
+  }
+  .faded {
+    color: @color-medium;
+  }
+  p {
+    margin: 20px 0;
+    line-height: 22px;
+  }
+  h2 {
+    margin: 50px 0 10px 0;
+    color: @color-medium;
+    font-weight: 300;
+
+    &.title {
+      color: @color-light;
+      font-weight: bold;
+    }
+  }
+  ul {
+    margin: 10px 0;
+    padding: 0 0 0 20px;
+    list-style: none;
+
+    li {
+      margin: 0 0 4px 0;
+      padding: 4px;
+      font-size: 20px;
+      // Same as the height of the up/down-vote buttons
+      line-height: 32px;
+    }
+  }
+  .inner-wrapper {
+    margin: 50px auto;
+  }
+  .inverse {
+    background: @color-dark;
+    color: @color-light;
+    // Prevent the inner margins to collapse outside container
+    overflow: hidden;
+  }
+  .feedback-list {
+    padding-left: 10px;
+
+    li {
+      border-radius: 6px;
+      .transition(background, 0.1s);
+
+      &:before {
+        padding: 0 10px;
+        color: @color-medium;
+        font-family: FontAwesome;
+        -webkit-font-smoothing: antialiased;
+        content: '\f105';
+      }
+      &:hover {
+        background: #f1f1f1;
+      }
+    }
+    // Emulate the occupied space and font size of a small-sized button
+    .pressed-button {
+      width: 34px;
+      height: 32px;
+      font-size: 14px;
+      line-height: 32px;
+      text-align: center;
+    }
+  }
+  .progress-bar {
+    position: relative;
+    height: 40px;
+    font-size: 20px;
+    line-height: 40px;
+
+    .left {
+      float: left;
+    }
+    .right {
+      float: right;
+    }
+    .label {
+      padding: 0 10px;
+
+      &.left {
+        padding-right: 0;
+      }
+      &.right {
+        padding-left: 0;
+      }
+    }
+    .layer {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    .below {
+      z-index: 1;
+    }
+    .progress {
+      z-index: 2;
+      // The width should be overriden from the template
+      min-width: 1%;
+      border-radius: 3px;
+      background: #C52352;
+      color: @color-background;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .above {
+      z-index: 3;
+      color: @color-background;
+      overflow: hidden;
+    }
+    &.big {
+      height: 60px;
+      margin: 20px 0;
+      font-family: @font-source-sans-pro;
+      font-size: 26px;
+      line-height: 60px;
+
+      .label {
+        padding: 0 16px;
+      }
+      .progress {
+        border-radius: 5px;
+      }
+    }
+  }
+  .progress-bar-list {
+    padding: 0;
+
+    li {
+      margin: 20px 0;
+      padding: 0;
+    }
+    .subtitle {
+      margin: 0 0 10px 0;
+      color: @color-light;
+    }
+  }
+}

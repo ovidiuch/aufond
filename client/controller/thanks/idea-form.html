@@ -1,0 +1,12 @@
+<template name="ideaForm">
+  <form class="idea-form">
+    {{> formStatus}}
+    <div class="control-wrapper">
+      <textarea name="message" rows="3" class="large" placeholder="You tell me... (anything goes)">{{message}}</textarea>
+      <a href="#send" class="button button-xlarge button-success button-primary">
+        <i class="icon-thumbs-up-alt"></i>
+      </a>
+    </div>
+    <p class="form-disclaimer">Write down an email anywhere in the box, along with your suggestion, if you wish receive the conclusion from this survey</p>
+  </form>
+</template>
