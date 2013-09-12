@@ -9,8 +9,15 @@ class @SurveySuggestion extends MeteorModel
   @storeSuggestionDateInCookie: ->
     $.cookie('surveySuggestionDate', Date.now(), expires: 365)
 
-  @publish: ->
-    # Don't publish survey suggestions at all, they are write-only
+  @publish: (name) ->
+    if Meteor.isServer
+      Meteor.publish name, ->
+        # Only wire the survey suggestions to the root user
+        return [] unless User.find(@userId)?.isRoot()
+        return SurveySuggestion.mongoCollection.find()
+
+    if Meteor.isClient
+      Meteor.subscribe(name)
 
   @allow: ->
     return unless Meteor.isServer
@@ -21,15 +28,13 @@ class @SurveySuggestion extends MeteorModel
         doc.createdAt = Date.now()
         doc.createdBy = userId
         # Allow anybody to post survey suggestions questions
-        # XXX is there anything to do here to prevent spammers?
-        # Check out https://github.com/tmeasday/meteor-accounts-anonymous
         return true
       update: (userId, doc, fields, modifier) ->
         # For now survey suggestions should remain unaltered
         return false
       remove: (userId, doc) =>
-        # For now survey suggestions should remain unaltered
-        return false
+        # Only admin users can remove suggestions
+        return User.find(userId)?.isRoot()
 
   validate: ->
     return "Sorry? Couldn't hear that" unless @get('message').length
