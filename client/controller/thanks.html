@@ -1,0 +1,124 @@
+<template name="thanks">
+  {{> header}}
+  <div class="presentation">
+    <div class="inverse">
+      <div class="inner-wrapper">
+        <h2 class="title">Thank you for voting!</h2>
+        <p class="subtitle">And for signing up, and for <a href="https://twitter.com/meteorjs/status/350208172943872000">reaching me.</a></p>
+        <p class="space-above">Three months ago, <a href="https://news.ycombinator.com/item?id=5879071">aufond.me opened up on Hacker News.</a> An app for creating a <a href="/" class="link-home">different, simpler type of résumé.</a> Besides a basic admin and user management, I built nothing on top of the basic features made for my own timeline. Instead, I coined a set of questions wrapped in quiz format, that should stir the fate of the project organically. Why try to guess what people might want when they can tell you first-hand.</p>
+        <p><strong>1890</strong> votes were made, by <strong>491</strong> people. Since the quiz mechanism allowed you to change your mind at any point, a few votes were made on the same question by the same person. Thus, after taking the most recent into consideration, we were left with total of <strong>1686</strong> <em>unique</em> votes.</p>
+      </div>
+    </div>
+    <div class="inner-wrapper">
+      <h2><em>&ldquo;Is this something you want?&rdquo;</em></h2>
+      <p>First things first, no need to invest in an idea that's not of any interest.</p>
+      <div class="progress-bar big">
+        <div class="below layer">
+          <div class="right label">111 <i class="icon-thumbs-down-alt"></i></div>
+        </div>
+        <div class="progress layer" style="width: 74.72%;">
+          <div class="left label">328 <i class="icon-thumbs-up-alt"></i></div>
+          <div class="right label"><strong>74.72</strong>%</div>
+        </div>
+      </div>
+      <p>Anything over 50% would've been considered a win, so this is quite nice. The percentage is not the best part, though, but the fact that <strong>328 real persons</strong>&mdash;as ridiculously insignificant of a number as it may seem for most&mdash;submit to wanting this.</p>
+    </div>
+    <div class="inverse">
+      <div class="inner-wrapper">
+        <h2><em>&ldquo;What would you like to see next?&rdquo;</em></h2>
+        <p>Starting to build something is very tempting. Doing is easy. The hard part is finding out what's worth while. Since few people were likely to offer custom and direct feedback, poking around a few high-level directions seemed like the best approach. Quiz results below.</p>
+        <ul class="progress-bar-list space-above">
+          {{#each questions}}
+            <li>
+              <p class="subtitle">{{question}}</p>
+              <div class="progress-bar">
+                <div class="below layer">
+                  <div class="right label">{{no}} <i class="icon-thumbs-down-alt"></i></div>
+                </div>
+                <div class="progress layer" style="width: {{percentage}}%;">
+                  <div class="left label">{{yes}} <i class="icon-thumbs-up-alt"></i></div>
+                  <div class="right label"><strong>{{percentage}}</strong>%</div>
+                </div>
+              </div>
+            </li>
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+    <div class="inner-wrapper">
+      <p>Since people mostly tend to want something when you offer it, let's try to <strong>zoom in between the least and the most wanted feature</strong> and make the results of this quiz even more obvious.</p>
+      <ul class="progress-bar-list">
+        {{#each sortedQuestions}}
+          <li>
+            <div class="progress-bar">
+              <div class="below layer">
+                <div class="left label">{{question}}</div>
+                {{#if showAbovePercentage}}
+                  {{#if smallAbovePercentage}}
+                    <div class="right faded label">+<strong>{{abovePercentage}}</strong>%</div>
+                  {{else}}
+                    <div class="right label">+<strong>{{abovePercentage}}</strong>%</div>
+                  {{/if}}
+                {{else}}
+                  <div class="right faded label">least desired</div>
+                {{/if}}
+              </div>
+              <div class="progress layer" style="width: {{relativePercentage}}%;">
+                <div class="label">{{question}}</div>
+              </div>
+              {{#if showAbovePercentage}}
+                <div class="above layer" style="width: {{relativePercentage}}%;">
+                  <div class="full-span" style="width: {{reversedPercentage}}%;">
+                    <div class="right label">+<strong>{{abovePercentage}}</strong>%</div>
+                  </div>
+                </div>
+              {{/if}}
+            </div>
+          </li>
+        {{/each}}
+      </ul>
+      <p>The outcome was a bit surprising, but in any case very pleasing. I expected most people to call bullshit on "Maintaining and refining the current simplicity," as an excuse for not having to add more features to the layout. And I never would've guessed exporting would exceed importing, or that customizable layouts or media diversity would not be that interesting.</p>
+    </div>
+    <div class="inverse">
+      <div class="inner-wrapper">
+        <h2>Introducing: <strong>Exports</strong></h2>
+        <p>As per your request, using your aufond.me account, you can now <a href="/admin/exports" class="link-admin-exports"><strong>export static .pdfs of your timeline.</strong></a> Attach them to an email, store them offline, use them to your advantage. Try it out and let me know how it feels.</p>
+        <p class="subtitle">Examples of happy campers*</p>
+        <ul class="happy-campers">
+          <li>
+            <a href="/export/export-adamrneary.pdf" title="Timeline of Adam Neary" style="background-image: url('/export/export-adamrneary.jpg')"></a>
+          </li>
+          <li>
+            <a href="/export/export-coleylogan.pdf" title="Timeline of Coley Logan" style="background-image: url('/export/export-coleylogan.jpg')"></a>
+          </li>
+          <li>
+            <a href="/export/export-slava.pdf" title="Timeline of Slava Kim" style="background-image: url('/export/export-slava.jpg')"></a>
+          </li>
+        </ul>
+        <p class="faded">* Special thanks to these guys for allowing me to showcase their exported timelines</p>
+      </div>
+    </div>
+    <div class="inner-wrapper">
+      <ul class="export-animation">
+        <li class="before">
+          <span class="responsive-right"></span>
+        </li>
+        <li class="generating">
+          <span class="responsive-right"></span>
+        </li>
+        <li class="after">
+          <span class="responsive-right"></span>
+        </li>
+      </ul>
+      <h2>What next?</h2>
+      <p>The only way to make validate new ideas is through crowdsource confirmation. This doesn't mean that whatever you suggest will be created. It means that if what you suggest something worth implementing, it will have a higher chance of happening.</p>
+      {{> reactive ideaForm}}
+    </div>
+    <div class="inverse">
+      <div class="inner-wrapper">
+        <h2>Thank you for reading!</h2>
+        <p>As always, <a href="mailto:contact@aufond.me">contact@aufond.me</a></p>
+      </div>
+    </div>
+  </div>
+</template>

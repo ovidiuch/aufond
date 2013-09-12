@@ -31,7 +31,7 @@ var getVoteCountsForQuestion = function(votes, question) {
     // Decorate counts
     counts.total = counts.yes + counts.no;
     counts.ratio = counts.yes / counts.total;
-    counts.percentage = (counts.ratio * 100).toFixed(2) + '%';
+    counts.percentage = (counts.ratio * 100).toFixed(2);
   });
   return counts;
 };
@@ -79,8 +79,11 @@ for (var i in quizResults) {
 }
 var difRatio = maxRatio - minRatio;
 for (var i in quizResults) {
-  quizResults[i].relativeRatio = (quizResults[i].ratio - minRatio) / difRatio;
+  quizResults[i].aboveRatio = quizResults[i].ratio - minRatio;
+  quizResults[i].abovePercentage =
+    (quizResults[i].aboveRatio * 100).toFixed(2);
+  quizResults[i].relativeRatio = quizResults[i].aboveRatio / difRatio;
   quizResults[i].relativePercentage =
-    (quizResults[i].relativeRatio * 100).toFixed(2) + '%';
+    (quizResults[i].relativeRatio * 100).toFixed(2);
 }
 printjson(quizResults);

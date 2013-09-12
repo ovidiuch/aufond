@@ -33,11 +33,19 @@
       <div class="tab-pane" id="users">
         {{> adminUsers}}
       </div>
+      <div class="tab-pane" id="suggestions">
+        <div id="delete-suggestion-modal" class="modal fade">
+          {{> reactive deleteSuggestionModal}}
+        </div>
+        {{> adminSuggestions}}
+      </div>
     </div>
   </div>
-  <div class="inverse">
-    <div class="inner-wrapper">
-      <p>Feel free to reach at <a href="mailto:contact@aufond.me">contact@aufond.me</a></p>
+  <div class="presentation">
+    <div class="inverse">
+      <div class="inner-wrapper">
+        <p>Feel free to reach at <a href="mailto:contact@aufond.me">contact@aufond.me</a></p>
+      </div>
     </div>
   </div>
 </template>

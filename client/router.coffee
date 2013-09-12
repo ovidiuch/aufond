@@ -13,7 +13,14 @@ class @Router extends Backbone.Router
     'admin': 'admin'
     'admin/:tab': 'admin'
     '': 'front'
+    'thanks': 'thanks'
     '*path': 'timeline'
+
+  navigate: (path, options) ->
+    super(arguments...)
+    if options.resetScroll
+      # Ensure scrolling will be on top of the page navigating to
+      $('html, body').scrollTop(0)
 
   timeline: (path) ->
     # Extract username and post slug (optional) from path
@@ -27,6 +34,10 @@ class @Router extends Backbone.Router
   front: ->
     @changeController
       name: 'front'
+
+  thanks: ->
+    @changeController
+      name: 'thanks'
 
   admin: (tab) ->
     # Make sure admin controller can't be accessed w/out being logged in.
