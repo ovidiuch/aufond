@@ -33,6 +33,12 @@
       <div class="tab-pane" id="users">
         {{> adminUsers}}
       </div>
+      <div class="tab-pane" id="suggestions">
+        <div id="delete-suggestion-modal" class="modal fade">
+          {{> reactive deleteSuggestionModal}}
+        </div>
+        {{> adminSuggestions}}
+      </div>
     </div>
   </div>
   <div class="presentation">

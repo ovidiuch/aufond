@@ -1,0 +1,18 @@
+<template name="adminSuggestions">
+  {{#if isRootUser}}
+    <table class="suggestions table table-striped">
+      <tbody>
+        {{#each suggestions}}
+          <tr>
+            <td>{{message}}</td>
+            <td class="single-line">
+              <div class="pull-right">
+                <a href="#remove" class="button button-danger button-delete" data-toggle="modal" data-target="#delete-suggestion-modal" data-title="Delete suggestion _{{message}}_?" data-id="{{_id}}"><i class="icon-trash"></i></a>
+              </div>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{/if}}
+</template>

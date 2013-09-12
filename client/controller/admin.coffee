@@ -38,3 +38,10 @@ Template.admin.deleteExportModal = ->
   formClass: 'DeleteForm'
   formModel: 'Export'
   globalReference: 'deleteExportModal'
+
+Template.admin.deleteSuggestionModal = ->
+  module: FormModal
+  template: Template.deleteModal
+  formClass: 'DeleteForm'
+  formModel: 'SurveySuggestion'
+  globalReference: 'deleteSuggestionModal'
