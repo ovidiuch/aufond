@@ -60,7 +60,9 @@ class @User extends MeteorModel
     if Meteor.isServer
       Meteor.publish 'users', ->
         # Only wire the current user to the client
-        return User.mongoCollection.find(_id: @userId)
+        return User.mongoCollection.find({_id: @userId},
+          # Exclude sensitive data from users altogether
+          {fields: {services: 0, isSubscribed: 0}})
 
       Meteor.publish 'publicUserData', ->
         # Make all usernames and profiles public, matchable by user id
