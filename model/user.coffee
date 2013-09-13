@@ -208,3 +208,14 @@ if Meteor.isClient
     # better fix than the sanity check, because this way a user might not be
     # tagged at all
     mixpanel?.name_tag(user.getEmail() or user.get('username'))
+
+if Meteor.isServer
+  Accounts.onCreateUser (options, user) ->
+    # Attach the profile to the user document (this happens in the default
+    # implementation of the Accounts.onCreateUser that we're overriding)
+    if options.profile
+      user.profile = options.profile;
+    # Automatically subscribe users to aufond.me notifications (no robotic
+    # newsletters will ever be sent)
+    user.isSubscribed = true
+    return user
