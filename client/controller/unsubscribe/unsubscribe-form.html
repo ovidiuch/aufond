@@ -1,0 +1,13 @@
+<template name="unsubscribeForm">
+  <div class="presentation">
+    <div class="inverse">
+      <div class="inner-wrapper">
+        {{#if userFound}}
+          <p>Oh boy... I'm one of them now, with annoying email and stuff. Sorry. No more emails for <strong>{{username}}.</strong></p>
+        {{else}}
+          <p>Sorry, a matching account couldn't be identified. Please send an email to <a href="mailto:contact@aufond.me">contact@aufond.me</a> if you're unable to unsubscribe.</p>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</template>
