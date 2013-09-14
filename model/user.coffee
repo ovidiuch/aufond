@@ -72,19 +72,20 @@ class @User extends MeteorModel
           isRoot: 1
         return User.mongoCollection.find({}, {fields: fields})
 
-      Meteor.publish 'userEmails', ->
-        # Only make all user emails public to the root user
+      Meteor.publish 'rootUserData', ->
+        # Only make sensitive user data available to the root user
         # XXX returning a null value instead of a Mongo cursor does not trigger
         # _allSubscriptionsReady and the spiderable plugin remains hanging.
         # Publish supports returning a list of cursors and returning an empty
         # list seems to hit the spot
         return [] unless @userId and User.find(@userId).isRoot()
-        return User.mongoCollection.find({}, {fields: {emails: 1}})
+        return User.mongoCollection.find({},
+          {fields: {emails: 1, isSubscribed: 1}})
 
     if Meteor.isClient
       Meteor.subscribe('users')
       Meteor.subscribe('publicUserData')
-      Meteor.subscribe('userEmails')
+      Meteor.subscribe('rootUserData')
 
   @allow: ->
     ###
