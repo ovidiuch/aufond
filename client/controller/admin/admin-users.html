@@ -10,11 +10,13 @@
               </a>
             </td>
             <td class="single-line">
-              {{email}}
-              {{#if isSubscribed}}
-                <i class="icon-ok"></i>
-              {{else}}
-                <i class="icon-minus-sign"></i>
+              {{#if email}}
+                {{email}}
+                {{#if isSubscribed}}
+                  <i class="icon-ok"></i>
+                {{else}}
+                  <i class="icon-minus-sign"></i>
+                {{/if}}
               {{/if}}
             </td>
             <td class="single-line">{{{markdown profile.name root="span"}}}</td>
