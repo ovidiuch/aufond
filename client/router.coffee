@@ -14,6 +14,7 @@ class @Router extends Backbone.Router
     'admin/:tab': 'admin'
     '': 'front'
     'thanks': 'thanks'
+    'unsubscribe/:id': 'unsubscribe'
     '*path': 'timeline'
 
   navigate: (path, options) ->
@@ -49,6 +50,14 @@ class @Router extends Backbone.Router
       @changeController
         name: 'admin'
         tab: tab or 'entries'
+
+  unsubscribe: (id) ->
+    ###
+      Link for users to unsubscribe from notifications
+    ###
+    @changeController
+      name: 'unsubscribe'
+      id: id
 
   changeController: (args) ->
     # Keep controller arguments in the router object, since it is globally
