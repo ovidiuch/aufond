@@ -33,6 +33,15 @@
       <div class="tab-pane" id="users">
         {{> adminUsers}}
       </div>
+      <div class="tab-pane" id="campaigns">
+        <div id="campaign-modal" class="modal fade">
+          {{> reactive campaignModal}}
+        </div>
+        <div id="delete-campaign-modal" class="modal fade">
+          {{> reactive deleteCampaignModal}}
+        </div>
+        {{> adminCampaigns}}
+      </div>
       <div class="tab-pane" id="suggestions">
         <div id="delete-suggestion-modal" class="modal fade">
           {{> reactive deleteSuggestionModal}}
