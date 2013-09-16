@@ -47,6 +47,15 @@ class @Campaign extends MeteorModel
         list.push("Removed: id")
     return list.join(', ')
 
+  getMessage: (userId) ->
+    ###
+      Decorate the campaign message with the unsubscribe link
+    ###
+    unsubscribeUrl = Meteor.absoluteUrl("unsubscribe/#{userId}")
+    message = @get('message')
+    message += "\n\n"
+    message += "Follow this link to never hear from me again: #{unsubscribeUrl}"
+    return message
 
 Campaign.publish('campaigns')
 Campaign.allow()
