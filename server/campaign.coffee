@@ -29,7 +29,7 @@ Meteor.methods
                   emailField,
                   'Ovidiu Cherecheș <contact@aufond.me>',
                   campaign.get('subject'),
-                  campaign.getMessage(userId))
+                  campaign.getMessage(User.find(userId)))
       # Append the userId to the list of confirmed recipients
       campaign.save
         sentTo: campaign.get('sentTo').concat([userId])
