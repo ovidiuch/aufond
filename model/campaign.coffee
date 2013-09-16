@@ -47,13 +47,21 @@ class @Campaign extends MeteorModel
         list.push("Removed: id")
     return list.join(', ')
 
-  getMessage: (userId) ->
+  getMessage: (user) ->
     ###
-      Decorate the campaign message with the unsubscribe link
+      Decorate the campaign message with user fields and the unsubscribe link
     ###
-    unsubscribeUrl = Meteor.absoluteUrl("unsubscribe/#{userId}")
+    unsubscribeUrl = Meteor.absoluteUrl("unsubscribe/#{user.get('_id')}")
     message = @get('message')
-    message += "\n\n"
+    message = message.replace('{{username}}', user.get('username'))
+    # Default to the username when no full name is provided
+    if user.get('profile').name
+      # Get only the first name
+      name = user.getCleanName().split(' ')[0]
+    else
+      name = user.get('username')
+    message = message.replace('{{name}}', name)
+    message += "\n\n---\n\n"
     message += "Follow this link to never hear from me again: #{unsubscribeUrl}"
     return message
 

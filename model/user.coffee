@@ -177,13 +177,18 @@ class @User extends MeteorModel
     return null unless address
     name = @get('profile').name
     if name
-      # XXX strip markdown from name (improve once users actually use different
-      # markdown tags in their name)
-      strippedName = name.replace(/^[_\*]{1,2}/, '')
-                         .replace(/[_\*]{1,2}$/, '')
-      return "#{strippedName} <#{address}>"
+      return "#{@getCleanName()} <#{address}>"
     else
       return address
+
+  getCleanName: ->
+    ###
+      Strip markdown from name field
+      TODO improve once users actually use different markdown tags in their
+      name
+    ###
+    return @get('profile').name?.replace(/^[_\*]{1,2}/, '')
+                                .replace(/[_\*]{1,2}$/, '')
 
   getEntries: (selector = {}, options) ->
     ###
