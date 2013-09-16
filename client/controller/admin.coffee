@@ -39,6 +39,19 @@ Template.admin.deleteExportModal = ->
   formModel: 'Export'
   globalReference: 'deleteExportModal'
 
+Template.admin.campaignModal = ->
+  module: FormModal
+  formModel: 'Campaign'
+  formTemplate: Template.campaignForm
+  globalReference: 'campaignModal'
+
+Template.admin.deleteCampaignModal = ->
+  module: FormModal
+  template: Template.deleteModal
+  formClass: 'DeleteForm'
+  formModel: 'Campaign'
+  globalReference: 'deleteCampaignModal'
+
 Template.admin.deleteSuggestionModal = ->
   module: FormModal
   template: Template.deleteModal

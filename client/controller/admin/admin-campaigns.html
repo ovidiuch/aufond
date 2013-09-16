@@ -1,0 +1,33 @@
+<template name="adminCampaigns">
+  <div class="create-button-wrapper clearfix">
+    <a href="#create" class="button button-inline button-primary button-xlarge button-create" data-toggle="modal" data-target="#campaign-modal" data-title="What's cookin?" data-button="Create">Launch a new campaign</a>
+  </div>
+  {{#if isRootUser}}
+    <table class="campaigns table table-striped">
+      <tbody>
+        {{#each campaigns}}
+          <tr>
+            <td>
+              <h4>{{subject}}</h4>
+              {{#if message}}
+                <div class="excerpt">
+                  {{{markdown message}}}
+                </div>
+              {{/if}}
+              {{#if sentToUserList}}
+                <p class="recipient-list"><strong>Sent to:</strong> {{sentToUserList}}</p>
+              {{/if}}
+            </td>
+            <td class="single-line">
+              <div class="pull-right">
+                <a href="#launch" class="button button-inline button-warning button-launch" data-id="{{_id}}"><i class="icon-rocket"></i></a>
+                <a href="#edit" class="button button-inline button-edit" data-toggle="modal" data-target="#campaign-modal" data-title="What's cookin?" data-button="Update" data-id="{{_id}}"><i class="icon-edit"></i></a>
+                <a href="#remove" class="button button-inline button-danger button-delete" data-toggle="modal" data-target="#delete-campaign-modal" data-title="Delete campaign {{subject}}?" data-id="{{_id}}"><i class="icon-trash"></i></a>
+              </div>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{/if}}
+</template>

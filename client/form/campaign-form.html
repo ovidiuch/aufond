@@ -1,0 +1,17 @@
+<template name="campaignForm">
+  <form id="campaign-form" class="form-horizontal">
+    {{> formStatus}}
+    <div class="control-group">
+      <label class="control-label" for="form-subject">Subject</label>
+      <div class="controls">
+        <input type="text" name="subject" value="{{subject}}" id="form-subject" placeholder="What aufond.me has been up to">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="form-content">Message</label>
+      <div class="controls">
+        <textarea name="message" id="form-message" rows="8" class="large">{{message}}</textarea>
+      </div>
+    </div>
+  </form>
+</template>
