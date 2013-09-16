@@ -28,8 +28,24 @@ class @Campaign extends MeteorModel
       remove: (userId, doc) ->
         return User.find(userId)?.isRoot()
 
+  toJSON: (raw = false) ->
+    data = super(arguments...)
+    unless raw
+      data.sentToUserList = @getSentToUserList()
+    return data
+
   validate: ->
     return "Subject can't be empty" unless @get('subject').length
+
+  getSentToUserList: ->
+    list = []
+    for id in @get('sentTo')
+      user = User.find(id)
+      if user
+        list.push(user.getEmailField())
+      else
+        list.push("Removed: id")
+    return list.join(', ')
 
 
 Campaign.publish('campaigns')
