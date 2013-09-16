@@ -168,6 +168,23 @@ class @User extends MeteorModel
   getEmail: ->
     return @get('emails')?[0].address
 
+  getEmailField: ->
+    ###
+      Form the richest verson for the To field of an email, by including the
+      user's name when existing. Can't form an email field w/out an address
+    ###
+    address = @getEmail()
+    return null unless address
+    name = @get('profile').name
+    if name
+      # XXX strip markdown from name (improve once users actually use different
+      # markdown tags in their name)
+      strippedName = name.replace(/^[_\*]{1,2}/, '')
+                         .replace(/[_\*]{1,2}$/, '')
+      return "#{strippedName} <#{address}>"
+    else
+      return address
+
   getEntries: (selector = {}, options) ->
     ###
       Proxy for fetching Entry documents, sets the user id selector implicitly,
