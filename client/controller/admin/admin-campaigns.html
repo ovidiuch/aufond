@@ -14,6 +14,9 @@
                   {{{markdown message}}}
                 </div>
               {{/if}}
+              {{#if sentToUserList}}
+                <p class="recipient-list"><strong>Sent to:</strong> {{sentToUserList}}</p>
+              {{/if}}
             </td>
             <td class="single-line">
               <div class="pull-right">
