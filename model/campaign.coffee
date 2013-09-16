@@ -39,6 +39,7 @@ class @Campaign extends MeteorModel
 
   getSentToUserList: ->
     list = []
+    return list unless @get('sentTo')
     for id in @get('sentTo')
       user = User.find(id)
       if user
