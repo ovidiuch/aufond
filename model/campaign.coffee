@@ -20,6 +20,8 @@ class @Campaign extends MeteorModel
         # Ensure author and timestamp of creation in every document
         doc.createdAt = Date.now()
         doc.createdBy = userId
+        # This is a list of recipients that already received this Campaign
+        doc.sentTo = []
         return User.find(userId)?.isRoot()
       update: (userId, doc, fields, modifier) ->
         return User.find(userId)?.isRoot()
