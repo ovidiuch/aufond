@@ -60,7 +60,9 @@ class @User extends MeteorModel
     if Meteor.isServer
       Meteor.publish 'users', ->
         # Only wire the current user to the client
-        return User.mongoCollection.find(_id: @userId)
+        return User.mongoCollection.find({_id: @userId},
+          # Exclude sensitive data from users altogether
+          {fields: {services: 0, isSubscribed: 0}})
 
       Meteor.publish 'publicUserData', ->
         # Make all usernames and profiles public, matchable by user id
@@ -70,19 +72,20 @@ class @User extends MeteorModel
           isRoot: 1
         return User.mongoCollection.find({}, {fields: fields})
 
-      Meteor.publish 'userEmails', ->
-        # Only make all user emails public to the root user
+      Meteor.publish 'rootUserData', ->
+        # Only make sensitive user data available to the root user
         # XXX returning a null value instead of a Mongo cursor does not trigger
         # _allSubscriptionsReady and the spiderable plugin remains hanging.
         # Publish supports returning a list of cursors and returning an empty
         # list seems to hit the spot
         return [] unless @userId and User.find(@userId).isRoot()
-        return User.mongoCollection.find({}, {fields: {emails: 1}})
+        return User.mongoCollection.find({},
+          {fields: {emails: 1, isSubscribed: 1}})
 
     if Meteor.isClient
       Meteor.subscribe('users')
       Meteor.subscribe('publicUserData')
-      Meteor.subscribe('userEmails')
+      Meteor.subscribe('rootUserData')
 
   @allow: ->
     ###
@@ -94,12 +97,8 @@ class @User extends MeteorModel
       # XXX should remove Filepicker images that became unlinked, in update/
       # remove methods https://github.com/skidding/aufond/issues/16
       insert: (userId, doc) ->
-        # Ensure author and timestamp of creation in every document
-        doc.createdAt = Date.now()
-        doc.createdBy = userId
-        # Allow anybody to create users
-        # XXX is there anything to do here to prevent spammers?
-        return true
+        # Users are created using the Accounts.createUser method
+        return false
       update: (userId, doc, fields, modifier) ->
         # Don't allow guests to update anything
         return false unless userId?
@@ -169,6 +168,23 @@ class @User extends MeteorModel
   getEmail: ->
     return @get('emails')?[0].address
 
+  getEmailField: ->
+    ###
+      Form the richest verson for the To field of an email, by including the
+      user's name when existing. Can't form an email field w/out an address
+    ###
+    address = @getEmail()
+    return null unless address
+    name = @get('profile').name
+    if name
+      # XXX strip markdown from name (improve once users actually use different
+      # markdown tags in their name)
+      strippedName = name.replace(/^[_\*]{1,2}/, '')
+                         .replace(/[_\*]{1,2}$/, '')
+      return "#{strippedName} <#{address}>"
+    else
+      return address
+
   getEntries: (selector = {}, options) ->
     ###
       Proxy for fetching Entry documents, sets the user id selector implicitly,
@@ -212,3 +228,14 @@ if Meteor.isClient
     # better fix than the sanity check, because this way a user might not be
     # tagged at all
     mixpanel?.name_tag(user.getEmail() or user.get('username'))
+
+if Meteor.isServer
+  Accounts.onCreateUser (options, user) ->
+    # Attach the profile to the user document (this happens in the default
+    # implementation of the Accounts.onCreateUser that we're overriding)
+    if options.profile
+      user.profile = options.profile;
+    # Automatically subscribe users to aufond.me notifications (no robotic
+    # newsletters will ever be sent)
+    user.isSubscribed = true
+    return user

@@ -9,5 +9,5 @@ Template.adminUsers.events
     App.deleteUserModal.update($(e.currentTarget).data())
 
 Template.adminUsers.users = ->
-  # Show users with more entries first
-  return _.sortBy(User.get().toJSON(), (user) -> -user.entryCount)
+  # Show users in the descending order of their creation
+  return User.get({}, {sort: {createdAt: 1}}).toJSON()
