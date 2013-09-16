@@ -8,5 +8,9 @@ Template.adminCampaigns.events
     e.preventDefault()
     App.deleteCampaignModal.update($(e.currentTarget).data())
 
+  'click .button-launch': (e) ->
+    e.preventDefault()
+    Meteor.call('launchCampaign', $(e.currentTarget).data('id'))
+
 Template.adminCampaigns.campaigns = ->
   return Campaign.get().toJSON()
