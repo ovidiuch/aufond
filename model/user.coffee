@@ -162,11 +162,15 @@ class @User extends MeteorModel
     ###
     return @get('isRoot')
 
-  hasEmail: ->
-    return @get('emails')?.length > 0
+  hasEmail: (validate = false) ->
+    address = @getEmail()
+    return false unless address
+    return not validate or address.match(/^\S+@\S+\.\S+$/)
 
   getEmail: ->
-    return @get('emails')?[0].address
+    emails = @get('emails')
+    return null if _.isEmpty(emails)
+    return emails[0].address
 
   getEmailField: ->
     ###
@@ -200,7 +204,7 @@ class @User extends MeteorModel
 
   exportDataToEmail: ->
     # No point in exporting the user data if they have no email to send it to
-    return unless @hasEmail()
+    return unless @hasEmail(true)
 
     cleanData =
       profile: @toJSON(true).profile
