@@ -18,7 +18,8 @@ Meteor.methods
     for user in subscribedUsers
       userId = user.get('_id')
       continue if userId in alreadySentTo
-      recipients[userId] = user.getEmailField()
+      if user.hasEmail(true)
+        recipients[userId] = user.getEmailField()
 
     console.log("Sending campaign #{campaign.get('subject')} to " +
                 "#{_.keys(recipients).length} recipients:", recipients)
