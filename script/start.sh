@@ -18,8 +18,7 @@ then
   process_id=$(echo $already_running | cut -d " " -f 2)
   echo "App already running [$process_id]"
 else
-  # Check if this is ran from the project folder directly and go to it
-  # otherwise
+  # Check if this is ran from the project folder directly and fail otherwise
   in_app_folder=$(ls -a | grep ".bundle")
   if [ ! "$in_app_folder" ]
   then
@@ -31,6 +30,8 @@ else
   then
     echo "Creating .log folder..."
     mkdir .log
+    echo "Please run the start script from the root folder of the project!"
+    exit 1
   fi
 
   # Get property formatted UTC time (in a way that an alphabetical sort results
