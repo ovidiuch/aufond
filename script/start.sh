@@ -1,6 +1,6 @@
 #/bin/bash
 
-hostname="aufond.me"
+hostname="localhost"
 port=80
 
 # The port can be specified as the first parameter
@@ -37,12 +37,6 @@ else
   # Create an unique output log for each process, helps post-crash debugging
   output_log=".log/output-$utc_time"
 
-  # Use localhost hostname in development
-  in_development="$(hostname | grep -i "ovidiu")"
-  if [ "$in_development" ]
-  then
-    hostname="localhost"
-  fi
   # Only append port to hostname if different than 80
   if [ $port != 80 ]
   then
