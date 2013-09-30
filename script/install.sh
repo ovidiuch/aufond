@@ -22,7 +22,5 @@ cd -
 echo "Installing fonts for .pdf exports..."
 mkdir -p /usr/share/fonts/truetype/google-fonts
 install -m644 private/font/truetype/google-fonts/* /usr/share/fonts/truetype/google-fonts
-# Clear font cache
-fc-cache -f
 
 echo "App ready to be bundled and started!"
