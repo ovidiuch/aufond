@@ -22,14 +22,6 @@ else
   in_app_folder=$(ls -a | grep ".bundle")
   if [ ! "$in_app_folder" ]
   then
-    cd /var/www/aufond
-  fi
-
-  # Make sure .log folder exists
-  if [ ! -d ".log" ]
-  then
-    echo "Creating .log folder..."
-    mkdir .log
     echo "Please run the start script from the root folder of the project!"
     exit 1
   fi
