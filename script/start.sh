@@ -7,7 +7,16 @@ port=80
 if [ "$1" ]
 then
   port=$1
-  echo "Setting app for port $port..."
+fi
+# The hostname can be specified as the 2nd parameter
+if [ "$2" ]
+then
+  hostname=$2
+fi
+# Only append port to hostname if different than 80
+if [ $port != 80 ]
+then
+  hostname+=":$port"
 fi
 
 # Check if a process is already running on the requested port
@@ -37,14 +46,8 @@ else
   # Create an unique output log for each process, helps post-crash debugging
   output_log=".log/output-$utc_time"
 
-  # Only append port to hostname if different than 80
-  if [ $port != 80 ]
-  then
-    hostname+=":$port"
-  fi
-
   # Start aufond app with all required parameters
-  echo "Starting app..."
+  echo "Starting app on $hostname..."
   PORT=$port \
   MONGO_URL=mongodb://aufond:aufond.mongodb@dharma.mongohq.com:10042/aufond \
   ROOT_URL=http://$hostname \
