@@ -29,7 +29,7 @@ echo "export AUFOND_PATH='/var/www/aufond'" >> ~/.bashrc && source ~/.bashrc
 # $AUFOND_PATH will always be defined on this machine, for this user
 mkdir -p $AUFOND_PATH && cd $AUFOND_PATH
 
-# We ensure Git in installed and fetch the aufond repo for the install script
+# Ensure Git is installed and fetch the aufond repo for the install script
 aptitude install -y git && git clone https://github.com/skidding/aufond.git .
 
 # Setup project
