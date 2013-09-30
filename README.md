@@ -42,8 +42,14 @@ script/install.sh
 # Create Meteor bundle
 script/bundle.sh
 
-# Start bundled Meteor app on port 3000. If a process is already running on
-# this port, its PID will be displayed instead; this is useful for killing
-# that process and restarting the app
+# Start bundled Meteor app on localhost, port 80. If a process is already
+# running on this port, its PID will be displayed instead; this is useful for
+# killing that process and restarting the app
+script/start.sh
+
+# Start app on a specific port
 script/start.sh 3000
+
+# Start app for a specific hostname
+script/start.sh 80 aufond.me
 ```
