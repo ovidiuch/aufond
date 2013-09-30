@@ -50,6 +50,8 @@ script/start.sh
 # Start app on a specific port
 script/start.sh 3000
 
-# Start app for a specific hostname
+# Start app for a specific hostname. The hostname is used as the value for the
+# ROOT_URL environment variable of Meteor. It's used by the framework to
+# generate internal URLs
 script/start.sh 80 aufond.me
 ```
