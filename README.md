@@ -48,10 +48,14 @@ script/bundle.sh
 script/start.sh
 
 # Start app on a specific port
-script/start.sh 3000
+script/start.sh -p 3000
 
 # Start app for a specific hostname. The hostname is used as the value for the
 # ROOT_URL environment variable of Meteor. It's used by the framework to
 # generate internal URLs
-script/start.sh 80 aufond.me
+script/start.sh -h aufond.me
+
+# Specify the Mongo connection (the start script defaults to a guest db hosted
+# at MongoHQ)
+script/start.sh -m mongodb://guest:aufond1234@paulo.mongohq.com:10016/aufond_guest
 ```

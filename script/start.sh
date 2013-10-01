@@ -4,16 +4,21 @@ hostname="localhost"
 port=80
 mongo_url="mongodb://guest:aufond1234@paulo.mongohq.com:10016/aufond_guest"
 
-# The port can be specified as the first parameter
-if [ "$1" ]
-then
-  port=$1
-fi
-# The hostname can be specified as the 2nd parameter
-if [ "$2" ]
-then
-  hostname=$2
-fi
+# Allow hostname, port and mongo url to be overriden through params
+while getopts ":h:p:m:" opt; do
+  case $opt in
+    h)
+      hostname=${OPTARG}
+      ;;
+    p)
+      port=${OPTARG}
+      ;;
+    m)
+      mongo_url=${OPTARG}
+      ;;
+  esac
+done
+
 # Only append port to hostname if different than 80
 if [ $port != 80 ]
 then
