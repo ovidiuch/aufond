@@ -2,6 +2,7 @@
 
 hostname="localhost"
 port=80
+mongo_url="mongodb://guest:aufond1234@paulo.mongohq.com:10016/aufond_guest"
 
 # The port can be specified as the first parameter
 if [ "$1" ]
@@ -49,7 +50,7 @@ else
   # Start aufond app with all required parameters
   echo "Starting app on $hostname..."
   PORT=$port \
-  MONGO_URL=mongodb://aufond:aufond.mongodb@dharma.mongohq.com:10042/aufond \
+  MONGO_URL=$mongo_url \
   ROOT_URL=http://$hostname \
   nohup /usr/local/bin/node .bundle/main.js >> $output_log 2>> $output_log &
 fi
