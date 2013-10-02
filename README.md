@@ -95,6 +95,14 @@ mongoexport -h paulo.mongohq.com:10016 -u guest -p aufond1234 -d aufond_guest -c
 mongoexport -h paulo.mongohq.com:10016 -u guest -p aufond1234 -d aufond_guest -c entries -q '{createdBy: "XDX52YC3jBPmbsiZS"}' -o sivers.entries.json
 ```
 
+#### Root user
+
+A root user can list all the other users with extended information and can overall do more actions with the help of [a few extra tabs in the admin section.](https://github.com/skidding/aufond/blob/master/client/controller/admin/admin-tabs.html#L6-L10) Making a regular user root is rather manual and requires direct Mongo access. E.g.
+
+```mongo
+db.users.update({username:'test'}, {$set: {isRoot: true}})
+```
+
 ### PhantomJS dry run
 
 aufond uses PhantomJS to generate static exports of your timeline, but you can play with or debug the script manually, from the command line. Note that it has a few [particularities](https://github.com/skidding/aufond/blob/master/server/.phantomjs/export-pdf.js) relevant to the timeline layout.
