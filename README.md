@@ -8,7 +8,7 @@ A résumé for the modern age
 
 ## Structure
 
-Since Meteor provides tight conventions for [structuring your app](http://docs.meteor.com/#structuringyourapp), most of the app is structured the way you'd expect if from a Meteor project.
+Since __[Meteor.js](http://www.meteor.com/)__ provides tight conventions for [structuring your app](http://docs.meteor.com/#structuringyourapp), most of the app is structured the way you'd expect if from a Meteor project.
 
 There are two abstractions that stand out the most:
 
@@ -31,7 +31,7 @@ The [app router](https://github.com/skidding/aufond/blob/master/client/router.co
 
 ### Running locally
 
-aufond is as easy to start as any other Meteor.js app. Just run `meteor` from the repo root.
+aufond is as easy to start as any other Meteor app. Just run `meteor` from the repo root.
 
 ### Running in the cloud
 
