@@ -27,7 +27,7 @@ The [app router](https://github.com/skidding/aufond/blob/master/client/router.co
 
 - [node.js](http://nodejs.org/) - JS platform on top of which Meteor.js is built
 - [Meteor.js](http://docs.meteor.com/) - The framework at the heart of the application
-- [PhantomJS](http://phantomjs.org/) - Used to [serve crawlable pages through the Spiderable package](http://www.meteor.com/blog/2012/08/09/search-engine-optimization) and to render static .pdf Exports
+- [PhantomJS](http://phantomjs.org/) - Used to [serve crawlable pages through the Spiderable package](http://www.meteor.com/blog/2012/08/09/search-engine-optimization) and to render static .pdf exports
 
 ### Running locally
 
@@ -75,6 +75,10 @@ script/start.sh -h aufond.me
 script/start.sh -m mongodb://guest:aufond1234@paulo.mongohq.com:10016/aufond_guest
 ```
 
-#### Phantom JS test run
+### PhantomJS dry run
 
-aufond uses PhantomJS to generate static Exports of your timeline, but you can play with the script for testing or debugging purposes
+aufond uses PhantomJS to generate static exports of your timeline, but you can play with or debug the script manually, from the command line. Note that it has a few [particularities](https://github.com/skidding/aufond/blob/master/server/.phantomjs/export-pdf.js) relevant to the timeline layout.
+
+```bash
+phantomjs server/.phantomjs/export-pdf.js http://google.com google.pdf
+```
