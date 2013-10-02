@@ -88,7 +88,7 @@ You can now check out [localhost:3000/sivers](http://localhost:3000/sivers) to d
 
 #### Exporting
 
-As a reference, here's how the exporting is done using the opposite Mongo utily, mongoexport:
+As a reference, here's how the exporting is done using the opposite Mongo utility, mongoexport:
 
 ```bash
 mongoexport -h paulo.mongohq.com:10016 -u guest -p aufond1234 -d aufond_guest -c users -q '{username: "sivers"}' -o sivers.user.json
