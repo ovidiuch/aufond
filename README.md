@@ -75,6 +75,26 @@ script/start.sh -h aufond.me
 script/start.sh -m mongodb://guest:aufond1234@paulo.mongohq.com:10016/aufond_guest
 ```
 
+### Importing data
+
+There are [a few dumps](https://github.com/skidding/aufond/tree/master/private/mongo-dump) included the project if you want to start off with some data after installing the app. Considering that the local Mongo connection used by Meteor defaults to running on the 3002 port, here is a command line example for quickly importing a user with timeline entries:
+
+```bash
+mongoimport -h 127.0.0.1:3002 -d meteor -c users --file private/mongo-dump/sivers.user.json
+mongoimport -h 127.0.0.1:3002 -d meteor -c entries --file private/mongo-dump/sivers.entries.json
+```
+
+You can now check out [localhost:3000/sivers](http://localhost:3000/sivers) to display the imported data beautifully.
+
+#### Exporting
+
+As a reference, here's how the exporting is done using the opposite Mongo utily, mongoexport:
+
+```bash
+mongoexport -h paulo.mongohq.com:10016 -u guest -p aufond1234 -d aufond_guest -c users -q '{username: "sivers"}' -o sivers.user.json
+mongoexport -h paulo.mongohq.com:10016 -u guest -p aufond1234 -d aufond_guest -c entries -q '{createdBy: "XDX52YC3jBPmbsiZS"}' -o sivers.entries.json
+```
+
 ### PhantomJS dry run
 
 aufond uses PhantomJS to generate static exports of your timeline, but you can play with or debug the script manually, from the command line. Note that it has a few [particularities](https://github.com/skidding/aufond/blob/master/server/.phantomjs/export-pdf.js) relevant to the timeline layout.
