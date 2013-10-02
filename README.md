@@ -74,3 +74,7 @@ script/start.sh -h aufond.me
 # at MongoHQ)
 script/start.sh -m mongodb://guest:aufond1234@paulo.mongohq.com:10016/aufond_guest
 ```
+
+#### Phantom JS test run
+
+aufond uses PhantomJS to generate static Exports of your timeline, but you can play with the script for testing or debugging purposes
