@@ -6,6 +6,21 @@ A résumé for the modern age
 
 "An elegant and straightforward way to exhibit your lifelong achievements." — Visit the [app homepage](http://aufond.me) for more product info.
 
+## Structure
+
+Since Meteor provides tight conventions for [structuring your app](http://docs.meteor.com/#structuringyourapp), most of the app is structured the way you'd expect if from a Meteor project.
+
+There are two abstractions that stand out the most:
+
+- [ReactiveTemplate](https://github.com/skidding/aufond/blob/master/client/lib/core/reactive-template.coffee) - Widget-like component that encapsulates the logic related to a template, making use of the reactive programming concept and the powerful [Deps](http://docs.meteor.com/#deps) API
+- [MeteorModel](https://github.com/skidding/aufond/blob/master/lib/meteor-model.coffee) - Agnostic model wrapper for the [Meteor.Collections](http://docs.meteor.com/#collections) with a common ORM interface
+
+Also notable is that the entire app is written in CoffeeScript.
+
+### Entry point
+
+The [app router](https://github.com/skidding/aufond/blob/master/client/router.coffee) is built on top of [Backbone.Router](http://backbonejs.org/#Router). It is intertwined with a [global controller](https://github.com/skidding/aufond/blob/master/client/controller.coffee), which manages the changing of one controller (page layout) to another. The entire client app starts when `Router.start()` is [called](https://github.com/skidding/aufond/blob/master/client/controller.coffee#L16), when this global controller is initialized, which happens because of [its placement in the index.html layout.](https://github.com/skidding/aufond/blob/master/client/index.html#L25)
+
 ## Installation
 
 ### Requirements
