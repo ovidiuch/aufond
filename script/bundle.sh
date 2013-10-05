@@ -23,6 +23,6 @@ tar xzf aufond.tgz --strip-components=1 -C .bundle
 # Fix node fibers package
 echo "Re-install fibers package in .bundle folder..."
 cd .bundle/programs/server/node_modules
-npm uninstall fibers
-npm install fibers@1.0.1
+rm -r fibers
+npm install fibers@1.0.1 > /dev/null
 cd -
