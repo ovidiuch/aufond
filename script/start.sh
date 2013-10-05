@@ -54,8 +54,9 @@ else
 
   # Start aufond app with all required parameters
   echo "Starting app on $hostname..."
-  PORT=$port \
-  MONGO_URL=$mongo_url \
-  ROOT_URL=http://$hostname \
+  export PORT=$port
+  export MONGO_URL=$mongo_url
+  export ROOT_URL=http://$hostname
+  export METEOR_SETTINGS=$(cat ./settings.json)
   nohup /usr/local/bin/node .bundle/main.js >> $output_log 2>> $output_log &
 fi
