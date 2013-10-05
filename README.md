@@ -88,11 +88,19 @@ You can now check out [localhost:3000/sivers](http://localhost:3000/sivers) to d
 
 #### Exporting
 
-As a reference, here's how the exporting is done using the opposite Mongo utily, mongoexport:
+As a reference, here's how the exporting is done using the opposite Mongo utility, mongoexport:
 
 ```bash
 mongoexport -h paulo.mongohq.com:10016 -u guest -p aufond1234 -d aufond_guest -c users -q '{username: "sivers"}' -o sivers.user.json
 mongoexport -h paulo.mongohq.com:10016 -u guest -p aufond1234 -d aufond_guest -c entries -q '{createdBy: "XDX52YC3jBPmbsiZS"}' -o sivers.entries.json
+```
+
+#### Root user
+
+A root user can list all the other users with extended information and can overall do more actions with the help of [a few extra tabs in the admin section.](https://github.com/skidding/aufond/blob/master/client/controller/admin/admin-tabs.html#L6-L10) Making a regular user root is rather manual and requires direct Mongo access. E.g.
+
+```mongo
+db.users.update({username:'test'}, {$set: {isRoot: true}})
 ```
 
 ### PhantomJS dry run
