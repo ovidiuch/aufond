@@ -65,4 +65,4 @@ Handlebars.registerHelper 'getResizedImageUrl', (url, width, height, fit) ->
 Meteor.startup ->
   # XXX enhance security if possible
   # https://developers.filepicker.io/docs/security/
-  filepicker.setKey('AUSwIq7mUSuenbIA4BtCWz')
+  filepicker.setKey(Meteor.settings.public.api_keys.Filepicker)
