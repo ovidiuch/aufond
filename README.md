@@ -81,6 +81,8 @@ script/start.sh -h aufond.me
 script/start.sh -m mongodb://guest:aufond1234@paulo.mongohq.com:10016/aufond_guest
 ```
 
+Don't forget to replicate the settings.json file you're using locally. It will be [picked up and included automatically by the start.sh script,](https://github.com/skidding/aufond/blob/e05ed7287340c1b9c97d226c825b8ed88c70c4ed/script/start.sh#L60) from the root project folder.
+
 ### Importing data
 
 There are [a few dumps](https://github.com/skidding/aufond/tree/master/private/mongo-dump) included the project if you want to start off with some data after installing the app. Considering that the local Mongo connection used by Meteor defaults to running on the 3002 port, here is a command line example for quickly importing a user with timeline entries:
