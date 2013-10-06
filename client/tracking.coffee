@@ -6,6 +6,9 @@
   if _.isFunction(mixpanel?.track)
     mixpanel.track(action, params)
 
-@trackUser = (handle) ->
-  if _.isFunction(mixpanel?.name_tag)
-    mixpanel.name_tag(handle)
+@trackUser = (user) ->
+  if _.isFunction(mixpanel?.register)
+    mixpanel.register
+      user_handle: user.get('username')
+      user_email: user.getEmail()
+      user_name: user.get('name')

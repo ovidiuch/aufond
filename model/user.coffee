@@ -235,7 +235,7 @@ if Meteor.isClient
     # XXX sometimes mixpanel is not loaded at this point, we should find a
     # better fix than the sanity check, because this way a user might not be
     # tagged at all
-    trackUser(user.getEmail() or user.get('username'))
+    trackUser(user)
 
 if Meteor.isServer
   Accounts.onCreateUser (options, user) ->
