@@ -1,5 +1,11 @@
 {
   "MAIL_URL": "smtp://postmaster%40aufond.mailgun.org:YOUR_KEY@smtp.mailgun.org:465",
+  "Rackspace": {
+    "username": "YOUR_USERNAME",
+    "apiKey": "YOUR_KEY",
+    "containerName": "XXX",
+    "containerPath": "XXX"
+  },
   "public": {
     "Filepicker": {
       "apiKey": "YOUR_KEY"

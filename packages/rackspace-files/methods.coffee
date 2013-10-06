@@ -7,10 +7,6 @@
   for CDN files
   - https://github.com/nodejitsu/pkgcloud
 ###
-containerName = 'aufond-export'
-# XXX find a way to retrieve the container path dynamically, through the API
-containerPath = 'http://a0ed08a7436682c32d8c-18919fda58f4c818d06f8d1b1da79260.r52.cf2.rackcdn.com'
-
 @uploadRackspaceFile = (name, path, callback) ->
   # The Rackspace client needs to authenticate before doing any transaction
   client.setAuth (err) ->
@@ -20,11 +16,11 @@ containerPath = 'http://a0ed08a7436682c32d8c-18919fda58f4c818d06f8d1b1da79260.r5
       fileOptions =
         remote: name
         local: path
-      client.addFile containerName, fileOptions, (err, uploaded) ->
+      client.addFile rackspaceConfig.containerName, fileOptions, (err, uploaded) ->
         if err?
           callback(err)
         else
-          callback(null, "#{containerPath}/#{name}")
+          callback(null, "#{rackspaceConfig.containerPath}/#{name}")
 
 @removeRackspaceFile = (name, callback) ->
   # The Rackspace client needs to authenticate before doing any transaction
@@ -32,14 +28,16 @@ containerPath = 'http://a0ed08a7436682c32d8c-18919fda58f4c818d06f8d1b1da79260.r5
     if err
       callback(err)
     else
-      client.destroyFile containerName, name, (err) ->
+      client.destroyFile rackspaceConfig.containerName, name, (err) ->
         # No argument marks a successful remove
         callback(err)
 
-# Init Rackspace client using cloudfiles Npm package
-# TODO investigate ServiceNet transfering if uploading files to Rackspaces
-# becomes a drag
-client = Npm.require('cloudfiles').createClient
-  auth:
-    username: 'skidding'
-    apiKey: 'f30940bbaa2ac6b9e0c8b6f88ab57b38'
+rackspaceConfig = Meteor.settings.Rackspace
+if rackspaceConfig?
+  # Init Rackspace client using cloudfiles Npm package
+  # TODO investigate ServiceNet transfering if uploading files to Rackspaces
+  # becomes a drag
+  client = Npm.require('cloudfiles').createClient
+    auth:
+      username: rackspaceConfig.username
+      apiKey: rackspaceConfig.apiKey
