@@ -11,4 +11,4 @@
     mixpanel.register
       user_handle: user.get('username')
       user_email: user.getEmail()
-      user_name: user.get('name')
+      user_name: user.get('profile').name
