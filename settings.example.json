@@ -2,7 +2,7 @@
   "MAIL_URL": "smtp://postmaster%40aufond.mailgun.org:YOUR_KEY@smtp.mailgun.org:465",
   "public": {
     "Filepicker": {
-      "api_key": "YOUR_KEY"
+      "apiKey": "YOUR_KEY"
     }
   }
 }
