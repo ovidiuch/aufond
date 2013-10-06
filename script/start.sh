@@ -1,13 +1,28 @@
 #/bin/bash
 
-hostname="aufond.me"
+hostname="localhost"
 port=80
+mongo_url="mongodb://guest:aufond1234@paulo.mongohq.com:10016/aufond_guest"
 
-# The port can be specified as the first parameter
-if [ "$1" ]
+# Allow hostname, port and mongo url to be overriden through params
+while getopts ":h:p:m:" opt; do
+  case $opt in
+    h)
+      hostname=${OPTARG}
+      ;;
+    p)
+      port=${OPTARG}
+      ;;
+    m)
+      mongo_url=${OPTARG}
+      ;;
+  esac
+done
+
+# Only append port to hostname if different than 80
+if [ $port != 80 ]
 then
-  port=$1
-  echo "Setting app for port $port..."
+  hostname+=":$port"
 fi
 
 # Check if a process is already running on the requested port
@@ -18,19 +33,12 @@ then
   process_id=$(echo $already_running | cut -d " " -f 2)
   echo "App already running [$process_id]"
 else
-  # Check if this is ran from the project folder directly and go to it
-  # otherwise
+  # Check if this is ran from the project folder directly and fail otherwise
   in_app_folder=$(ls -a | grep ".bundle")
   if [ ! "$in_app_folder" ]
   then
-    cd /var/www/aufond
-  fi
-
-  # Make sure .log folder exists
-  if [ ! -d ".log" ]
-  then
-    echo "Creating .log folder..."
-    mkdir .log
+    echo "Please run the start script from the root folder of the project!"
+    exit 1
   fi
 
   # Get property formatted UTC time (in a way that an alphabetical sort results
@@ -44,22 +52,11 @@ else
   # Create an unique output log for each process, helps post-crash debugging
   output_log=".log/output-$utc_time"
 
-  # Use localhost hostname in development
-  in_development="$(hostname | grep -i "ovidiu")"
-  if [ "$in_development" ]
-  then
-    hostname="localhost"
-  fi
-  # Only append port to hostname if different than 80
-  if [ $port != 80 ]
-  then
-    hostname+=":$port"
-  fi
-
   # Start aufond app with all required parameters
-  echo "Starting app..."
-  PORT=$port \
-  MONGO_URL=mongodb://aufond:aufond.mongodb@dharma.mongohq.com:10042/aufond \
-  ROOT_URL=http://$hostname \
+  echo "Starting app on $hostname..."
+  export PORT=$port
+  export MONGO_URL=$mongo_url
+  export ROOT_URL=http://$hostname
+  export METEOR_SETTINGS=$(cat ./settings.json)
   nohup /usr/local/bin/node .bundle/main.js >> $output_log 2>> $output_log &
 fi
