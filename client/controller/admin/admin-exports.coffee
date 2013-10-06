@@ -6,8 +6,7 @@ Template.adminExports.events
       # Store the error in the Session object to render it reactively in the
       # template
       Session.set('exportError', err)
-      # Track export attempts in Mixpanel, w/ corresponding error on fail
-      mixpanel.track('export', error: err)
+      trackAction('export', error: err)
 
   'click .button-delete': (e) ->
     e.preventDefault()

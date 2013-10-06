@@ -5,8 +5,7 @@ class @LoginForm extends Form
     data = @getDataFromForm()
     @updateFormData(data)
 
-    # Track logins in Mixpanel
-    mixpanel.track('login', handle: data.handle)
+    trackAction('login', handle: data.handle)
 
     Meteor.loginWithPassword data.handle, data.password, (error) =>
       if error
