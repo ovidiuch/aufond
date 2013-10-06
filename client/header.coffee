@@ -22,6 +22,5 @@ Template.header.events
 
   'click .button-logout': (e) ->
     e.preventDefault()
-    # Track signouts in Mixpanel
-    mixpanel.track('logout', username: Meteor.user().username)
+    trackAction('logout', username: Meteor.user().username)
     User.logout()

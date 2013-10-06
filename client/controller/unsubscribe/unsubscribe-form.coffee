@@ -21,7 +21,7 @@ class @UnsubscribeForm extends ReactiveTemplate
       # Server method for unsubscribing an user, since the isSubscribed
       # property isn't accessible from the client-side
       Meteor.call('unsubscribe', userId)
-      mixpanel.track('unsubscribe')
+      trackAction('unsubscribe')
       # Display email in template to assure they're unsubcribed
       args.username = user.get('username')
 

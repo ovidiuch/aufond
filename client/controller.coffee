@@ -21,7 +21,7 @@ class @Controller extends ReactiveTemplate
       properties = {}
       if data.name is 'timeline'
         properties.username = data.username
-      mixpanel.track("#{data.name}", properties)
+      trackAction("#{data.name}", properties)
 
     # Load a new slug in a timeline if a new path was targeted within itself,
     # instead of re-rendering the entire template
