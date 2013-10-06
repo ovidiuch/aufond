@@ -9,6 +9,9 @@
   "public": {
     "Filepicker": {
       "apiKey": "YOUR_KEY"
+    },
+    "Mixpanel": {
+      "token": "YOUR_TOKEN"
     }
   }
 }
