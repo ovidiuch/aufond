@@ -7,3 +7,7 @@
     mixpanel.track(action, params)
   else
     console.log(arguments...)
+
+@trackUser = (handle) ->
+  if _.isFunction(mixpanel?.name_tag)
+    mixpanel.name_tag(handle)
