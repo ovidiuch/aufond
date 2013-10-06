@@ -2,8 +2,7 @@ class @EmailForm extends Form
   template: Template.emailForm
 
   submit: ->
-    # Track email changes in Mixpanel
-    mixpanel.track('change email')
+    trackAction('change email')
     super(arguments...)
 
   onSuccess: ->

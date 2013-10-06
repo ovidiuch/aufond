@@ -18,8 +18,7 @@ class @User extends MeteorModel
     user = User.find(id)
     return unless user?
 
-    # Track user deletes in Mixpanel
-    mixpanel.track('user delete', username: user.get('username'))
+    trackAction('user delete', username: user.get('username'))
 
     # Delete user from database completely
     super id, (error) =>
