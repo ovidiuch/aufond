@@ -3,4 +3,7 @@
   # 80% of all user actions and hence cost most of the available Mixpanel data
   # points (https://mixpanel.com/pricing/)
   return if action is 'timeline entry'
-  mixpanel?.track(action, params)
+  if _.isFunction(mixpanel?.track)
+    mixpanel.track(action, params)
+  else
+    console.log(arguments...)
