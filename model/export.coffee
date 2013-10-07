@@ -110,23 +110,24 @@ class @Export extends MeteorModel
     # failed ones
     # XXX this will change if the app will scale
     if statusChange?
-      to = 'Ovidiu Cherecheș <contact@aufond.me>'
+      email = {}
       # Try to use the User's email as the From field in order to be able to
       # reply to them instantly in case something went wrong with their Export
       user = User.find(@get('createdBy'))
-      from = user.getEmail() or to
+      if user.hasEmail(true)
+        email.from = user.getEmailField()
       # Take a look at all created Exports to see if they were generated OK
       if statusChange is 'Done.'
-        status = "Export created successfully!"
-        text = "Export url: #{@get('url')}"
+        email.subject = "Export created successfully!"
+        email.text = "Export url: #{@get('url')}"
       # Make sure to notify all errors
       else if @hasError()
-        status = "Export ERROR: #{statusChange}"
-        text = "Export id: #{@get('_id')}"
+        email.subject = "Export ERROR: #{statusChange}"
+        email.text = "Export id: #{@get('_id')}"
       # Ignore any other transitory status change
       else
         return
-      Meteor.call('sendEmail', to, from, status, text)
+      sendEmail(email)
 
   hasError: ->
     ###
