@@ -20,14 +20,16 @@ class @User extends MeteorModel
 
     trackAction('user delete', username: user.get('username'))
 
+    # TODO this should happen on the server side, using the Meteor.Collection
+    # "remove" allow method
+    user.exportDataToEmail() if exportToEmail
+
     # Delete user from database completely
     super id, (error) =>
       callback(arguments...) if _.isFunction(callback)
 
       # Only continue with logging out if user has been removed successfully
       unless error
-        user.exportDataToEmail() if exportToEmail
-
         # Delete all entries belonging to removing user
         # XXX due to this being an untrusted client context, more than one
         # document can not be removed at a time. Move this to a server method to
@@ -211,13 +213,10 @@ class @User extends MeteorModel
         # Remove db ids from entry dump
         _.omit(entry, '_id', 'createdBy'))
 
-    # Call server method for sending email
-    Meteor.call(
-      'sendEmail'
-      @getEmail()
-      'Ovidiu Cherecheș <contact@aufond.me>'
-      "Thank you for using aufond.me—here's your stuff"
-      JSON.stringify(cleanData))
+    Meteor.call('sendEmail',
+      to: @getEmail()
+      subject: "Thank you for using aufond.me—here's your stuff"
+      text: JSON.stringify(cleanData))
 
 
 User.publish()

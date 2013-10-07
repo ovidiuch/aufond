@@ -26,11 +26,11 @@ Meteor.methods
 
     for userId, emailField of recipients
       console.log("Sending email to #{emailField}")
-      Meteor.call('sendEmail',
-                  emailField,
-                  'Ovidiu Cherecheș <contact@aufond.me>',
-                  campaign.get('subject'),
-                  campaign.getMessage(User.find(userId)))
+      sendEmail
+        to: emailField
+        subject: campaign.get('subject')
+        text: campaign.getMessage(User.find(userId))
+
       # Append the userId to the list of confirmed recipients
       campaign.save
         sentTo: campaign.get('sentTo').concat([userId])
