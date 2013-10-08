@@ -35,7 +35,7 @@ class @Campaign extends MeteorModel
     return data
 
   validate: ->
-    return "Subject can't be empty" unless @get('subject').length
+    return "Subject can't be empty" if _.isEmpty(@get('subject'))
 
   getSentToUserList: ->
     list = []
