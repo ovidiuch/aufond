@@ -35,55 +35,75 @@ class @MeteorModel
   @remove: (id, callback) ->
     @mongoCollection.remove(_id: id, callback)
 
-  @publish: (name) ->
+  @publish: (subscriptions = {}) ->
     ###
       Make model data available to client.
 
-      Warning: This is a wildcard implementation, similar to the autopublish
-      package and should be customized in subclasses per needs
+      The subscriptions parameter is an object with key-value subscriptions,
+      with functions attached to subscription names. The function must return
+      Meteor.Cursors (see the Publish and Subscribe concept of Meteor
+      http://docs.meteor.com/#publishandsubscribe)
+
+      By sending a string instead of the subscriptions object, a single
+      subscription for that name will be created, with all the documents of
+      this model. Warning: This is a wildcard implementation, similar to the
+      autopublish package
     ###
-    # Feed data from server to client
+    if _.isString(subscriptions)
+      subscriptionName = subscriptions
+      subscriptions = {}
+      subscriptions[subscriptionName] = => return @mongoCollection.find()
+
     if Meteor.isServer
-      Meteor.publish name, =>
-        return @mongoCollection.find()
+      @setupClientPermissions()
+
+      # Feed data from server to client
+      if subscriptions
+        for subscriptionName, fn of subscriptions
+          Meteor.publish(subscriptionName, fn)
 
     # Subscribe client to server data
-    if Meteor.isClient
-      Meteor.subscribe(name)
+    if Meteor.isClient and subscriptions
+      for subscriptionName of subscriptions
+        Meteor.subscribe(subscriptionName)
 
-  @allow: ->
+  @setupClientPermissions: ->
     ###
-      Add client permissions to model data.
-
       Warning: Even though this implementation restricts users from messing
       with other users' data, more restrictive permissions might need to be
       implementated in other model subclasses, depending on their sensitivity
-      (e.g. shouldn't be publicly readable)
+      (e.g. some documents should only be created by a class of users)
 
-      Note: This assumes a "createdBy" attribute in all documents
+      Note: The default methods assume a "createdBy" attribute in all documents
     ###
-    return unless Meteor.isServer
-
     @mongoCollection.allow
-      insert: (userId, doc) ->
-        # Only allow logged in users to create documents
-        return false unless userId?
-        # Ensure author and timestamp of creation in every document
-        doc.createdAt = Date.now()
-        doc.createdBy = userId
-        return true
-      update: (userId, doc, fields, modifier) ->
-        # Don't allow guests to update anything
-        return false unless userId?
-        # Don't allow users to edit other users' documents
-        return userId is doc.createdBy
-      remove: (userId, doc) ->
-        # Don't allow guests to remove anything
-        return false unless userId?
-        # The root user can delete any document of any user
-        return true if User.find(userId)?.isRoot()
-        # Don't allow users to remove other users' documents
-        return userId is doc.createdBy
+      insert: @allowInsert
+      update: @allowUpdate
+      remove: @allowRemove
+
+  @allowInsert: (userId, doc) ->
+    # Only allow logged in users to create documents
+    return false unless userId?
+    # Ensure author and timestamp of creation in every document
+    doc.createdAt = Date.now()
+    doc.createdBy = userId
+    return true
+
+  @allowUpdate: (userId, doc, fields, modifier) ->
+    # Don't allow guests to update anything
+    return false unless userId?
+    # Don't allow users to edit other users' documents
+    return userId is doc.createdBy
+
+  @allowRemove: (userId, doc) ->
+    # Don't allow guests to remove anything
+    return false unless userId?
+    # The root user can delete any document of any user
+    # XXX this is proprietary and should be removed if this components gets
+    # separated in any way
+    return true if User.find(userId)?.isRoot()
+    # Don't allow users to remove other users' documents
+    return userId is doc.createdBy
 
   constructor: (data = {}, isNew = true) ->
     # Keep a reference to the model collection in all instances as well
