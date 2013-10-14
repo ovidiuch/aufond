@@ -1,6 +1,7 @@
 class @MeteorCollection extends Array
   ###
-    XXX document
+    Wrapper for a list of models. Its only current function is to provide a
+    group toJSON method
   ###
   constructor: (models = []) ->
     for model in models
@@ -15,24 +16,53 @@ class @MeteorCollection extends Array
 
 class @MeteorModel
   ###
-    XXX document
+    Agnostic model wrapper for the Meteor.Collections with a common ORM
+    interface
+
+    Static methods for selecting or mass updating and deleting: get, find,
+    count, remove (mostly aliases for the Meteor.Collection methods
+    http://docs.meteor.com/#meteor_collection)
+
+    Meteor methods around the pubsub client-server connection: publish,
+    allowInsert, allowUpdate, allowDelete
+
+    Public model methods around a single document: get, set, save, toJSON
+
+    Use the validate method for imposing a (custom) set of requirements for
+    input model data, by returning true or false after analysing relevant
+    attribute values found in the model at the moment of a save attempt
   ###
   @collection: MeteorCollection
 
   @get: ->
+    ###
+      Alias for Meteor.Collection.find http://docs.meteor.com/#find
+    ###
     models = @mongoCollection.find(arguments...).map (data) =>
       return new this(data, false)
     return new @collection(models)
 
   @find: ->
+    ###
+      Alias for Meteor.Collection.findOne http://docs.meteor.com/#findone
+    ###
     data = @mongoCollection.findOne(arguments...)
     return null unless _.isObject(data)
     return new this(data, false)
 
   @count: ->
+    ###
+      Wrapper for Meteor.Collection.Cursor.count http://docs.meteor.com/#count,
+      with the same method signature as the static `get` method
+    ###
     return @mongoCollection.find(arguments...).count()
 
   @remove: (id, callback) ->
+    ###
+      Wrapper for Meteor.Collection.remove http://docs.meteor.com/#remove, with
+      the document _id to remove as the first parameter, and the callback as
+      the second
+    ###
     @mongoCollection.remove(_id: id, callback)
 
   @publish: (subscriptions = {}) ->
@@ -41,8 +71,8 @@ class @MeteorModel
 
       The subscriptions parameter is an object with key-value subscriptions,
       with functions attached to subscription names. The function must return
-      Meteor.Cursors (see the Publish and Subscribe concept of Meteor
-      http://docs.meteor.com/#publishandsubscribe)
+      Meteor.Collection.Cursors (see the Publish and Subscribe concept of
+      Meteor http://docs.meteor.com/#publishandsubscribe)
 
       By sending a string instead of the subscriptions object, a single
       subscription for that name will be created, with all the documents of
