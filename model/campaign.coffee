@@ -1,32 +1,22 @@
 class @Campaign extends MeteorModel
-  @collection: MeteorCollection
+  ###
+    Only the root user can manage Campaign documents
+  ###
   @mongoCollection: new Meteor.Collection('campaigns')
 
-  @publish: (name) ->
-    if Meteor.isServer
-      Meteor.publish name, ->
-        # Only wire to the root user
-        return [] unless User.find(@userId)?.isRoot()
-        return Campaign.mongoCollection.find()
+  @allowInsert: (userId, doc) ->
+    # Ensure author and timestamp of creation in every document
+    doc.createdAt = Date.now()
+    doc.createdBy = userId
+    # This is a list of recipients that already received this Campaign
+    doc.sentTo = []
+    return User.find(userId)?.isRoot()
 
-    if Meteor.isClient
-      Meteor.subscribe(name)
+  @allowUpdate: (userId, doc, fields, modifier) ->
+    return User.find(userId)?.isRoot()
 
-  @allow: ->
-    return unless Meteor.isServer
-    @mongoCollection.allow
-      # Only the root user can manage Campaign documents
-      insert: (userId, doc) ->
-        # Ensure author and timestamp of creation in every document
-        doc.createdAt = Date.now()
-        doc.createdBy = userId
-        # This is a list of recipients that already received this Campaign
-        doc.sentTo = []
-        return User.find(userId)?.isRoot()
-      update: (userId, doc, fields, modifier) ->
-        return User.find(userId)?.isRoot()
-      remove: (userId, doc) ->
-        return User.find(userId)?.isRoot()
+  @allowRemove: (userId, doc) ->
+    return User.find(userId)?.isRoot()
 
   toJSON: (raw = false) ->
     data = super(arguments...)
@@ -35,7 +25,7 @@ class @Campaign extends MeteorModel
     return data
 
   validate: ->
-    return "Subject can't be empty" unless @get('subject').length
+    return "Subject can't be empty" if _.isEmpty(@get('subject'))
 
   getSentToUserList: ->
     list = []
@@ -66,5 +56,8 @@ class @Campaign extends MeteorModel
     message += "Follow this link to never hear from me again: #{unsubscribeUrl}"
     return message
 
-Campaign.publish('campaigns')
-Campaign.allow()
+Campaign.publish
+  campaigns: ->
+    # Only wire to the root user
+    return [] unless User.find(@userId)?.isRoot()
+    return Campaign.mongoCollection.find()

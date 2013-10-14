@@ -1,5 +1,4 @@
 class @QuizVote extends MeteorModel
-  @collection: MeteorCollection
   @mongoCollection: new Meteor.Collection 'quizVotes'
 
   @getValuesFromButtonEvent: (e) ->
@@ -27,27 +26,22 @@ class @QuizVote extends MeteorModel
   @storeVotesInCookie: (votes) ->
     $.cookie('quizVotes', JSON.stringify(votes), expires: 365)
 
-  @publish: ->
-    # Don't publish quiz votes at all, they are write-only
+  @allowInsert: (userId, doc) ->
+    # Ensure author and timestamp of creation in every document
+    doc.createdAt = Date.now()
+    doc.createdBy = userId
+    # Allow anybody to vote on quiz questions
+    # XXX is there anything to do here to prevent spammers?
+    # Check out https://github.com/tmeasday/meteor-accounts-anonymous
+    return true
 
-  @allow: ->
-    return unless Meteor.isServer
+  @allowUpdate: (userId, doc, fields, modifier) ->
+    # For now quiz votes should remain unaltered
+    return false
 
-    @mongoCollection.allow
-      insert: (userId, doc) ->
-        # Ensure author and timestamp of creation in every document
-        doc.createdAt = Date.now()
-        doc.createdBy = userId
-        # Allow anybody to vote on quiz questions
-        # XXX is there anything to do here to prevent spammers?
-        # Check out https://github.com/tmeasday/meteor-accounts-anonymous
-        return true
-      update: (userId, doc, fields, modifier) ->
-        # For now quiz votes should remain unaltered
-        return false
-      remove: (userId, doc) =>
-        # For now quiz votes should remain unaltered
-        return false
+  @allowRemove: (userId, doc) =>
+    # For now quiz votes should remain unaltered
+    return false
 
   save: ->
     # Attach the creating time and user info for betters stats
@@ -57,8 +51,7 @@ class @QuizVote extends MeteorModel
     super(arguments...)
 
 
-QuizVote.publish('quizVotes')
-QuizVote.allow()
+QuizVote.publish()
 
 if Meteor.isClient
   Meteor.startup ->

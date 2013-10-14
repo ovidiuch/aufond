@@ -1,5 +1,4 @@
 class @SurveySuggestion extends MeteorModel
-  @collection: MeteorCollection
   @mongoCollection: new Meteor.Collection 'surveySuggestions'
 
   @getSuggestionDateFromCookie: ->
@@ -9,32 +8,20 @@ class @SurveySuggestion extends MeteorModel
   @storeSuggestionDateInCookie: ->
     $.cookie('surveySuggestionDate', Date.now(), expires: 365)
 
-  @publish: (name) ->
-    if Meteor.isServer
-      Meteor.publish name, ->
-        # Only wire the survey suggestions to the root user
-        return [] unless User.find(@userId)?.isRoot()
-        return SurveySuggestion.mongoCollection.find()
+  @allowInsert: (userId, doc) ->
+    # Ensure author and timestamp of creation in every document
+    doc.createdAt = Date.now()
+    doc.createdBy = userId
+    # Allow anybody to post survey suggestions questions
+    return true
 
-    if Meteor.isClient
-      Meteor.subscribe(name)
+  @allowUpdate: (userId, doc, fields, modifier) ->
+    # For now survey suggestions should remain unaltered
+    return false
 
-  @allow: ->
-    return unless Meteor.isServer
-
-    @mongoCollection.allow
-      insert: (userId, doc) ->
-        # Ensure author and timestamp of creation in every document
-        doc.createdAt = Date.now()
-        doc.createdBy = userId
-        # Allow anybody to post survey suggestions questions
-        return true
-      update: (userId, doc, fields, modifier) ->
-        # For now survey suggestions should remain unaltered
-        return false
-      remove: (userId, doc) =>
-        # Only admin users can remove suggestions
-        return User.find(userId)?.isRoot()
+  @allowRemove: (userId, doc) =>
+    # Only admin users can remove suggestions
+    return User.find(userId)?.isRoot()
 
   validate: ->
     return "Sorry? Couldn't hear that" unless @get('message').length
@@ -60,5 +47,8 @@ class @SurveySuggestion extends MeteorModel
       callback(arguments...)
 
 
-SurveySuggestion.publish('surveySuggestions')
-SurveySuggestion.allow()
+SurveySuggestion.publish
+  surveySuggestions: ->
+    # Only wire to the root user
+    return [] unless User.find(@userId)?.isRoot()
+    return SurveySuggestion.mongoCollection.find()

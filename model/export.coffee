@@ -42,32 +42,23 @@ class @Export extends MeteorModel
     # XXX this means the callback always returns success
     callback() if _.isFunction(callback)
 
-  @allow: ->
-    return unless Meteor.isServer
-    @mongoCollection.allow
-      insert: (userId, doc) ->
-        # Only allow logged in users to create documents
-        return false unless userId?
-        user = User.find(userId)
-        # Ensure author and timestamp of creation in every document
-        doc.createdAt = Date.now()
-        # Allow root user to create reports on behalf of other users
-        unless (doc.createdBy? and user.isRoot())
-          doc.createdBy = userId
-        # Prevent users from creating exports too often in order to improve the
-        # server's global performance
-        return Export.isUserAllowed(userId)
-      update: (userId, doc, fields, modifier) ->
-        # Don't allow users to alter exports (they can only be altered through
-        # server methods)
-        return false
-      remove: (userId, doc) ->
-        # Don't allow guests to remove anything
-        return false unless userId?
-        # The root user can delete any document of any user
-        return true if User.find(userId)?.isRoot()
-        # Don't allow users to remove other users' documents
-        return userId is doc.createdBy
+  @allowInsert: (userId, doc) ->
+    # Only allow logged in users to create documents
+    return false unless userId?
+    user = User.find(userId)
+    # Ensure author and timestamp of creation in every document
+    doc.createdAt = Date.now()
+    # Allow root user to create reports on behalf of other users
+    unless (doc.createdBy? and user.isRoot())
+      doc.createdBy = userId
+    # Prevent users from creating exports too often in order to improve the
+    # server's global performance
+    return Export.isUserAllowed(userId)
+
+  @allowUpdate: (userId, doc, fields, modifier) ->
+    # Don't allow users to alter exports (they can only be altered through
+    # server methods)
+    return false
 
   constructor: (data = {}, isNew = true) ->
     super(arguments...)
@@ -149,4 +140,3 @@ class @Export extends MeteorModel
 
 
 Export.publish('exports')
-Export.allow()
