@@ -112,4 +112,3 @@ class @Entry extends MeteorModel
                    .replace(/\ /g, '-').replace(/-+/g, '-')
 
 Entry.publish('entries')
-Entry.allow()

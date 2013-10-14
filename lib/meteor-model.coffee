@@ -1,6 +1,7 @@
 class @MeteorCollection extends Array
   ###
-    XXX document
+    Wrapper for a list of models. Its only current function is to provide a
+    group toJSON method
   ###
   constructor: (models = []) ->
     for model in models
@@ -15,75 +16,124 @@ class @MeteorCollection extends Array
 
 class @MeteorModel
   ###
-    XXX document
+    Agnostic model wrapper for the Meteor.Collections with a common ORM
+    interface
+
+    Static methods for selecting or mass updating and deleting: get, find,
+    count, remove (mostly aliases for the Meteor.Collection methods
+    http://docs.meteor.com/#meteor_collection)
+
+    Meteor methods around the pubsub client-server connection: publish,
+    allowInsert, allowUpdate, allowDelete
+
+    Public model methods around a single document: get, set, save, toJSON
+
+    Use the validate method for imposing a (custom) set of requirements for
+    input model data, by returning true or false after analysing relevant
+    attribute values found in the model at the moment of a save attempt
   ###
   @collection: MeteorCollection
 
   @get: ->
+    ###
+      Alias for Meteor.Collection.find http://docs.meteor.com/#find
+    ###
     models = @mongoCollection.find(arguments...).map (data) =>
       return new this(data, false)
     return new @collection(models)
 
   @find: ->
+    ###
+      Alias for Meteor.Collection.findOne http://docs.meteor.com/#findone
+    ###
     data = @mongoCollection.findOne(arguments...)
     return null unless _.isObject(data)
     return new this(data, false)
 
   @count: ->
+    ###
+      Wrapper for Meteor.Collection.Cursor.count http://docs.meteor.com/#count,
+      with the same method signature as the static `get` method
+    ###
     return @mongoCollection.find(arguments...).count()
 
   @remove: (id, callback) ->
+    ###
+      Wrapper for Meteor.Collection.remove http://docs.meteor.com/#remove, with
+      the document _id to remove as the first parameter, and the callback as
+      the second
+    ###
     @mongoCollection.remove(_id: id, callback)
 
-  @publish: (name) ->
+  @publish: (subscriptions = {}) ->
     ###
       Make model data available to client.
 
-      Warning: This is a wildcard implementation, similar to the autopublish
-      package and should be customized in subclasses per needs
+      The subscriptions parameter is an object with key-value subscriptions,
+      with functions attached to subscription names. The function must return
+      Meteor.Collection.Cursors (see the Publish and Subscribe concept of
+      Meteor http://docs.meteor.com/#publishandsubscribe)
+
+      By sending a string instead of the subscriptions object, a single
+      subscription for that name will be created, with all the documents of
+      this model. Warning: This is a wildcard implementation, similar to the
+      autopublish package
     ###
-    # Feed data from server to client
+    if _.isString(subscriptions)
+      subscriptionName = subscriptions
+      subscriptions = {}
+      subscriptions[subscriptionName] = => return @mongoCollection.find()
+
     if Meteor.isServer
-      Meteor.publish name, =>
-        return @mongoCollection.find()
+      @setupClientPermissions()
+
+      # Feed data from server to client
+      if subscriptions
+        for subscriptionName, fn of subscriptions
+          Meteor.publish(subscriptionName, fn)
 
     # Subscribe client to server data
-    if Meteor.isClient
-      Meteor.subscribe(name)
+    if Meteor.isClient and subscriptions
+      for subscriptionName of subscriptions
+        Meteor.subscribe(subscriptionName)
 
-  @allow: ->
+  @setupClientPermissions: ->
     ###
-      Add client permissions to model data.
-
       Warning: Even though this implementation restricts users from messing
       with other users' data, more restrictive permissions might need to be
       implementated in other model subclasses, depending on their sensitivity
-      (e.g. shouldn't be publicly readable)
+      (e.g. some documents should only be created by a class of users)
 
-      Note: This assumes a "createdBy" attribute in all documents
+      Note: The default methods assume a "createdBy" attribute in all documents
     ###
-    return unless Meteor.isServer
-
     @mongoCollection.allow
-      insert: (userId, doc) ->
-        # Only allow logged in users to create documents
-        return false unless userId?
-        # Ensure author and timestamp of creation in every document
-        doc.createdAt = Date.now()
-        doc.createdBy = userId
-        return true
-      update: (userId, doc, fields, modifier) ->
-        # Don't allow guests to update anything
-        return false unless userId?
-        # Don't allow users to edit other users' documents
-        return userId is doc.createdBy
-      remove: (userId, doc) ->
-        # Don't allow guests to remove anything
-        return false unless userId?
-        # The root user can delete any document of any user
-        return true if User.find(userId)?.isRoot()
-        # Don't allow users to remove other users' documents
-        return userId is doc.createdBy
+      insert: @allowInsert
+      update: @allowUpdate
+      remove: @allowRemove
+
+  @allowInsert: (userId, doc) ->
+    # Only allow logged in users to create documents
+    return false unless userId?
+    # Ensure author and timestamp of creation in every document
+    doc.createdAt = Date.now()
+    doc.createdBy = userId
+    return true
+
+  @allowUpdate: (userId, doc, fields, modifier) ->
+    # Don't allow guests to update anything
+    return false unless userId?
+    # Don't allow users to edit other users' documents
+    return userId is doc.createdBy
+
+  @allowRemove: (userId, doc) ->
+    # Don't allow guests to remove anything
+    return false unless userId?
+    # The root user can delete any document of any user
+    # XXX this is proprietary and should be removed if this components gets
+    # separated in any way
+    return true if User.find(userId)?.isRoot()
+    # Don't allow users to remove other users' documents
+    return userId is doc.createdBy
 
   constructor: (data = {}, isNew = true) ->
     # Keep a reference to the model collection in all instances as well

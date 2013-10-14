@@ -1,5 +1,8 @@
 class @User extends MeteorModel
-  @collection: MeteorCollection
+  ###
+    XXX should remove Filepicker images that became unlinked, in update/remove
+    allow methods https://github.com/skidding/aufond/issues/16
+  ###
   @mongoCollection: Meteor.users
 
   @initGuestId: ->
@@ -57,67 +60,29 @@ class @User extends MeteorModel
       else
         App.router.navigate('', trigger: true)
 
-  @publish: ->
-    if Meteor.isServer
-      Meteor.publish 'users', ->
-        # Only wire the current user to the client
-        return User.mongoCollection.find({_id: @userId},
-          # Exclude sensitive data from users altogether
-          {fields: {services: 0, isSubscribed: 0}})
+  @allowInsert: (userId, doc) ->
+    # Users are created using the Accounts.createUser method
+    return false
 
-      Meteor.publish 'publicUserData', ->
-        # Make all usernames and profiles public, matchable by user id
-        fields =
-          username: 1
-          profile: 1
-          isRoot: 1
-        return User.mongoCollection.find({}, {fields: fields})
+  @allowUpdate: (userId, doc, fields, modifier) ->
+    # Don't allow guests to update anything
+    return false unless userId?
+    # Only allow users to update themselves
+    return false unless userId is doc._id
+    # Only allow profile and email changes
+    return not _.without(fields, 'profile', 'emails').length
 
-      Meteor.publish 'rootUserData', ->
-        # Only make sensitive user data available to the root user
-        # XXX returning a null value instead of a Mongo cursor does not trigger
-        # _allSubscriptionsReady and the spiderable plugin remains hanging.
-        # Publish supports returning a list of cursors and returning an empty
-        # list seems to hit the spot
-        return [] unless @userId and User.find(@userId).isRoot()
-        return User.mongoCollection.find({},
-          {fields: {emails: 1, isSubscribed: 1}})
-
-    if Meteor.isClient
-      Meteor.subscribe('users')
-      Meteor.subscribe('publicUserData')
-      Meteor.subscribe('rootUserData')
-
-  @allow: ->
-    ###
-      Add client permissions to model data
-    ###
-    return unless Meteor.isServer
-
-    @mongoCollection.allow
-      # XXX should remove Filepicker images that became unlinked, in update/
-      # remove methods https://github.com/skidding/aufond/issues/16
-      insert: (userId, doc) ->
-        # Users are created using the Accounts.createUser method
-        return false
-      update: (userId, doc, fields, modifier) ->
-        # Don't allow guests to update anything
-        return false unless userId?
-        # Only allow users to update themselves
-        return false unless userId is doc._id
-        # Only allow profile and email changes
-        return not _.without(fields, 'profile', 'emails').length
-      remove: (userId, doc) =>
-        # Don't allow guests to remove anything
-        return false unless userId?
-        currentUser = @find(userId)
-        if userId is doc._id
-          # Never let the root user get deleted, otherwise allow regular users
-          # to delete themselves
-          return not currentUser.isRoot()
-        else
-          # Only delete other users w/ root user
-          return currentUser.isRoot()
+  @allowRemove: (userId, doc) =>
+    # Don't allow guests to remove anything
+    return false unless userId?
+    currentUser = @find(userId)
+    if userId is doc._id
+      # Never let the root user get deleted, otherwise allow regular users
+      # to delete themselves
+      return not currentUser.isRoot()
+    else
+      # Only delete other users w/ root user
+      return currentUser.isRoot()
 
   mongoInsert: (callback) ->
     ###
@@ -219,8 +184,31 @@ class @User extends MeteorModel
       text: JSON.stringify(cleanData))
 
 
-User.publish()
-User.allow()
+User.publish
+  users: ->
+    # Only wire the current user to the client
+    return User.mongoCollection.find({_id: @userId},
+      # Exclude sensitive data from users altogether
+      {fields: {services: 0, isSubscribed: 0}})
+
+  publicUserData: ->
+    # Make all usernames and profiles public, matchable by user id
+    fields =
+      username: 1
+      profile: 1
+      isRoot: 1
+    return User.mongoCollection.find({}, {fields: fields})
+
+  rootUserData: ->
+    # Only make sensitive user data available to the root user
+    # XXX returning a null value instead of a Mongo cursor does not trigger
+    # _allSubscriptionsReady and the spiderable plugin remains hanging.
+    # Publish supports returning a list of cursors and returning an empty
+    # list seems to hit the spot
+    return [] unless @userId and User.find(@userId).isRoot()
+    return User.mongoCollection.find({},
+    {fields: {emails: 1, isSubscribed: 1}})
+
 
 if Meteor.isClient
   Meteor.startup ->
