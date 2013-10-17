@@ -37,7 +37,7 @@ aufond is as easy to start as any other Meteor app. Just run `meteor` from the r
 
 A JSON settings file can be loaded using the `--settings` option. E.g. `meteor --settings settings.json`
 
-The settings file is not versioned needs to be created, using the [settings.example.json scheleton.](https://github.com/skidding/aufond/blob/90-install-guide/settings.example.json)
+The settings file is not versioned needs to be created, using the [settings.example.json scheleton.](https://github.com/skidding/aufond/blob/master/settings.example.json)
 
 ### Running in the cloud
 
