@@ -1,16 +1,10 @@
-Template.adminCampaigns.events
-  'click .button-create,
-   click .button-edit': (e) ->
-    e.preventDefault()
-    App.campaignModal.update($(e.currentTarget).data())
+class @AdminCampaigns extends AdminTab
+  template: Template.adminCampaigns
 
-  'click .button-delete': (e) ->
-    e.preventDefault()
-    App.deleteCampaignModal.update($(e.currentTarget).data())
+  constructor: ->
+    @events = _.extend({'click .button-launch': 'onLaunch'}, @events)
+    super(arguments...)
 
-  'click .button-launch': (e) ->
+  onLaunch: (e) =>
     e.preventDefault()
     Meteor.call('launchCampaign', $(e.currentTarget).data('id'))
-
-Template.adminCampaigns.campaigns = ->
-  return Campaign.get().toJSON()

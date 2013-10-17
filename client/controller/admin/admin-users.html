@@ -2,10 +2,12 @@
   {{#if isRootUser}}
     <table class="users table table-striped">
       <tbody>
-        {{#each users}}
+        {{#each items}}
           <tr>
             <td class="single-line">
-              <a href="#timeline" class="button button-inline button-user-timeline" data-username="{{username}}">
+              <a href="#timeline"
+                 class="button button-inline button-view"
+                 data-username="{{username}}">
                 {{username}}
               </a>
             </td>
@@ -24,7 +26,14 @@
             <td class="single-line">
               {{#unless isRoot}}
                 <div class="pull-right">
-                  <a href="#remove" class="button button-danger button-delete" data-toggle="modal" data-target="#delete-user-modal" data-title="Delete user {{username}}?" data-id="{{_id}}"><i class="icon-trash"></i></a>
+                  <a href="#remove"
+                     class="button button-danger button-delete"
+                     data-toggle="modal"
+                     data-target="#delete-user-modal"
+                     data-title="Delete user {{username}}?"
+                     data-id="{{_id}}">
+                    <i class="icon-trash"></i>
+                  </a>
                 </div>
               {{/unless}}
             </td>

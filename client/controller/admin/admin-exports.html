@@ -5,12 +5,14 @@
     </div>
   {{/if}}
   <div class="create-button-wrapper clearfix">
-    <a href="#create" class="button button-inline button-primary button-xlarge button-create">Create an export of your timeline</a>
+    <a href="#create" class="button button-inline button-primary button-xlarge button-create">
+      Create an export of your timeline
+    </a>
   </div>
-  {{#if exports.length}}
+  {{#if items.length}}
     <table class="exports table table-striped">
       <tbody>
-        {{#each exports}}
+        {{#each items}}
           <tr>
             <td class="single-line">
               {{#if isReadyExport this}}
@@ -22,7 +24,9 @@
                 </span>
               {{else}}
                 {{#if hasError}}
-                  <span class="error-status"><i class="icon-exclamation-sign"></i> {{status}}</span>
+                  <span class="error-status">
+                    <i class="icon-exclamation-sign"></i> {{status}}
+                  </span>
                 {{else}}
                   <i class="icon-spinner"></i> <em>{{status}}</em>
                 {{/if}}
@@ -31,7 +35,14 @@
             <td class="single-line export-controls">
               {{#if isReadyExport this}}
                 <div class="pull-right">
-                  <a href="#remove" class="button button-inline button-danger button-delete" data-toggle="modal" data-target="#delete-export-modal" data-title="Delete export {{fileName}}?" data-id="{{_id}}"><i class="icon-trash"></i></a>
+                  <a href="#remove"
+                     class="button button-inline button-danger button-delete"
+                     data-toggle="modal"
+                     data-target="#delete-export-modal"
+                     data-title="Delete export {{fileName}}?"
+                     data-id="{{_id}}">
+                    <i class="icon-trash"></i>
+                  </a>
                 </div>
               {{/if}}
             </td>

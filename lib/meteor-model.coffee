@@ -154,11 +154,12 @@ class @MeteorModel
       Note: Nested attributes can be set using a dot separator (e.g.
       "profile.name")
     ###
-    _.extend @data, @nestAttributes(data)
+    # TODO implement deep copy
+    _.extend(@data, @nestAttributes(data))
     # Never mark _id as a changed attribute. Also, mongo supports chained keys
     # so this works out well for the "changed" object and we don't need to nest
     # attributes when populating it
-    _.extend @changed, _.omit(data, '_id')
+    _.extend(@changed, _.omit(data, '_id'))
 
   get: (key) ->
     return @data[key]
