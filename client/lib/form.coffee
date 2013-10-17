@@ -19,8 +19,9 @@ class @Form extends ReactiveTemplate
 
   onRender: =>
     ###
-      Hook reactive context to the data of a model instance by requesting the
-      model inside the render callback
+      Attach the modal data whenever the template re-renders, but before the
+      reactive context has been enabled, so that the model attributes remain
+      stale withing the form fields
     ###
     data = {}
     # A model id is optional at this point (no need for model data inside a
