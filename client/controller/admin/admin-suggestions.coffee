@@ -1,7 +1,6 @@
-Template.adminSuggestions.events
-  'click .button-delete': (e) ->
-    e.preventDefault()
-    App.deleteSuggestionModal.update($(e.currentTarget).data())
+class @AdminSuggestions extends AdminTab
+  template: Template.adminSuggestions
 
-Template.adminSuggestions.suggestions = ->
-  return SurveySuggestion.get({}, sort: {time: -1}).toJSON()
+  getCollectionItems: ->
+    # Suggestions shouldn't be filtered by user, they are created by guests
+    return SurveySuggestion.get().toJSON()

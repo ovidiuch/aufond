@@ -1,14 +1,23 @@
 <template name="adminEntries">
   <div class="create-button-wrapper clearfix">
-    <a href="#create" class="button button-inline button-primary button-xlarge button-create" data-toggle="modal" data-target="#post-modal" data-title="What have you been up to?" data-button="Create">Post a new story about yourself</a>
+    <a href="#create"
+       class="button button-inline button-primary button-xlarge button-create"
+       data-toggle="modal"
+       data-target="#post-modal"
+       data-title="What have you been up to?"
+       data-button="Create">
+      Post a new story about yourself
+    </a>
   </div>
-  {{#if entries.length}}
+  {{#if items.length}}
     <table class="entries table table-striped">
       <tbody>
-        {{#each entries}}
+        {{#each items}}
           <tr>
             <td class="single-line">
-              <a href="#timeline" class="button button-inline button-view" data-id="{{_id}}">
+              <a href="#timeline"
+                 class="button button-inline button-view"
+                 data-id="{{_id}}">
                 {{#if icon}}
                   <i class="{{icon}}"></i>
                 {{else}}
@@ -27,8 +36,25 @@
                     <li>
                       <img src="{{getResizedImageUrl url 120 60 'crop'}}">
                       <span class="buttons">
-                        <a href="#change-image-caption" class="button button-inline button-image-edit" data-toggle="modal" data-target="#post-image-modal" data-title="What is this image about?" data-button="Update" data-id="{{../_id}}" data-image="{{url}}"><i class="icon-edit"></i></a>
-                        <a href="#remove-image" class="button button-inline button-danger button-image-delete" data-toggle="modal" data-target="#delete-post-image-modal" data-title="Delete image {{caption}}?" data-id="{{../_id}}" data-image="{{url}}"><i class="icon-trash"></i></a>
+                        <a href="#change-image-caption"
+                           class="button button-inline button-image-edit"
+                           data-toggle="modal"
+                           data-target="#post-image-modal"
+                           data-title="What is this image about?"
+                           data-button="Update"
+                           data-id="{{../_id}}"
+                           data-image="{{url}}">
+                          <i class="icon-edit"></i>
+                        </a>
+                        <a href="#remove-image"
+                           class="button button-inline button-danger button-image-delete"
+                           data-toggle="modal"
+                           data-target="#delete-post-image-modal"
+                           data-title="Delete image {{caption}}?"
+                           data-id="{{../_id}}"
+                           data-image="{{url}}">
+                          <i class="icon-trash"></i>
+                        </a>
                       </span>
                     </li>
                   {{/each}}
@@ -42,9 +68,28 @@
             </td>
             <td class="single-line table-controls">
               <div class="pull-right">
-                <a href="#edit" class="button button-inline button-edit" data-toggle="modal" data-target="#post-modal" data-title="What have you been up to?" data-button="Update" data-id="{{_id}}"><i class="icon-edit"></i></a>
-                <a href="#attach-image" class="button button-inline button-image-attach" data-id="{{_id}}"><i class="icon-picture"></i></a>
-                <a href="#remove" class="button button-inline button-danger button-delete" data-toggle="modal" data-target="#delete-post-modal" data-title="Delete post {{headline}}?" data-id="{{_id}}"><i class="icon-trash"></i></a>
+                <a href="#edit"
+                   class="button button-inline button-edit"
+                   data-toggle="modal"
+                   data-target="#post-modal"
+                   data-title="What have you been up to?"
+                   data-button="Update"
+                   data-id="{{_id}}">
+                  <i class="icon-edit"></i>
+                </a>
+                <a href="#attach-image"
+                   class="button button-inline button-image-attach"
+                   data-id="{{_id}}">
+                  <i class="icon-picture"></i>
+                </a>
+                <a href="#remove"
+                   class="button button-inline button-danger button-delete"
+                   data-toggle="modal"
+                   data-target="#delete-post-modal"
+                   data-title="Delete post {{headline}}?"
+                   data-id="{{_id}}">
+                  <i class="icon-trash"></i>
+                </a>
               </div>
             </td>
           </tr>

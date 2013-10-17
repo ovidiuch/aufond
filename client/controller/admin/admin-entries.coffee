@@ -1,39 +1,33 @@
-Template.adminEntries.events
-  'click .button-create': (e) ->
-    e.preventDefault()
-    App.postModal.update($(e.currentTarget).data())
+class @AdminEntries extends AdminTab
+  template: Template.adminEntries
 
-  'click .button-view': (e) ->
-    e.preventDefault()
-    id = $(e.currentTarget).data('id')
-    entry = Entry.find(id)
-    if entry
-      App.router.navigate(entry.getPath(), trigger: true)
+  constructor: ->
+    # Extend AdminTab events to accomodate actions for the entry images
+    events =
+      'click .button-image-attach': 'onImageAttach'
+      'click .button-image-edit': 'onImageEdit'
+      'click .button-image-delete': 'onImageDelete'
+    @events = _.extend(events, @events)
+    super(arguments...)
 
-  'click .button-edit': (e) ->
+  onView: (e) =>
     e.preventDefault()
-    App.postModal.update($(e.currentTarget).data())
+    entry = Entry.find($(e.currentTarget).data('id'))
+    App.router.navigate(entry.getPath(), trigger: true)
 
-  'click .button-delete': (e) ->
+  onImageAttach: (e) =>
     e.preventDefault()
-    App.deletePostModal.update($(e.currentTarget).data())
-
-  'click .button-image-attach': (e) ->
-    e.preventDefault()
-    id = $(e.currentTarget).data('id')
+    entry = Entry.find($(e.currentTarget).data('id'))
     filepicker.pick FilePicker.options, (FPFile) ->
-      Entry.find(id)?.addImage
-        url: FPFile.url
-        caption: FPFile.filename
+      entry.addImage(url: FPFile.url, caption: FPFile.filename)
 
-  'click .button-image-edit': (e) ->
+  onImageEdit: (e) =>
     e.preventDefault()
     App.postImageModal.update($(e.currentTarget).data())
 
-  'click .button-image-delete': (e) ->
+  onImageDelete: (e) =>
     e.preventDefault()
     App.deletePostImageModal.update($(e.currentTarget).data())
 
-Template.adminEntries.entries = ->
-  # Get own entries only
-  return User.current()?.getEntries({}, sort: {time: -1}).toJSON()
+  getCollectionItems: ->
+    return User.current()?.getEntries({}, {sort: {time: -1}}).toJSON()
