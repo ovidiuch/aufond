@@ -28,7 +28,7 @@
               </div>
             {{/if}}
             <a href="{{entryUrl 'contact'}}" class="head link" data-slug="contact">
-              <span class="bullet" style="background-image: url('{{getResizedImageUrl avatar 120 120 'crop'}}');"></span>
+              <span class="bullet" style="background-image: url('{{getResizedImageUrl avatar 120 120 'crop' 100}}');"></span>
               <div class="inner-wrap">
                 {{{markdown name root="h1"}}}
                 {{{markdown title root="p"}}}
@@ -60,7 +60,7 @@
                         <ul>
                           {{#each images}}
                             <li>
-                              <img src="{{getResizedImageUrl url null 300 'clip'}}" alt="{{caption}}">
+                              <img src="{{getResizedImageUrl url null 300 'clip' 95}}" alt="{{caption}}">
                               {{#if caption}}
                                 <span class="caption">{{caption}}</span>
                               {{/if}}

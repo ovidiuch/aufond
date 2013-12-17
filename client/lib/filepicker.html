@@ -7,7 +7,7 @@
     <span class="help-block"><small>Image will be resized to 120x120px and cropped by center</small></span>
     {{#if value}}
       <a href="#remove" class="image" title="Remove image">
-        <img src="{{getResizedImageUrl value 120 120 'crop'}}">
+        <img src="{{getResizedImageUrl value 120 120 'crop' 100}}">
         <i class="icon-remove-sign"></i>
       </a>
     {{/if}}

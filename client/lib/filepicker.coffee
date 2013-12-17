@@ -52,13 +52,14 @@ class @FilePicker extends ReactiveTemplate
     @update(value: FPFile.url, true)
 
 
-Handlebars.registerHelper 'getResizedImageUrl', (url, width, height, fit) ->
+Handlebars.registerHelper 'getResizedImageUrl', (url, width, height, fit, quality) ->
   # Bypass options by setting them to "null". E.g.
-  # {{getResizedImageUrl url null 250 'clip'}}
+  # {{getResizedImageUrl url null 250 'clip' 95}}
   options = {}
   options.w = width if width?
   options.h = height if height?
   options.fit = fit if fit?
+  options.quality = quality if quality?
   return FilePicker.getResizedImageUrl(url, options)
 
 
