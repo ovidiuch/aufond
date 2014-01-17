@@ -5,9 +5,9 @@ class @Router extends Backbone.Router
     Backbone.history.start(pushState: true)
 
   constructor: (controller) ->
-    super()
     # Keep a local reference to the application controller
     @controller = controller
+    super()
 
   routes:
     'admin': 'admin'
