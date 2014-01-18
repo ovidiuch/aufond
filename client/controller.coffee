@@ -15,7 +15,7 @@ class @Controller extends ReactiveTemplate
       # Init application router. Besides the default hostname with the landing
       # page and admin section, the app can also load a user timeline timeline
       # directly on a custom domain set up by that user
-      hostname = document.domain.replace('/www.', '')
+      hostname = document.domain.replace(/www\./, '')
       if hostname is Meteor.settings.public.default_hostname
         Router.start(this)
       else
