@@ -9,6 +9,11 @@ Template.adminMeta.profileForm = ->
   model: 'User'
   modelId: Meteor.userId()
 
+Template.adminMeta.customDomainForm = ->
+  module: CustomDomainForm
+  model: 'User'
+  modelId: Meteor.userId()
+
 Template.adminMeta.emailForm = ->
   module: EmailForm
   model: 'User'
