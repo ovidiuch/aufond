@@ -296,7 +296,11 @@ class @Timeline
     return $(target).attr('href').replace(/^\//, '');
 
   @getDefaultPath: ->
-    return App.router.args.username
+    # A timeline path is the default path when loading it for a user domain
+    if App.router instanceof UserDomainRouter
+      return ''
+    else
+      return App.router.args.username
 
   @getFrontmostEntry: ->
     ###

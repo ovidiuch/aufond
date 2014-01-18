@@ -46,7 +46,12 @@ Handlebars.registerHelper 'entryUrl', (slug) ->
     and make the username optional once we do
   ###
   username = App.router.args.username
-  return "/#{username}/#{slug}"
+  # No need for the username prefix when loading a user timeline for their
+  # custom domain
+  if App.router instanceof UserDomainRouter
+    return "/#{slug}"
+  else
+    return "/#{username}/#{slug}"
 
 Handlebars.registerHelper 'profileLinkAddress', (address) ->
   ###
