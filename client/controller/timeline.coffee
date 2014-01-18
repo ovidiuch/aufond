@@ -286,7 +286,7 @@ class @Timeline
   @toggleLink: (anchor) =>
     # Toggle link path if currently on it
     path = @getPathByTarget(anchor)
-    if path is @getCurrentPath()
+    if path is Backbone.history.fragment
       path = @getDefaultPath()
     else
       trackAction('timeline entry', path: path)
@@ -294,12 +294,6 @@ class @Timeline
 
   @getPathByTarget: (target) ->
     return $(target).attr('href').replace(/^\//, '');
-
-  @getCurrentPath: ->
-    path = App.router.args.username
-    if App.router.args.slug
-      path = "#{path}/#{App.router.args.slug}"
-    return path
 
   @getDefaultPath: ->
     return App.router.args.username
