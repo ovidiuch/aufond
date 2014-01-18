@@ -286,24 +286,21 @@ class @Timeline
   @toggleLink: (anchor) =>
     # Toggle link path if currently on it
     path = @getPathByTarget(anchor)
-    if path is @getCurrentPath()
+    if path is Backbone.history.fragment
       path = @getDefaultPath()
     else
       trackAction('timeline entry', path: path)
     App.router.navigate(path, trigger: true)
 
   @getPathByTarget: (target) ->
-    slug = $(target).data('slug')
-    return "#{App.router.args.username}/#{slug}"
-
-  @getCurrentPath: ->
-    path = App.router.args.username
-    if App.router.args.slug
-      path = "#{path}/#{App.router.args.slug}"
-    return path
+    return $(target).attr('href').replace(/^\//, '');
 
   @getDefaultPath: ->
-    return App.router.args.username
+    # A timeline path is the default path when loading it for a user domain
+    if App.router instanceof UserDomainRouter
+      return ''
+    else
+      return App.router.args.username
 
   @getFrontmostEntry: ->
     ###

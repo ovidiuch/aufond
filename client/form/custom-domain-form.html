@@ -1,0 +1,22 @@
+<template name="customDomainForm">
+  <form id="custom-domain-form" class="form-horizontal">
+    <fieldset>
+      <div class="form-title">
+        <legend>Custom domain</legend>
+      </div>
+      {{> formStatus}}
+      <div class="control-group">
+        <label class="control-label" for="form-profile-domain">Hostname</label>
+        <div class="controls">
+          <input type="text" name="profile.domain" value="{{profile.domain}}" id="form-profile-domain">
+          {{#if profile.domain}}
+            <span class="help-block"><small>Make sure the DNS records of this domain point to <strong>67.207.156.101</strong></span>
+          {{/if}}
+        </div>
+      </div>
+      <div class="form-actions">
+        <a href="#update" class="button button-large button-primary pull-right">Update</a>
+      </div>
+    </fieldset>
+  </form>
+</template>

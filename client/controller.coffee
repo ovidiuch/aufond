@@ -12,8 +12,21 @@ class @Controller extends ReactiveTemplate
       if serverTime?
         # This offset is in milliseconds
         App.serverTimeOffset = (new Date().getTime()) - serverTime
-      # Init application router
-      Router.start(this)
+      # Init application router. Besides the default hostname with the landing
+      # page and admin section, the app can also load a user timeline timeline
+      # directly on a custom domain set up by that user
+      hostname = document.domain
+      if hostname is Meteor.settings.public.default_hostname
+        Router.start(this)
+      else
+        # We need the User collection before starting the app, in order know
+        # which user timeline to load
+        Meteor.subscribe 'users', =>
+          # Nothing will be rendered if the hostname the app was loaded from
+          # isn't attached to any user
+          user = User.find('profile.domain': hostname)
+          if user
+            UserDomainRouter.start(this, user.get('username'))
 
   update: (data) ->
     # Track when changing controller in Mixpanel

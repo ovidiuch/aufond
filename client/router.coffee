@@ -1,13 +1,13 @@
 class @Router extends Backbone.Router
 
   @start: (controller) ->
-    App.router = new this(controller)
+    App.router = new this(arguments...)
     Backbone.history.start(pushState: true)
 
   constructor: (controller) ->
-    super()
     # Keep a local reference to the application controller
     @controller = controller
+    super()
 
   routes:
     'admin': 'admin'
