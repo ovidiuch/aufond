@@ -293,8 +293,7 @@ class @Timeline
     App.router.navigate(path, trigger: true)
 
   @getPathByTarget: (target) ->
-    slug = $(target).data('slug')
-    return "#{App.router.args.username}/#{slug}"
+    return $(target).attr('href').replace(/^\//, '');
 
   @getCurrentPath: ->
     path = App.router.args.username
